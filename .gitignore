@@ -1,0 +1,9 @@
+build/
+.gradle/
+*.device
+*.netlist*
+*.phys
+*.log
+*.check
+*.dcp
+*.tcl
