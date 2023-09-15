@@ -1,4 +1,4 @@
-# Runtime-First FPGA Interchange Routing Contest @ [FPGA'24](https://https://www.isfpga.org/)
+# Runtime-First FPGA Interchange Routing Contest @ [FPGA'24](https://www.isfpga.org/)
 
 ## The Challenge
 
