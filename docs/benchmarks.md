@@ -13,6 +13,11 @@ table:
 | [ISPD 2016](https://www.ispd.cc/contests/16/ispd2016_contest.html)|`example2`|289k|234k|200|384|
 | [BOOM](https://docs.boom-core.org/en/latest/sections/intro-overview/boom.html)|`soc`|227k|98k|61|161|
 
+Each of the benchmarks targets the `xcvu3p` device wich has the following statistics:
+|LUTs  |FFs   |DSPs|BRAMs|
+|------|------|----|-----|
+|394080|788160|2280|720  |
+
 Throughout the contest framework design files associated with
 the benchmarks are named as follows:
 
