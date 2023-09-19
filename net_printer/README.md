@@ -45,12 +45,18 @@ Route tree for net: u_calc/boundaryChecker/r_ux__57_reg[21]_srl27___u_calc_dropS
 In this example `np.py` is invoked on the netlist `vtr_mcml_rwroute.phys` (This
 netlist that can be generated from a global `make`,
 see [the contest website](https://xilinx.github.io/fpga24_routing_contest/index.html))
-in order to printout the net named `u_calc/boundaryChecker/r_ux__57_reg[21]_srl27___u_calc_dropSpin_photon29_o_sleftz_reg_r_n_0`.
+in order to print out the net named `u_calc/boundaryChecker/r_ux__57_reg[21]_srl27___u_calc_dropSpin_photon29_o_sleftz_reg_r_n_0`.
 Since this is a fully routed net the output shows one source (`Source: 0`) and
 no stubs. Following the source is a list of all of the FPGAIF
 routeSegments in the route tree. Much like Vivado's `report_route_status` command, the symbol `[{` indicates the root of a new tree.
 The symbol `{` indicates the beginning of a branch and the symbol `}` indicates
 the end of a branch. Finally, the symbol `}]` indicates the end of the tree.
+
+Each line of ouput displays all of the fields in the [FPGAIF routeSegment](https://github.com/chipsalliance/fpga-interchange-schema/blob/c985b4648e66414b250261c1ba4cbe45a2971b1c/interchange/PhysicalNetlist.capnp#L104).
+In each line the first column is the type of object (e.g. one of `belPin`,
+`sitePin`, `pip`, `sitePip`). The second column is the location of the object
+(e.g. one of `site` or `tile`). Finally, the remaining columns differ depending
+on object type but correspond exactly to fields in the FPGAIF schema.
 
 In the example above we see that the first routeSegment in the tree is:
 ```
