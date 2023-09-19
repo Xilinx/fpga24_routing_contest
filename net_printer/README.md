@@ -1,6 +1,6 @@
 # FPGA Interchange Format Physical Netlist Net Printer `np.py`
 
-`np.py` is a simple python program for printing out net routing from an FPGAIF `*.phys`
+`np.py` is a simple Python program for printing out net routing from an FPGAIF `*.phys`
 file. This program is provided to aid in the development of a contestant router,
 by providing some visibility into the input and output files that contestant
 routers consume and emit.
