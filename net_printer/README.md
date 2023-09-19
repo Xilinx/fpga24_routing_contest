@@ -14,27 +14,28 @@ Route tree for net: u_calc/boundaryChecker/r_ux__57_reg[21]_srl27___u_calc_dropS
 
     Source: 0
     [{      belPin  SLICE_X84Y94 C6LUT O6
-     {      sitePIP SLICE_X84Y94 OUTMUXC D6 False
+     {      belPin  SLICE_X84Y94 OUTMUXC D6
+            sitePIP SLICE_X84Y94 OUTMUXC D6 False
             belPin  SLICE_X84Y94 OUTMUXC OUT
+            belPin  SLICE_X84Y94 CMUX CMUX
          }  sitePin SLICE_X84Y94 CMUX
-     {   }  belPin  SLICE_X84Y94 OUTMUXC D6
+            belPin  SLICE_X84Y94 C_O C_O
             sitePin SLICE_X84Y94 C_O
-     {   }  belPin  SLICE_X84Y94 C_O C_O
-            pip     INT_X54Y94 LOGIC_OUTS_W4 INT_NODE_SDQ_49_INT_OUT1 False False
-            pip     INT_X54Y94 INT_NODE_SDQ_49_INT_OUT1 EE2_W_BEG1 False False
-            pip     INT_X55Y94 EE2_W_END1 INT_NODE_SDQ_49_INT_OUT1 False False
-            pip     INT_X55Y94 INT_NODE_SDQ_49_INT_OUT1 SS1_W_BEG1 False False
-            pip     INT_X55Y93 SS1_W_END1 INT_NODE_SDQ_50_INT_OUT1 False False
-            pip     INT_X55Y93 INT_NODE_SDQ_50_INT_OUT1 SS2_W_BEG1 False False
-            pip     INT_X55Y91 SS2_W_END1 INT_NODE_SDQ_54_INT_OUT0 False False
-            pip     INT_X55Y91 INT_NODE_SDQ_54_INT_OUT0 EE4_W_BEG1 False False
-            pip     INT_X57Y91 EE4_W_END1 INT_NODE_SDQ_53_INT_OUT1 False False
-            pip     INT_X57Y91 INT_NODE_SDQ_53_INT_OUT1 EE2_W_BEG2 False False
-            pip     INT_X58Y91 EE2_W_END2 INT_NODE_IMUX_37_INT_OUT0 False False
+            pip     INT_X54Y94 LOGIC_OUTS_W4 INT_NODE_SDQ_49_INT_OUT1 True False
+            pip     INT_X54Y94 INT_NODE_SDQ_49_INT_OUT1 EE2_W_BEG1 True False
+            pip     INT_X55Y94 EE2_W_END1 INT_NODE_SDQ_49_INT_OUT1 True False
+            pip     INT_X55Y94 INT_NODE_SDQ_49_INT_OUT1 SS1_W_BEG1 True False
+            pip     INT_X55Y93 SS1_W_END1 INT_NODE_SDQ_50_INT_OUT1 True False
+            pip     INT_X55Y93 INT_NODE_SDQ_50_INT_OUT1 SS2_W_BEG1 True False
+            pip     INT_X55Y91 SS2_W_END1 INT_NODE_SDQ_54_INT_OUT0 True False
+            pip     INT_X55Y91 INT_NODE_SDQ_54_INT_OUT0 EE4_W_BEG1 True False
+            pip     INT_X57Y91 EE4_W_END1 INT_NODE_SDQ_53_INT_OUT1 True False
+            pip     INT_X57Y91 INT_NODE_SDQ_53_INT_OUT1 EE2_W_BEG2 True False
+            pip     INT_X58Y91 EE2_W_END2 INT_NODE_IMUX_37_INT_OUT0 True False
             pip     INT_X58Y91 INT_NODE_IMUX_37_INT_OUT0 BYPASS_W8 True False
             sitePin SLICE_X90Y91 EX
             belPin  SLICE_X90Y91 EX EX
-     {   }  belPin  SLICE_X90Y91 FFMUXE1 BYP
+            belPin  SLICE_X90Y91 FFMUXE1 BYP
             sitePIP SLICE_X90Y91 FFMUXE1 BYP False
             belPin  SLICE_X90Y91 FFMUXE1 OUT1
          }] belPin  SLICE_X90Y91 EFF D
@@ -57,30 +58,35 @@ belPin  SLICE_X84Y94 C6LUT O6
 ```
 which is immediately followed by a branch containing the edges:
 ```
+belPin  SLICE_X84Y94 OUTMUXC D6
 sitePIP SLICE_X84Y94 OUTMUXC D6 False
 belPin  SLICE_X84Y94 OUTMUXC OUT
+belPin  SLICE_X84Y94 CMUX CMUX
 sitePin SLICE_X84Y94 CMUX
-```
-And then a branch with a single edge:
-```
-belPin  SLICE_X84Y94 OUTMUXC D6
 ```
 Before we return to the main branch:
 ```
+belPin  SLICE_X84Y94 C_O C_O
 sitePin SLICE_X84Y94 C_O
 ```
 
 Thus, if you were to draw the first part of the above tree it would look like:
 ```
-(belPin  SLICE_X84Y94 C6LUT O6)------------+-----------------------------------------+
-           |                               |                                         |
-           V                               V                                         V
-(sitePin SLICE_X84Y94 C_O)      (sitePIP SLICE_X84Y94 OUTMUXC D6 False)   (belPin  SLICE_X84Y94 OUTMUXC D6)
+(belPin  SLICE_X84Y94 C6LUT O6)------------+
            |                               |
-	   V                               V
+           V                               V
+(belPin  SLICE_X84Y94 C_O C_O)  (belPin  SLICE_X84Y94 OUTMUXC D6)
+           |                               |
+           V                               V
+(sitePin SLICE_X84Y94 C_O)      (sitePIP SLICE_X84Y94 OUTMUXC D6 False)
+           |                               |
+           V                               V
           ...                   (belPin  SLICE_X84Y94 OUTMUXC OUT)
                                            |
-					   V
+                                           V
+                                (belPin  SLICE_X84Y94 CMUX CMUX)
+                                           |
+                                           V
                                 (sitePin SLICE_X84Y94 CMUX)
 ```
 
@@ -92,16 +98,16 @@ Route tree for net: u_calc/boundaryChecker/r_ux__57_reg[21]_srl27___u_calc_dropS
 
     Source: 0
     [{      belPin  SLICE_X84Y94 C6LUT O6
-     {      sitePIP SLICE_X84Y94 OUTMUXC D6 False
+     {      belPin  SLICE_X84Y94 OUTMUXC D6
+            sitePIP SLICE_X84Y94 OUTMUXC D6 False
          }  belPin  SLICE_X84Y94 OUTMUXC OUT
-     {   }  belPin  SLICE_X84Y94 OUTMUXC D6
             belPin  SLICE_X84Y94 C_O C_O
          }] sitePin SLICE_X84Y94 C_O
 
     Stub: 0
     [{      sitePin SLICE_X90Y91 EX
             belPin  SLICE_X90Y91 EX EX
-     {   }  belPin  SLICE_X90Y91 FFMUXE1 BYP
+            belPin  SLICE_X90Y91 FFMUXE1 BYP
             sitePIP SLICE_X90Y91 FFMUXE1 BYP False
             belPin  SLICE_X90Y91 FFMUXE1 OUT1
          }] belPin  SLICE_X90Y91 EFF D
