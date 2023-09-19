@@ -91,7 +91,11 @@ Contest registration is mandatory to be eligible for alpha submission and final 
   Single corresponding email: <NAME@AFFILIATION.COM>
   ```
 
-A Vivado license is not mandatory for router development, however, eligible teams from academia can ask their advising professor to register through the export compliant [Xilinx University Program](https://www.xilinx.com/support/university/donation-program.html) for a license. See [Contest Details](details.html) for more details on how Vivado is used in this contest.
+A Vivado license is not mandatory for router development, however, eligible teams from academia can ask their advising professor to apply for a donation of a Vivado license from the AMD University Program.
+If your advisor is not already enrolled with the AMD University Program, please ask them to enroll [here](https://www.xilinx.com/member/xup.html).
+Once the enrollment has been approved, the advisor can access the donation request form [here]( https://www.xilinx.com/member/xup/xup_donation_request.html).
+Please ask your advisor to request the number of Vivado licenses you need and add a reference to the ISFPGA contest in the comments section of the donation form.
+
 
 ## Disclaimer
 
