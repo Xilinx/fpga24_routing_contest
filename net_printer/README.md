@@ -47,16 +47,16 @@ netlist that can be generated from a global `make`,
 see [the contest website](https://xilinx.github.io/fpga24_routing_contest/index.html))
 in order to printout the net named `u_calc/boundaryChecker/r_ux__57_reg[21]_srl27___u_calc_dropSpin_photon29_o_sleftz_reg_r_n_0`.
 Since this is a fully routed net the output shows one source (`Source: 0`) and
-no stubs. Following the source is a list of all of the edges (FPGAIF
-routeSegments) in the route tree. Much like Vivado's `report_route_status` command, the symbol `[{` indicates the root of a new tree.
+no stubs. Following the source is a list of all of the FPGAIF
+routeSegments in the route tree. Much like Vivado's `report_route_status` command, the symbol `[{` indicates the root of a new tree.
 The symbol `{` indicates the beginning of a branch and the symbol `}` indicates
 the end of a branch. Finally, the symbol `}]` indicates the end of the tree.
 
-In the example above we see that the first edge in the tree is:
+In the example above we see that the first routeSegment in the tree is:
 ```
 belPin  SLICE_X84Y94 C6LUT O6
 ```
-which is immediately followed by a branch containing the edges:
+which is immediately followed by a branch containing the routeSegments:
 ```
 belPin  SLICE_X84Y94 OUTMUXC D6
 sitePIP SLICE_X84Y94 OUTMUXC D6 False
