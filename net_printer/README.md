@@ -1,6 +1,6 @@
 # FPGA Interchange Format Physical Netlist Net Printer `np.py`
 
-`np.py` is a simple python program for printing out nets from an FPGAIF `*.phys`
+`np.py` is a simple python program for printing out net routing from an FPGAIF `*.phys`
 file. This program is provided to aid in the development of a contestant router,
 by providing some visibility into the input and output files that contestant
 routers consume and emit.
@@ -47,8 +47,8 @@ see [the contest website](https://xilinx.github.io/fpga24_routing_contest/index.
 in order to printout the net named `u_calc/boundaryChecker/r_ux__57_reg[21]_srl27___u_calc_dropSpin_photon29_o_sleftz_reg_r_n_0`.
 Since this is a fully routed net the output shows one source (`Source: 0`) and
 no stubs. Following the source is a list of all of the edges (FPGAIF
-routeSegements) in the route tree. The symbol `[{` indicates root of the tree.
-The symbol `{` indicates the begining of a branch and the symbol `}` indicates
+routeSegments) in the route tree. Much like Vivado's `report_route_status` command, the symbol `[{` indicates the root of a new tree.
+The symbol `{` indicates the beginning of a branch and the symbol `}` indicates
 the end of a branch. Finally, the symbol `}]` indicates the end of the tree.
 
 In the example above we see that the first edge in the tree is:
@@ -108,9 +108,9 @@ Route tree for net: u_calc/boundaryChecker/r_ux__57_reg[21]_srl27___u_calc_dropS
 ============================================================
 ```
 
-This is the same net as in the first example, however no (inter-site) routing
+This is the same net as in the first example, however no inter-site routing (using PIPs)
 has been done. As a result we see a source and a stub. `Source: 0` shows the
-intra-site routing near the net's driver and `Stub: 0` shows the intra-site routing
-near the net's sink. This example shows a net with only one sink for simplicity,
+intra-site routing leading from the net's driver and `Stub: 0` shows the intra-site routing
+leading into the net's sink. This example shows a net with only one sink for simplicity,
 but a net may have many sinks. Printing such an unrouted net would produce a
 list of stubs.
