@@ -120,3 +120,7 @@ intra-site routing leading from the net's driver and `Stub: 0` shows the intra-s
 leading into the net's sink. This example shows a net with only one sink for simplicity,
 but a net may have many sinks. Printing such an unrouted net would produce a
 list of stubs.
+
+Finally, note that `np.py` can be invoked with a list of net names (which will
+print them one after the other) and that the names provided must exactly match
+the net names in the `*.phys`.
