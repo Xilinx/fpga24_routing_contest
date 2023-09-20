@@ -14,6 +14,7 @@ table:
 | [BOOM](https://docs.boom-core.org/en/latest/sections/intro-overview/boom.html)|`soc`|227k|98k|61|161|
 
 Each of the benchmarks targets the `xcvu3p` device which has the following resources:
+
 |LUTs  |FFs   |DSPs|BRAMs|
 |------|------|----|-----|
 |394k|788k|2280|720  |
