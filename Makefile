@@ -68,7 +68,7 @@ fpga-interchange-schema/interchange/capnp/java.capnp:
 	wget https://raw.githubusercontent.com/capnproto/capnproto-java/master/compiler/src/main/schema/capnp/java.capnp -O $@
 
 # Gradle is used to invoke the CheckPhysNetlist class' main method with arguments
-# $^ (%.netlist and %_rwroute.phys), and log_and_or_displaying all output to $@.log (%_rwroute.check.log).
+# $^ (%.netlist and %_rwroute.phys), and display/redirect all output to $@.log (%_rwroute.check.log).
 # The exit code of Gradle determines if 'PASS' or 'FAIL' is written to $@ (%_rwroute.check)
 # When inside GitHub Actions (which has no access to Vivado), and also when the routed netlist
 # was successfully converted back into a DCP, then return a mock PASS result
@@ -101,7 +101,7 @@ distclean: clean
 ## RWROUTE
 # /usr/bin/time is used to measure the wall clock time
 # Gradle is used to invoke the PartialRouterPhysNetlist class' main method with arguments
-# $< (%_unrouted.phys) and $@ (%_rwroute.phys), and log_and_or_displaying all output into %_rwroute.phys.log
+# $< (%_unrouted.phys) and $@ (%_rwroute.phys), and display/redirect all output into %_rwroute.phys.log
 %_rwroute.phys: %_unrouted.phys | compile-java
 	(/usr/bin/time ./gradlew -DjvmArgs="$(JVM_HEAP)" -Dmain=com.xilinx.fpga24_routing_contest.PartialRouterPhysNetlist :run --args='$< $@') $(call log_and_or_display,$@.log)
 
