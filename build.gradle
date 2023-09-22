@@ -32,5 +32,6 @@ sourceSets {
 task run(type: JavaExec) {
    classpath = sourceSets.main.runtimeClasspath 
    main = System.getProperty('main')
+   jvmArgs System.getProperty('jvmArgs', '').split(' ')
 }
 
