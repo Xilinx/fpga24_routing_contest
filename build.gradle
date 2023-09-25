@@ -30,8 +30,10 @@ sourceSets {
 }
 
 task run(type: JavaExec) {
-   classpath = sourceSets.main.runtimeClasspath 
-   main = System.getProperty('main')
-   jvmArgs System.getProperty('jvmArgs', '').split(' ')
+    classpath = sourceSets.main.runtimeClasspath
+    main = System.getProperty('main')
+    if (System.getProperty('jvmArgs') != null) {
+        jvmArgs System.getProperty('jvmArgs').split(' ')
+    }
 }
 

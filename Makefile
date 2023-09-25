@@ -73,7 +73,7 @@ fpga-interchange-schema/interchange/capnp/java.capnp:
 # When inside GitHub Actions (which has no access to Vivado), and also when the routed netlist
 # was successfully converted back into a DCP, then return a mock PASS result
 %_$(ROUTER).check: %.netlist %_$(ROUTER).phys | compile-java
-	if ./gradlew -Dorg.gradle.jvmargs="-Xms6g -Xmx6g" -Dmain=com.xilinx.fpga24_routing_contest.CheckPhysNetlist :run --args='$^' $(call log_and_or_display,$@.log); then \
+	if ./gradlew -DjvmArgs="-Xms6g -Xmx6g" -Dmain=com.xilinx.fpga24_routing_contest.CheckPhysNetlist :run --args='$^' $(call log_and_or_display,$@.log); then \
             echo "PASS" > $@; \
         elif [[ ! -z "$(GITHUB_ACTION)" && -f "$(patsubst %.check,%.dcp,$@)" ]]; then \
             echo "PASS" > $@; \
