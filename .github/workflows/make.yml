@@ -1,0 +1,73 @@
+# Copyright (C) 2023, Advanced Micro Devices, Inc.  All rights reserved.
+#
+# Author: Eddie Hung, AMD
+#
+# SPDX-License-Identifier: MIT
+#
+
+name: make
+on:
+  push:
+  pull_request:
+jobs:
+  make:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        router:
+          - rwroute
+          - nxroute-poc
+        benchmark:
+          - boom_soc
+          - ispd16_example2
+          - koios_dla_like_large
+          - rosetta_fd
+          - vtr_mcml
+        exclude:
+          # Insufficient memory on GitHub Actions
+          - router: rwroute
+            benchmark: boom_soc
+          - router: rwroute
+            benchmark: ispd16_example2
+          - router: rwroute
+            benchmark: koios_dla_like_large
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+      - if: matrix.router == 'nxroute-poc'
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - if: matrix.router == 'nxroute-poc'
+        run:
+           wget -q https://github.com/eddieh-xlnx/fpga24_routing_contest/releases/download/xvu3p/xcvu3p.device
+      - run:
+          make ROUTER="${{ matrix.router }}" BENCHMARKS="${{ matrix.benchmark }}" VERBOSE=1
+      - run:
+          make ROUTER="${{ matrix.router }}" BENCHMARKS="${{ matrix.benchmark }}" VERBOSE=1
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: Logs
+          path: |
+           *.log
+           *.check
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: ${{ matrix.router }}-${{ matrix.benchmark }}
+          path: |
+           *.dcp
+           *.phys
+           ${{ matrix.benchmark }}.netlist.edn/*
+           *_load.tcl
+           !*_unrouted.phys

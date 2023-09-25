@@ -63,6 +63,11 @@ public class CheckPhysNetlist {
         Path outputDcp = Paths.get(FileTools.removeFileExtension(args[1]) + ".dcp");
         design.writeCheckpoint(outputDcp);
 
+        if (!FileTools.isVivadoOnPath()) {
+            System.err.println("ERROR: `vivado` not detected on $PATH");
+            System.exit(1);
+        }
+
         // Call Vivado's `report_route_status` command on this DCP
         List<String> encryptedCells = netlist.getEncryptedCells();
         boolean encrypted = encryptedCells != null && !encryptedCells.isEmpty();
