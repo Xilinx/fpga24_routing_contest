@@ -2,7 +2,7 @@
 
 ## The Challenge
 
-Given a pre-placed design in the [FPGA Interchange Format](https://fpga-interchange-schema.readthedocs.io)
+Given a pre-placed design in the [FPGA Interchange Format](http://www.rapidwright.io/docs/FPGA_Interchange_Format.html)
 and a multi-core machine with an AMD GPU, build a router that focuses on minimizing the wall-clock time required to return
 a legal, fully routed solution.
 
@@ -19,11 +19,11 @@ As most FPGA vendor tools are provided as closed-source binaries, it can be diff
 at the backend (i.e. place and route) with many researchers resorting to evaluating their algorithms on theoretical
 rather than commercial architectures.
 To lower the barrier and cost to future innovation, in this contest we use the open-source
-[FPGA Interchange Format](https://fpga-interchange-schema.readthedocs.io) (FPGAIF) as the intermediate representation
+[FPGA Interchange Format](http://www.rapidwright.io/docs/FPGA_Interchange_Format.html) (FPGAIF) as the intermediate representation
 for device model and design exchange.
 
 **The goals of this contest are:**
-1. To promote and demonstrate the [FPGA Interchange Format](https://fpga-interchange-schema.readthedocs.io) as an
+1. To promote and demonstrate the [FPGA Interchange Format](http://www.rapidwright.io/docs/FPGA_Interchange_Format.html) as an
    efficient and robust intermediate representation for working on backend FPGA problems --- even at industrial scales.
 2. To encourage innovation in FPGA routing algorithms that prioritize runtime, a metric that can be especially
    important in some application domains such as ASIC emulation.
@@ -34,7 +34,7 @@ is the time that each CPU core was busy summed across all cores).
 *In other words: we'll provide the (AMD) CPU cores and the GPUs -- use them or lose them!*
 
 Developed as part of the [CHIPS Alliance](https://www.chipsalliance.org/), the open-source
-[FPGA Interchange Format](https://fpga-interchange-schema.readthedocs.io) (FPGAIF) can describe
+[FPGA Interchange Format](http://www.rapidwright.io/docs/FPGA_Interchange_Format.html) (FPGAIF) can describe
 (a) the layout of all available device resources present on an FPGA,
 (b) the hierarchical logical netlist produced post-synthesis, and
 (c) the flat physical netlist capturing how and where each FPGA resource is configured/placed
@@ -90,6 +90,8 @@ Contest registration is mandatory to be eligible for alpha submission and final 
   Advising Professor (if applicable): <NAME> (<AFFILIATION>)
   Single corresponding email: <NAME@AFFILIATION.COM>
   ```
+
+Team size is limited to 6 members (not including advisor(s)).
 
 A Vivado license is not mandatory for router development, however, eligible teams from academia can ask their advising professor to apply for a donation of a Vivado license from the AMD University Program.
 If your advisor is not already enrolled with the AMD University Program, please ask them to enroll [here](https://www.xilinx.com/member/xup.html).

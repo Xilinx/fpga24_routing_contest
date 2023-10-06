@@ -4,7 +4,7 @@
 
 * The target device for this contest will be the AMD/Xilinx UltraScale+ xcvu3p.
 * Competing routers must consume a pre-placed and partially-routed
- [FPGA Interchange Format](https://fpga-interchange-schema.readthedocs.io) Physical Netlist
+ [FPGA Interchange Format](http://www.rapidwright.io/docs/FPGA_Interchange_Format.html) Physical Netlist
   and emit a fully routed Physical Netlist.
 * The exact scoring criteria is currently being developed, but will be composed of:
     1. Legal routing solution (must pass for valid score)
