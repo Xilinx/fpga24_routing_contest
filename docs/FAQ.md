@@ -51,8 +51,7 @@ Any router provided that generates a legal solution will be accepted.  We welcom
 
 ## Approach and Technique Questions
 
-### Transformative technologies, like ML and DL, require large amounts of
-training data. Will you be providing training data to enable such approaches, or are you only interested in traditional algorithmic approaches?
+### Transformative technologies, like ML and DL, require large amounts of training data. Will you be providing training data to enable such approaches, or are you only interested in traditional algorithmic approaches?
 
 We welcome and are interested in any ML and DL approaches.  We recognize the need for large amounts of training data and will provide ways of generating many more benchmark designs beyond the examples that are provided.  For example, Vivado can be used to synthesize and place any compatible design onto the contest device, and [RapidWright](https://github.com/Xilinx/RapidWright) used to convert that into the FPGA Interchange Format to serve as training data.  
 
