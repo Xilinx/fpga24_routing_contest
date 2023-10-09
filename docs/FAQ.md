@@ -35,7 +35,7 @@ Indeed, the biggest focus of this contest is on producing a legal solution withi
 
 ### Can we use existing routers (i.e., VPR Pathfinder) as a starting point or should the team build a custom router from scratch.
 
-Yes, any existing solutions or solutions built from scratch and/or modified are welcome.
+Yes, any existing solutions or solutions built from scratch and/or derived from prior work are welcome.
 
 ### How are we going to be evaluated and ranked against other contestants?
 
@@ -61,12 +61,15 @@ Although the specific mechanics of solution delivery are still being finalized, 
 
 ### What software and hardware resources will be supplied towards parallelization?
 
-As noted in the [Contest Details](https://xilinx.github.io/fpga24_routing_contest/details.html) "Contestants can expect to be evaluated on an AMD multi-core Linux platform with >=32 cores, >=64GB RAM, and no internet connectivity".  As mentioned in the previous answer, software enabling a container-like environment will allow contestants to build and configure their setup (including necessary libraries) to meet their own requirements.  
+As noted in the [Contest Details](details.html#key-details) "Contestants can expect to be evaluated on an AMD multi-core Linux platform with >=32 cores, >=64GB RAM, and no internet connectivity".  As mentioned in the previous answer, software enabling a container-like environment will allow contestants to build and configure their setup (including necessary libraries) to meet their own requirements.  
 
 ## Submission Questions
 
 ### How many submission variants will be permitted from each team?
 
-For the final submission, only the last submission made before the [final submission deadline](https://xilinx.github.io/fpga24_routing_contest/index.html#important-dates) will be accepted.
+For the final submission, only the last submission made before the [final submission deadline](index.html#important-dates) will be accepted.
 Prior to this, as part of the alpha submission process we intend to work with contestants to ensure that their submission runs as expected on our machine.
 
+## More Questions?
+
+Please post questions in our [Discussion](https://github.com/Xilinx/fpga24_routing_contest/discussions) forum.
