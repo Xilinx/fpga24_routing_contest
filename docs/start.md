@@ -2,7 +2,7 @@
 
 Contestants may choose from the following two options to get started:
 * [Getting Started With RWRoute](#getting-started-with-rwroute)
-* [Getting Started With A Custom Router](#getting-started-with-a-custom-router)
+* [Getting Started With A Custom Router](#getting-started-with-a-custom-router) (NXRoute)
 
 All contest collateral is distributed at [`https://github.com/Xilinx/fpga24_routing_contest`](https://github.com/Xilinx/fpga24_routing_contest), containing:
 - A set of pre-placed and partially-routed FPGAIF Physical Netlist benchmarks for input into
@@ -10,6 +10,7 @@ All contest collateral is distributed at [`https://github.com/Xilinx/fpga24_rout
 - A corresponding set of FPGAIF Logical Netlists, to be reconstituted with the router's output
   Physical Netlist to generate a Vivado Design Checkpoint (DCP).
 - Source code to support this Getting Started guide.
+- [Reference Runs Using GitHub Actions](#reference-runs-using-github-actions).
 
 > **TL;DR**
 > ```
@@ -211,3 +212,14 @@ and
 classes.
 These sources may serve as additional reference implementations for developing your own Physical Netlist
 readers and writers.
+
+
+## Reference Runs Using GitHub Actions
+
+Up-to-date reference runs of RWRoute and NXRoute are available through
+[GitHub Actions](https://github.com/Xilinx/fpga24_routing_contest/actions?query=branch%3Amaster)
+with the following caveats:
+1. Since GitHub Actions has no access to Vivado, the `report_route_status` functionality always returns a mock *pass* status.
+2. Due to GitHub Actions' memory limitations (7GB RAM) RWRoute can only tackle the two smallest benchmarks.
+3. As NXRoute only operates on one clock region of the device, it can partially route all five benchmarks.
+
