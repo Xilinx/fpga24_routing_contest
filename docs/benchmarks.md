@@ -14,7 +14,7 @@ table:
 | [BOOM](https://docs.boom-core.org/en/latest/sections/intro-overview/boom.html)|`soc` (LargeBoomConfig)|227k|98k|61|161|Y|
 
 [1] OOC refers to [Out-Of-Context Synthesis](https://docs.xilinx.com/r/en-US/ug949-vivado-design-methodology/Out-of-Context-Synthesis),
-whereby the benchmark is compiled as a top-level module and thus will not have I/O buffers inserted on its top-level ports.
+whereby the benchmark is not compiled as a top-level module and thus will not have I/O buffers inserted on its top-level ports.
 As a consequence, these top-level ports are nets that require no routing, and where the clock net is also derived from such a top-level
 port, this net (which would otherwise be promoted to use the global routing network) will not require routing either.
 
