@@ -37,6 +37,19 @@ public class DcpToFPGAIF {
             if (net.isStaticNet() || net.isClockNet()) {
                 continue;
             }
+
+            // Where a net only has a single source, try and discover if an alternate
+            // source exists
+	    SitePinInst altSource = net.getAlternateSource();
+	    if (altSource == null) {
+		    altSource = DesignTools.getLegalAlternativeOutputPin(net);
+		    if (altSource != null) {
+                            // Commit this pin to the SiteInst
+                            altSource.getSiteInst().addPin(altSource);
+                            DesignTools.routeAlternativeOutputSitePin(net, altSource);
+		    }
+	    }
+
             net.unroute();
         }
 
