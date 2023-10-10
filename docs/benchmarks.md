@@ -11,7 +11,7 @@ table:
 | [Rosetta](https://github.com/cornell-zhang/rosetta)|`fd` (face-detection)|46k|39k|72|62|
 | [Koios 2.0](https://docs.verilogtorouting.org/en/latest/vtr/benchmarks/#koios-2-0-benchmarks)|`dla_like_large` (dla_like.large)|189k|362k|2209|192|
 | [ISPD 2016](https://www.ispd.cc/contests/16/ispd2016_contest.html)|`example2`|289k|234k|200|384|
-| [BOOM](https://docs.boom-core.org/en/latest/sections/intro-overview/boom.html)|`soc`|227k|98k|61|161|
+| [BOOM](https://docs.boom-core.org/en/latest/sections/intro-overview/boom.html)|`soc` (LargeBoomConfig)|227k|98k|61|161|
 
 Each of the benchmarks targets the `xcvu3p` device which has the following resources:
 
