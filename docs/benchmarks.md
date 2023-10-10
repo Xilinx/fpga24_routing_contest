@@ -35,4 +35,6 @@ For example the file name `vtr_mcml_unrouted.phys` denotes an unrouted FPGAIF
 Physical Netlist corresponding to the `mcml` design from the VTR benchmark
 suite.
 
+More benchmarks will be released as the contest progresses.
+Entrants will also be evaluated on a set of hidden benchmarks which will not be made public.
 
