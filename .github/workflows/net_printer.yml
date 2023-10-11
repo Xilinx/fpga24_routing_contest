@@ -38,8 +38,8 @@ jobs:
           make setup-net_printer download-benchmarks
       - if: matrix.router != 'ispd16_example2'
         run:
-          python3 net_printer/np.py ${{ matrix.router }}_unrouted.phys GLOBAL_LOGIC0 GLOBAL_LOGIC1
+          python3 net_printer/np.py ${{ matrix.benchmark }}_unrouted.phys GLOBAL_LOGIC0 GLOBAL_LOGIC1
       - if: matrix.router == 'ispd16_example2'
         run:
-          python3 net_printer/np.py ${{ matrix.router }}_unrouted.phys GLOBAL_LOGIC0 GLOBAL_LOGIC1 controlSig0 controlSig1 clk_BUFGP_net_top_wire
+          python3 net_printer/np.py ${{ matrix.benchmark }}_unrouted.phys GLOBAL_LOGIC0 GLOBAL_LOGIC1 controlSig0 controlSig1 clk_BUFGP_net_top_wire
 
