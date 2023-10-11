@@ -38,7 +38,7 @@ else
 endif
 
 
-# Default recipe: route and score all given download-benchmarks
+# Default recipe: route and score all given benchmarks
 .PHONY: run-$(ROUTER)
 run-$(ROUTER): score-$(ROUTER)
 
@@ -48,8 +48,8 @@ run-$(ROUTER): score-$(ROUTER)
 compile-java:
 	./gradlew compileJava
 
-.PHONY: nxroute-deps
-nxroute-deps:
+.PHONY: install-python-deps
+install-python-deps:
 	pip install -q -r networkx-proof-of-concept-router/requirements.txt
 
 # Download and unpack all benchmarks
@@ -106,7 +106,7 @@ distclean: clean
 	(/usr/bin/time ./gradlew -DjvmArgs="$(JVM_HEAP)" -Dmain=com.xilinx.fpga24_routing_contest.PartialRouterPhysNetlist :run --args='$< $@') $(call log_and_or_display,$@.log)
 
 ## NXROUTE-POC
-%_nxroute-poc.phys: %_unrouted.phys xcvu3p.device | nxroute-deps fpga-interchange-schema/interchange/capnp/java.capnp
+%_nxroute-poc.phys: %_unrouted.phys xcvu3p.device | install-python-deps fpga-interchange-schema/interchange/capnp/java.capnp
 	(/usr/bin/time python3 networkx-proof-of-concept-router/nxroute-poc.py $< $@) $(call log_and_or_display,$@.log)
 
 ## EXAMPLEROUTE
