@@ -90,7 +90,7 @@ score-$(ROUTER): $(addsuffix _$(ROUTER).check, $(BENCHMARKS))
 	RapidWright/bin/rapidwright DeviceResourcesExample $*
 
 .PHONY: net_printer
-setup-net_printer: install-python-deps download-benchmarks fpga-interchange-schema/interchange/capnp/java.capnp
+setup-net_printer: | install-python-deps fpga-interchange-schema/interchange/capnp/java.capnp
 
 clean:
 	rm -f *.{phys,check}*
