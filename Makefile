@@ -5,12 +5,12 @@
 # SPDX-License-Identifier: MIT
 #
 
-# List of all download-benchmarks (default to all)
-BENCHMARKS ?= boom_soc 			\
-              ispd16_example2 		\
+# List of all benchmarks (default to all)
+BENCHMARKS ?= vtr_mcml			\
+              rosetta_fd		\
               koios_dla_like_large 	\
-              rosetta_fd 		\
-              vtr_mcml
+              ispd16_example2 		\
+              boom_soc
 
 BENCHMARKS_URL = https://github.com/Xilinx/fpga24_routing_contest/releases/download/v1.0/benchmarks.tar.gz
 
