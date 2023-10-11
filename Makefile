@@ -5,12 +5,12 @@
 # SPDX-License-Identifier: MIT
 #
 
-# List of all download-benchmarks (default to all)
-BENCHMARKS ?= boom_soc 			\
-              ispd16_example2 		\
+# List of all benchmarks (default to all)
+BENCHMARKS ?= vtr_mcml			\
+              rosetta_fd		\
               koios_dla_like_large 	\
-              rosetta_fd 		\
-              vtr_mcml
+              ispd16_example2 		\
+              boom_soc
 
 BENCHMARKS_URL = https://github.com/Xilinx/fpga24_routing_contest/releases/download/v1.0/benchmarks.tar.gz
 
@@ -38,7 +38,7 @@ else
 endif
 
 
-# Default recipe: route and score all given download-benchmarks
+# Default recipe: route and score all given benchmarks
 .PHONY: run-$(ROUTER)
 run-$(ROUTER): score-$(ROUTER)
 
@@ -48,9 +48,9 @@ run-$(ROUTER): score-$(ROUTER)
 compile-java:
 	./gradlew compileJava
 
-.PHONY: nxroute-deps
-nxroute-deps:
-	pip install -q -r networkx-proof-of-concept-router/requirements.txt
+.PHONY: install-python-deps
+install-python-deps:
+	pip install -q -r requirements.txt
 
 # Download and unpack all benchmarks
 .PHONY: download-benchmarks
@@ -89,6 +89,9 @@ score-$(ROUTER): $(addsuffix _$(ROUTER).check, $(BENCHMARKS))
 %.device: | compile-java
 	RapidWright/bin/rapidwright DeviceResourcesExample $*
 
+.PHONY: net_printer
+setup-net_printer: | install-python-deps fpga-interchange-schema/interchange/capnp/java.capnp
+
 clean:
 	rm -f *.{phys,check}*
 
@@ -106,7 +109,7 @@ distclean: clean
 	(/usr/bin/time ./gradlew -DjvmArgs="$(JVM_HEAP)" -Dmain=com.xilinx.fpga24_routing_contest.PartialRouterPhysNetlist :run --args='$< $@') $(call log_and_or_display,$@.log)
 
 ## NXROUTE-POC
-%_nxroute-poc.phys: %_unrouted.phys xcvu3p.device | nxroute-deps fpga-interchange-schema/interchange/capnp/java.capnp
+%_nxroute-poc.phys: %_unrouted.phys xcvu3p.device | install-python-deps fpga-interchange-schema/interchange/capnp/java.capnp
 	(/usr/bin/time python3 networkx-proof-of-concept-router/nxroute-poc.py $< $@) $(call log_and_or_display,$@.log)
 
 ## EXAMPLEROUTE
