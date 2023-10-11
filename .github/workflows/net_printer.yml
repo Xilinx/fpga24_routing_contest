@@ -1,0 +1,45 @@
+# Copyright (C) 2023, Advanced Micro Devices, Inc.  All rights reserved.
+#
+# Author: Eddie Hung, AMD
+#
+# SPDX-License-Identifier: MIT
+#
+
+name: net_printer
+on:
+  push:
+  pull_request:
+jobs:
+  make:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        benchmark:
+          - boom_soc
+          - ispd16_example2
+          - koios_dla_like_large
+          - rosetta_fd
+          - vtr_mcml
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run:
+          make install-python-deps download-benchmarks
+      - if: matrix.router != 'ispd16_example2'
+        run:
+          python3 net_printer/np.py ${{ matrix.router }}_unrouted.phys GLOBAL_LOGIC0 GLOBAL_LOGIC1
+      - if: matrix.router == 'ispd16_example2'
+        run:
+          python3 net_printer/np.py ${{ matrix.router }}_unrouted.phys GLOBAL_LOGIC0 GLOBAL_LOGIC1 controlSig0 controlSig1 clk_BUFGP_net_top_wire
+
