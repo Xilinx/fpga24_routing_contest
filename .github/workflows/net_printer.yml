@@ -10,7 +10,7 @@ on:
   push:
   pull_request:
 jobs:
-  make:
+  net_printer:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
