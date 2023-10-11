@@ -35,7 +35,7 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
       - run:
-          make install-python-deps download-benchmarks
+          make setup-net_printer
       - if: matrix.router != 'ispd16_example2'
         run:
           python3 net_printer/np.py ${{ matrix.router }}_unrouted.phys GLOBAL_LOGIC0 GLOBAL_LOGIC1
