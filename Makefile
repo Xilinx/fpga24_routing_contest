@@ -50,7 +50,7 @@ compile-java:
 
 .PHONY: install-python-deps
 install-python-deps:
-	pip install -q -r networkx-proof-of-concept-router/requirements.txt
+	pip install -q -r requirements.txt
 
 # Download and unpack all benchmarks
 .PHONY: download-benchmarks
