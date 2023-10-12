@@ -201,6 +201,43 @@ Writing design...
 Wall-clock time (sec): 168.94
 ```
 
+### Inspecting solutions using Vivado
+
+One can then open up the `vtr_mcml_nxroute-poc.dcp` in Vivado and run `report_route_status`
+explicitly:
+```
+Design Route Status
+                                               :      # nets :
+   ------------------------------------------- : ----------- :
+   # of logical nets.......................... :      190324 :
+       # of nets not needing routing.......... :      119342 :
+           # of internally routed nets........ :      107680 :
+           # of nets with no loads............ :       11554 :
+           # of implicitly routed ports....... :         108 :
+       # of routable nets..................... :       70982 :
+           # of unrouted nets................. :       54766 :
+           # of fully routed nets............. :        4647 :
+       # of nets with routing errors.......... :       11569 :
+           # of nets with some unrouted pins.. :         711 :
+           # of nets with resource conflicts.. :       11472 :
+   ------------------------------------------- : ----------- :
+```
+as well as to use its GUI to visualize resource conflicts, which may be helpful
+when debugging your own router. For example, executing the following command in the Tcl
+Console:
+```
+show_objects -name find_1 [get_nets -hierarchical -top_net_of_hierarchical_group -filter { ROUTE_STATUS == "CONFLICTS" } ]
+```
+will create a new tab containing all the conflicting nets.
+Clicking on a net will cause the Device view to select and zoom to that net (shown in white):
+
+[![image](flow-detailed.png)](vivado-conflict.png)
+
+Note that the above screenshot above shows the Device view with the Unrouted Nets
+(red) and Partially Routed Nets (yellow) hidden from display.
+What remains are Fully Routed Nets (green) and Conflict Nets (dark magenta).
+Control of which net types are displayed can be accessed by clicking the blue "gear" icon
+in the top right of the GUI.
 
 ### Reference FPGAIF Physical Netlist Reader/Writer
 
