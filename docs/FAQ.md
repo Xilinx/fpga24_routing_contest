@@ -55,6 +55,8 @@ Any router provided that generates a legal solution will be accepted.  We welcom
 
 We welcome and are interested in any ML and DL approaches.  We recognize the need for large amounts of training data and will provide ways of generating many more benchmark designs beyond the examples that are provided.  For example, Vivado can be used to synthesize and place any compatible design onto the contest device, and [RapidWright](https://github.com/Xilinx/RapidWright) used to convert that into the FPGA Interchange Format to serve as training data.  
 
+*EDIT (2023/10/11):* The [`DcpToFPGAIF`](https://github.com/Xilinx/fpga24_routing_contest/pull/10) utility can now process any DCP into FPGAIF Logical and Physical Netlists for use with this contest.
+
 ### Will you provide access to ML/DL libraries to support inference? 
 
 Although the specific mechanics of solution delivery are still being finalized, teams will be able to provide containerized solutions (e.g. Docker) where teams can configure their environment to include the necessary libraries to run their solution.  
