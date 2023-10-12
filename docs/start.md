@@ -201,7 +201,7 @@ Writing design...
 Wall-clock time (sec): 168.94
 ```
 
-### Inspecting solutions using Vivado
+### Inspecting Solutions using Vivado
 
 One can then open up the `vtr_mcml_nxroute-poc.dcp` in Vivado and run `report_route_status`
 explicitly:
@@ -231,7 +231,7 @@ show_objects -name find_1 [get_nets -hierarchical -top_net_of_hierarchical_group
 will create a new tab containing all the conflicting nets.
 Clicking on a net will cause the Device view to select and zoom to that net (shown in white):
 
-[![image](flow-detailed.png)](vivado-conflict.png)
+[![image](vivado-conflict.png)](vivado-conflict.png)
 
 Note that the above screenshot above shows the Device view with the Unrouted Nets
 (red) and Partially Routed Nets (yellow) hidden from display.
