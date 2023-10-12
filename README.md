@@ -11,6 +11,6 @@ SPDX-License-Identifier: MIT
 ```
 ---
 
-Utilities provided:
+Utilities:
 * [`net_printer`](https://github.com/Xilinx/fpga24_routing_contest/tree/master/net_printer) -- inspect the routing of nets in a Physical Netlist.
 * [`DcpToFPGAIF`](https://github.com/Xilinx/fpga24_routing_contest/pull/10) -- process a DCP into FPGAIF Logical and Physical Netlists for use with this contest.
