@@ -34,7 +34,7 @@ ifdef GITHUB_ACTIONS
     JVM_HEAP = -Xms6g -Xmx6g
 else
     # If not specified, limit Java heap size ~32G
-    JVM_HEAP ?= -Xmx32736m -Xmx32736m
+    JVM_HEAP ?= -Xms32736m -Xmx32736m
 endif
 
 
