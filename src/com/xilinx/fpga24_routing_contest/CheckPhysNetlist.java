@@ -11,22 +11,37 @@ package com.xilinx.fpga24_routing_contest;
 
 import com.xilinx.rapidwright.design.Design;
 import com.xilinx.rapidwright.edif.EDIFNetlist;
+import com.xilinx.rapidwright.edif.EDIFTools;
 import com.xilinx.rapidwright.interchange.LogNetlistReader;
 import com.xilinx.rapidwright.interchange.PhysNetlistReader;
 import com.xilinx.rapidwright.util.FileTools;
 import com.xilinx.rapidwright.util.ReportRouteStatusResult;
 import com.xilinx.rapidwright.util.VivadoTools;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.InterruptedException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
+import java.util.zip.ZipOutputStream;
+import java.util.zip.ZipEntry;
 
 public class CheckPhysNetlist {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         if (args.length != 2) {
             System.err.println("USAGE: <input.netlist> <input.phys>");
             return;
@@ -63,18 +78,69 @@ public class CheckPhysNetlist {
         Path outputDcp = Paths.get(FileTools.removeFileExtension(args[1]) + ".dcp");
         design.writeCheckpoint(outputDcp);
 
-        if (!FileTools.isVivadoOnPath()) {
-            System.err.println("ERROR: `vivado` not detected on $PATH");
-            System.exit(1);
+        // Call Vivado's `report_route_status` command on this DCP
+        ReportRouteStatusResult rrs = null;
+        String reportRouteStatusUrl = System.getenv("REPORT_ROUTE_STATUS_URL");
+        if (reportRouteStatusUrl == null) {
+            // Call local Vivado
+            if (!FileTools.isVivadoOnPath()) {
+                System.err.println("ERROR: `vivado` not detected on $PATH");
+                System.exit(1);
+            }
+
+            List<String> encryptedCells = netlist.getEncryptedCells();
+            boolean encrypted = encryptedCells != null && !encryptedCells.isEmpty();
+            rrs = VivadoTools.reportRouteStatus(outputDcp, encrypted);
+        } else {
+            // Upload DCP/ZIP-with-encrpyted-cells to a remote URL
+            Path uploadFile = outputDcp;
+            if (!netlist.getEncryptedCells().isEmpty()) {
+                uploadFile = Paths.get(outputDcp.toString() + ".zip");
+                reportRouteStatusUrl += "-zip";
+                try (FileOutputStream fos = new FileOutputStream(uploadFile.toString());
+                        ZipOutputStream zos = new ZipOutputStream(fos)) {
+                    zos.putNextEntry(new ZipEntry(outputDcp.toString()));
+                    Files.copy(outputDcp, zos);
+                    for (String fileName : netlist.getEncryptedCells()) {
+                        zos.putNextEntry(new ZipEntry(fileName));
+                        Files.copy(Paths.get(fileName), zos);
+                    }
+                    Path loadTclPath = FileTools.replaceExtension(outputDcp, EDIFTools.LOAD_TCL_SUFFIX);
+                    zos.putNextEntry(new ZipEntry(loadTclPath.toString()));
+                    Files.copy(loadTclPath, zos);
+                }
+            }
+
+            System.out.println("Uploading " + uploadFile + " ...");
+            HttpClient client = HttpClient.newHttpClient();
+
+            String reportRouteStatusAuth = System.getenv("REPORT_ROUTE_STATUS_AUTH");
+            String auth = "Basic " + Base64.getEncoder().encodeToString(reportRouteStatusAuth.getBytes());
+
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(reportRouteStatusUrl))
+                .PUT(BodyPublishers.ofFile(uploadFile))
+                .setHeader("Authorization", auth)
+                .build();
+
+            HttpResponse<InputStream> response = client.send(request, HttpResponse.BodyHandlers.ofInputStream());
+            System.out.println("Status code: " + response.statusCode());
+            List<String> lines = new ArrayList<>();
+            System.out.println("Response:");
+            try (InputStream is = response.body();
+                 BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    System.out.println(line);
+                    lines.add(line);
+                }
+                System.out.println("<EOF>");
+            }
+            rrs = new ReportRouteStatusResult(lines);
         }
 
-        // Call Vivado's `report_route_status` command on this DCP
-        List<String> encryptedCells = netlist.getEncryptedCells();
-        boolean encrypted = encryptedCells != null && !encryptedCells.isEmpty();
-        ReportRouteStatusResult rrs = VivadoTools.reportRouteStatus(outputDcp, encrypted);
-
         // Exit code 0 only if Vivado reported that it was fully routed
-        System.exit(rrs.isFullyRouted() ? 0 : 1);
+        System.exit(rrs.logicalNets > 0 && rrs.isFullyRouted() ? 0 : 1);
     }
 }
 

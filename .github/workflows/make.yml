@@ -47,13 +47,31 @@ jobs:
         with:
           python-version: '3.11'
           cache: 'pip'
-      - if: matrix.router == 'nxroute-poc'
+      - name: Download xcvu3p.device (nxroute-poc only)
+        if: matrix.router == 'nxroute-poc'
         run:
            wget -q https://github.com/eddieh-xlnx/fpga24_routing_contest/releases/download/xvu3p/xcvu3p.device
-      - run:
+      - env:
+          REPORT_ROUTE_STATUS_URL:      ${{ secrets.REPORT_ROUTE_STATUS_URL }}
+          REPORT_ROUTE_STATUS_AUTH:     ${{ secrets.REPORT_ROUTE_STATUS_AUTH }}
+          CHECK_PHYS_NETLIST_MOCK_PASS: ${{ matrix.router != 'nxroute-poc' && secrets.REPORT_ROUTE_STATUS_URL == '' }}
+        run: |
           make ROUTER="${{ matrix.router }}" BENCHMARKS="${{ matrix.benchmark }}" VERBOSE=1
-      - run:
+      - name: Score summary
+        run:
           make ROUTER="${{ matrix.router }}" BENCHMARKS="${{ matrix.benchmark }}" VERBOSE=1
+      - name: Verify pass (non nxroute-poc)
+        if: matrix.router != 'nxroute-poc'
+        run: |
+          grep -H PASS *.check
+          # Allow following grep to fail if no URL
+          grep -H -e "# of nets with routing errors[. :]\+0" *.check.log || ${{ secrets.REPORT_ROUTE_STATUS_URL == '' }}
+      - name: Verify fail (nxroute-poc)
+        if: matrix.router == 'nxroute-poc'
+        run: |
+          grep -H FAIL *.check
+          # Allow following grep to fail if no URL
+          grep -H -e "# of nets with routing errors[. :]\+[1-9]" -e "# of unrouted nets[. :]\+[1-9]" *.check.log || ${{ secrets.REPORT_ROUTE_STATUS_URL == '' }}
       - uses: actions/upload-artifact@v3
         if: always()
         with:
