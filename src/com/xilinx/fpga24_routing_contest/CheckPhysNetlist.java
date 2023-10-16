@@ -96,6 +96,9 @@ public class CheckPhysNetlist {
             // Upload DCP/ZIP-with-encrpyted-cells to a remote URL
             Path uploadFile = outputDcp;
             if (!netlist.getEncryptedCells().isEmpty()) {
+                // For designs with encrypted cells, create and upload a zip file
+                // containing those encrpyted cells and the *_load.tcl script along
+                // with the DCP 
                 uploadFile = Paths.get(outputDcp.toString() + ".zip");
                 reportRouteStatusUrl += "-zip";
                 try (FileOutputStream fos = new FileOutputStream(uploadFile.toString());
