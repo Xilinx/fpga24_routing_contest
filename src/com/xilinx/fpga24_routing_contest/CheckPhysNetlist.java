@@ -82,7 +82,7 @@ public class CheckPhysNetlist {
         // Call Vivado's `report_route_status` command on this DCP
         ReportRouteStatusResult rrs = null;
         String reportRouteStatusUrl = System.getenv("REPORT_ROUTE_STATUS_URL");
-        if (reportRouteStatusUrl == null) {
+        if (reportRouteStatusUrl == null || reportRouteStatusUrl.isEmpty()) {
             // Call local Vivado
             if (!FileTools.isVivadoOnPath()) {
                 System.err.println("ERROR: `vivado` not detected on $PATH");
