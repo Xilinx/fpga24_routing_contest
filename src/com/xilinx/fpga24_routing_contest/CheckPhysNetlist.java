@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
+import java.util.zip.Deflater;
 import java.util.zip.ZipOutputStream;
 import java.util.zip.ZipEntry;
 
@@ -99,6 +100,7 @@ public class CheckPhysNetlist {
                 reportRouteStatusUrl += "-zip";
                 try (FileOutputStream fos = new FileOutputStream(uploadFile.toString());
                         ZipOutputStream zos = new ZipOutputStream(fos)) {
+                    zos.setLevel(Deflater.NO_COMPRESSION);
                     zos.putNextEntry(new ZipEntry(outputDcp.toString()));
                     Files.copy(outputDcp, zos);
                     for (String fileName : netlist.getEncryptedCells()) {
