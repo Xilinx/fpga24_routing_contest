@@ -50,7 +50,7 @@ jobs:
       - name: Download xcvu3p.device (nxroute-poc only)
         if: matrix.router == 'nxroute-poc'
         run:
-           wget -q https://github.com/eddieh-xlnx/fpga24_routing_contest/releases/download/xvu3p/xcvu3p.device
+           wget -q  https://github.com/Xilinx/fpga24_routing_contest/releases/latest/download/xcvu3p.device
       - env:
           REPORT_ROUTE_STATUS_URL:      ${{ secrets.REPORT_ROUTE_STATUS_URL }}
           REPORT_ROUTE_STATUS_AUTH:     ${{ secrets.REPORT_ROUTE_STATUS_AUTH }}
