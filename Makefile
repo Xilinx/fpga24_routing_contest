@@ -12,7 +12,7 @@ BENCHMARKS ?= vtr_mcml			\
               ispd16_example2 		\
               boom_soc
 
-BENCHMARKS_URL = https://github.com/Xilinx/fpga24_routing_contest/releases/download/v1.0/benchmarks.tar.gz
+BENCHMARKS_URL = https://github.com/Xilinx/fpga24_routing_contest/releases/latest/download/benchmarks.tar.gz
 
 # Choice of router (default to rwroute)
 # (other supported values: nxroute-poc)
