@@ -65,6 +65,10 @@ Although the specific mechanics of solution delivery are still being finalized, 
 
 As noted in the [Contest Details](details.html#key-details) "Contestants can expect to be evaluated on an AMD multi-core Linux platform with >=32 cores, >=64GB RAM, and no internet connectivity".  As mentioned in the previous answer, software enabling a container-like environment will allow contestants to build and configure their setup (including necessary libraries) to meet their own requirements.  
 
+### Is serial equivalency a requirement (i.e., producing identical results regardless of the number of cores/threads used)?
+
+No. In this contest, we hope to push the limits of how fast FPGA routing can be achieved and adding serial equivalency would create an additional burden on that goal, so it is not a requirement.
+
 ## Submission Questions
 
 ### How many submission variants will be permitted from each team?
