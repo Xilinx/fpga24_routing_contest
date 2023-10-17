@@ -45,6 +45,7 @@ public class DcpToFPGAIF {
 	    if (altSource == null) {
 	            altSource = DesignTools.getLegalAlternativeOutputPin(net);
 	            if (altSource != null) {
+                            net.addPin(altSource);
                             // Commit this pin to the SiteInst
                             altSource.getSiteInst().addPin(altSource);
                             DesignTools.routeAlternativeOutputSitePin(net, altSource);
