@@ -48,10 +48,18 @@ Upon calling `make` the default [Makefile](https://github.com/Xilinx/fpga24_rout
    This class leverages RapidWright to load the FPGAIF Physical Netlist into RapidWright's in-memory data
    structures, then invokes `PartialRouter` (which is a subclass of `RWRoute` that operates only on
    unrouted nets while preserving all existing routing) to complete routing.
+
+   > **NOTE:**
+   > By default, `PartialRouterPhysNetlist` is configured with 32GB of heap memory for its Java Virtual Machine.
+   > With this configuration, to account for off-heap memory utilization a machine with at least 40GB of free memory is required.
+   > The heap size can be overridden using the following variable `make JVM_HEAP="-Xms14g -Xmx14g"` --
+   > we have determined experimentally that a minimum heap size of 14GB is necessary to complete the 5 initial benchmarks
+   > (at a cost to performance).
+   
    Lastly, RapidWright's in-memory representation of the fully-routed design is then written out into a
    new FPGAIF Physical Netlist.
    The wall-clock time of this `PartialRouterPhysNetlist` step is captured using `/usr/bin/time`.
-3. The validity of the routed FPGAIF Physical Netlist is then checked using the [`CheckPhysNetlist`](https://github.com/Xilinx/fpga24_routing_contest/blob/main/src/com/xilinx/fpga24_routing_contest/CheckPhysNetlist.java)
+4. The validity of the routed FPGAIF Physical Netlist is then checked using the [`CheckPhysNetlist`](https://github.com/Xilinx/fpga24_routing_contest/blob/main/src/com/xilinx/fpga24_routing_contest/CheckPhysNetlist.java)
    Java class.
    This class takes the original FPGAIF Logical Netlist, combines it with the routed Physical Netlist
    to generate a Vivado Design Checkpoint (DCP) and loads it in Vivado to undergo `report_route_status`
@@ -59,7 +67,7 @@ Upon calling `make` the default [Makefile](https://github.com/Xilinx/fpga24_rout
    *Note: Currently, this scoring tool does not check that the output netlist's placement and intra-site routing is
    identical to the input netlist's, nor does it compute the critical-path wirelength.
    These capabilities will be added soon.*
-4. Finally, [`compute-score.py`](https://github.com/Xilinx/fpga24_routing_contest/blob/master/compute-score.py) is called to generate output that looks like:
+5. Finally, [`compute-score.py`](https://github.com/Xilinx/fpga24_routing_contest/blob/master/compute-score.py) is called to generate output that looks like:
    ```
    Benchmark                      Wall Clock (sec)
    -----------------------------------------
