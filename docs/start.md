@@ -48,6 +48,14 @@ Upon calling `make` the default [Makefile](https://github.com/Xilinx/fpga24_rout
    This class leverages RapidWright to load the FPGAIF Physical Netlist into RapidWright's in-memory data
    structures, then invokes `PartialRouter` (which is a subclass of `RWRoute` that operates only on
    unrouted nets while preserving all existing routing) to complete routing.
+
+   > **NOTE:**
+   > By default, `PartialRouterPhysNetlist` is configured with 32GB of heap memory for its Java Virtual Machine.
+   > With this configuration, to account for off-heap memory utilization a machine with at least 40GB of free memory is required.
+   > The heap size can be overridden using the following variable `make JVM_HEAP="-Xms14g -Xmx14g"` --
+   > we have determined experimentally that a minimum heap size of 14GB is necessary to complete the 5 initial benchmarks
+   > (at a cost to performance).
+   
    Lastly, RapidWright's in-memory representation of the fully-routed design is then written out into a
    new FPGAIF Physical Netlist.
    The wall-clock time of this `PartialRouterPhysNetlist` step is captured using `/usr/bin/time`.
@@ -77,6 +85,8 @@ Upon calling `make` the default [Makefile](https://github.com/Xilinx/fpga24_rout
 
 The terminal output of RWRoute for each benchmark is available at `<Benchmark>_rwroute.phys.log`
 while the output of `CheckPhysNetlist` can be found at `<Benchmark>_rwroute.check.log`.
+Displaying this output on screen in addition to writing to these logs can be achieved by setting
+the `VERBOSE` flag: `make VERBOSE=1`.
 
 ### Improving On The Baseline
 
@@ -200,6 +210,8 @@ Writing design...
 	Write PhysicalNetlist: 7.7s
 Wall-clock time (sec): 168.94
 ```
+Displaying this output on screen in addition to writing to these logs can be achieved by setting
+the `VERBOSE` flag: `make VERBOSE=1`.
 
 
 ### Reference FPGAIF Physical Netlist Reader/Writer
