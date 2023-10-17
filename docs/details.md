@@ -34,7 +34,10 @@ Starting from benchmarks described in RTL, Vivado is used to synthesize, place, 
 nets (preserving only global, VCC and GND nets) and writes this result out into FPGA Interchange Format
 Logical and Physical Netlists.
 These steps are not mandatory for contestants to run -- a number of FPGAIF benchmarks are provided (with more
-to follow). 
+to follow).
+
+Should contestants wish to test/train with more benchmarks than those that are provided, the 
+[`DcpToFPGAIF`](https://github.com/Xilinx/fpga24_routing_contest/pull/10) utility is provided.
 
 #### Router
 With just the pre-placed but partially-routed input Physical Netlist, competitors are required to route all
