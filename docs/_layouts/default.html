@@ -16,7 +16,7 @@
   <body>
     <div class="wrapper">
       <header>
-        <h2 class="header" style="color:white">{{ site.title | default: site.github.repository_name }}</h2>
+        <h3 class="header" style="color:white">{{ site.title | default: site.github.repository_name }}</h3>
         <!--p class="header">{{ site.description | default: site.github.project_tagline }}</p-->
 
         <ul>
@@ -26,19 +26,18 @@
           <li><a class="listedpages" href="benchmarks.html">Benchmarks</a></li>
           <li><a class="listedpages" href="score.html">Scoring Criteria</a></li>
           <li><a class="listedpages" href="FAQ.html">FAQ</a></li>
+          <li><a class="listedpages" href="https://github.com/Xilinx/fpga24_routing_contest">GitHub Repo</a></li>
           <li><a class="listedpages" href="contact.html">Contact</a></li>
         </ul>
 
         <p><i>Sponsored by<img src="AMD_E_Wh_RGB.jpg" width="78" height="30">; contest hosted at the <u><a href="https://www.isfpga.org/">FPGA24 conference</a></u>.</i></p>
+
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
       </header>
 
       <section>
         {{ content }}
       </section>
-
-      <footer>
-        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
-      </footer>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
   </body>

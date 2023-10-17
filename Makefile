@@ -12,7 +12,7 @@ BENCHMARKS ?= vtr_mcml			\
               ispd16_example2 		\
               boom_soc
 
-BENCHMARKS_URL = https://github.com/Xilinx/fpga24_routing_contest/releases/download/v1.0/benchmarks.tar.gz
+BENCHMARKS_URL = https://github.com/Xilinx/fpga24_routing_contest/releases/latest/download/benchmarks.tar.gz
 
 # Choice of router (default to rwroute)
 # (other supported values: nxroute-poc)
@@ -23,8 +23,10 @@ export TIME=Wall-clock time (sec): %e
 
 # Existence of the VERBOSE environment variable indicates whether router/
 # checker outputs will be displayed on screen
-ifdef VERBOSE
+VERBOSE ?= 0
+ifneq ($(VERBOSE), 0)
     log_and_or_display = 2>&1 | tee $(1)
+    SHELL := /bin/bash -o pipefail
 else
     log_and_or_display = > $(1) 2>&1
 endif
@@ -34,7 +36,7 @@ ifdef GITHUB_ACTIONS
     JVM_HEAP = -Xms6g -Xmx6g
 else
     # If not specified, limit Java heap size ~32G
-    JVM_HEAP ?= -Xmx32736m -Xmx32736m
+    JVM_HEAP ?= -Xms32736m -Xmx32736m
 endif
 
 
@@ -70,12 +72,11 @@ fpga-interchange-schema/interchange/capnp/java.capnp:
 # Gradle is used to invoke the CheckPhysNetlist class' main method with arguments
 # $^ (%.netlist and %_rwroute.phys), and display/redirect all output to $@.log (%_rwroute.check.log).
 # The exit code of Gradle determines if 'PASS' or 'FAIL' is written to $@ (%_rwroute.check)
-# When inside GitHub Actions (which has no access to Vivado), and also when the routed netlist
-# was successfully converted back into a DCP, then return a mock PASS result
 %_$(ROUTER).check: %.netlist %_$(ROUTER).phys | compile-java
 	if ./gradlew -DjvmArgs="-Xms6g -Xmx6g" -Dmain=com.xilinx.fpga24_routing_contest.CheckPhysNetlist :run --args='$^' $(call log_and_or_display,$@.log); then \
             echo "PASS" > $@; \
-        elif [[ ! -z "$(GITHUB_ACTION)" && -f "$(patsubst %.check,%.dcp,$@)" ]]; then \
+        elif [[ "$(CHECK_PHYS_NETLIST_MOCK_PASS)" == "true" && -f "$(patsubst %.check,%.dcp,$@)" ]]; then \
+            echo "::warning file=$@::CheckPhysNetlist returned FAIL but CHECK_PHYS_NETLIST_MOCK_PASS is set"; \
             echo "PASS" > $@; \
         else \
             echo "FAIL" > $@; \
