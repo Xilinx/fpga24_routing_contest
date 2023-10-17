@@ -85,6 +85,8 @@ Upon calling `make` the default [Makefile](https://github.com/Xilinx/fpga24_rout
 
 The terminal output of RWRoute for each benchmark is available at `<Benchmark>_rwroute.phys.log`
 while the output of `CheckPhysNetlist` can be found at `<Benchmark>_rwroute.check.log`.
+Displaying this output on screen in addition to writing to these logs can be achieved by setting
+the `VERBOSE` flag: `make VERBOSE=1`.
 
 ### Improving On The Baseline
 
@@ -208,6 +210,8 @@ Writing design...
 	Write PhysicalNetlist: 7.7s
 Wall-clock time (sec): 168.94
 ```
+Displaying this output on screen in addition to writing to these logs can be achieved by setting
+the `VERBOSE` flag: `make VERBOSE=1`.
 
 
 ### Reference FPGAIF Physical Netlist Reader/Writer
