@@ -408,6 +408,8 @@ class NxRouter:
                                 path = None
                                 # For every sink node, try all source nodes until one with a routing
                                 # path is found
+                                # Note that nx.shortest_path() only accepts a single source node; other
+                                # implementations may wish to consider all sources simultaneously
                                 for sourceNode in sourceNodes:
                                         try:
                                                 path = nx.shortest_path(self.G, sourceNode, sinkNode)
