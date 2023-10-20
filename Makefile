@@ -82,8 +82,11 @@ fpga-interchange-schema/interchange/capnp/java.capnp:
             echo "FAIL" > $@; \
         fi
 
+%_$(ROUTER).wirelength: %_$(ROUTER).phys | install-python-deps
+	python3 wirelength_analyzer/wa.py $< $(call log_and_or_display,$@)
+
 .PHONY: score-$(ROUTER)
-score-$(ROUTER): $(addsuffix _$(ROUTER).check, $(BENCHMARKS))
+score-$(ROUTER): $(addsuffix _$(ROUTER).wirelength, $(BENCHMARKS)) $(addsuffix _$(ROUTER).check, $(BENCHMARKS))
 	python ./compute-score.py $(addsuffix _$(ROUTER), $(BENCHMARKS))
 
 .PRECIOUS: %.device
@@ -94,7 +97,7 @@ score-$(ROUTER): $(addsuffix _$(ROUTER).check, $(BENCHMARKS))
 setup-net_printer: | install-python-deps fpga-interchange-schema/interchange/capnp/java.capnp
 
 clean:
-	rm -f *.{phys,check}*
+	rm -f *.{phys,check,wirelength}*
 
 distclean: clean
 	rm -rf *.device *_unrouted.phys *.netlist*

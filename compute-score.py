@@ -10,12 +10,13 @@ import re
 
 reWallClockSeconds = re.compile(r'Wall-clock time \(sec\): ([0-9.]+)')
 
-print('%-30s %10s' % ('Benchmark','Wall Clock (sec)'))
-print('-----------------------------------------')
+print('%-30s %10s %10s' % ('Benchmark','Wall Clock (sec)', 'Critical-Path Wirelength'))
+print('-----------------------------------------------------------------------')
 
 total = 0
 for benchmark in sys.argv[1:]:
-	value = float('inf')
+	runtime = float('inf')
+	cpw = float('inf')
 	try:
 		with open(benchmark + '.check') as fp:
 			if fp.readline().rstrip() != 'PASS':
@@ -25,9 +26,15 @@ for benchmark in sys.argv[1:]:
 		m = reWallClockSeconds.match(last)
 		if not m:
 			continue
-		value = m.group(1)
+		runtime = m.group(1)
+		with open(benchmark + '.wirelength') as fp:
+			lines = fp.readlines()
+			for l in lines:
+				if 'Wirelength: ' in l:
+					cpw = l.split()[-1]
+					break
 	finally:
-		total += float(value)
-		print('%-30s %10s' % (benchmark,value))
-print('-----------------------------------------')
+		total += float(runtime)
+		print('%-30s %10s %10s' % (benchmark,runtime,cpw))
+print('-----------------------------------------------------------------------')
 print('%-30s %10.2f' % ('Total',total))

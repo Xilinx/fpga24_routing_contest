@@ -7,3 +7,6 @@ build/
 *.check
 *.dcp
 *.tcl
+*.wirelength
+wirelength_analyzer/test/data/
+**/__pycache__/
