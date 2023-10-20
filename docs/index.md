@@ -6,6 +6,9 @@ Given a pre-placed design in the [FPGA Interchange Format](http://www.rapidwrigh
 and a multi-core machine with an AMD GPU, build a router that focuses on minimizing the wall-clock time required to return
 a legal, fully routed solution.
 
+| ℹ️ **NOTE:** | [Registration](#registration) deadline extended to 20 November 2023 |
+| - | - |
+
 ## Introduction
 
 Compilation times for FPGA technology have long been a pain point, compounded by the trend that FPGA devices are only
@@ -54,7 +57,7 @@ More information can be found in [Contest Details](details.html).
 |Date | |
 |-----------------|-------|
 |September 2023   | Contest Announced |
-|20 October 2023  | Registration Deadline ([mandatory, see below](#registration))|
+|~20 October 2023~<br>**EXTENDED 20 November 2023**| Registration Deadline ([mandatory, see below](#registration))|
 |20 December 2023 | Alpha Submission (details to be announced)|
 |31 January 2024  | Final Submission (details to be announced)|
 |3-5 March 2024   | Prizes awarded to top 5 teams at [FPGA 2024 conference](https://www.isfpga.org/)|
