@@ -22,6 +22,6 @@ jobs:
         with:
           python-version: '3.11'
           cache: 'pip'
-      - run:
+      - run: |
           cd wirelength_analyzer
           make run-unittests
