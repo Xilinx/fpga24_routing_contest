@@ -82,7 +82,7 @@ fpga-interchange-schema/interchange/capnp/java.capnp:
             echo "FAIL" > $@; \
         fi
 
-%_$(ROUTER).wirelength: %_$(ROUTER).phys | install-python-deps
+%_$(ROUTER).wirelength: %_$(ROUTER).phys | setup-wirelength_analyzer
 	python3 wirelength_analyzer/wa.py $< $(call log_and_or_display,$@)
 
 .PHONY: score-$(ROUTER)
@@ -93,8 +93,8 @@ score-$(ROUTER): $(addsuffix _$(ROUTER).wirelength, $(BENCHMARKS)) $(addsuffix _
 %.device: | compile-java
 	RapidWright/bin/rapidwright DeviceResourcesExample $*
 
-.PHONY: net_printer
-setup-net_printer: | install-python-deps fpga-interchange-schema/interchange/capnp/java.capnp
+.PHONY: setup-net_printer setup-wirelength_analyzer
+setup-net_printer setup-wirelength_analyzer: | install-python-deps fpga-interchange-schema/interchange/capnp/java.capnp
 
 clean:
 	rm -f *.{phys,check,wirelength}*
