@@ -1,0 +1,27 @@
+# Copyright (C) 2023, Advanced Micro Devices, Inc.  All rights reserved.
+#
+# Author: Zak Nafziger, AMD
+#
+# SPDX-License-Identifier: MIT
+#
+
+name: wirelength_analyzer
+on:
+  push:
+  pull_request:
+jobs:
+  wirelength_analyzer:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run:
+          cd wirelength_analyzer
+          make run-unittests
