@@ -10,7 +10,7 @@ on:
   push:
   pull_request:
 jobs:
-  wirelength_analyzer:
+  unittests:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -24,6 +24,5 @@ jobs:
           cache: 'pip'
       - run:
           make setup-wirelength_analyzer
-      - run: |
-          cd wirelength_analyzer
-          make run-unittests
+      - run:
+          make -C wirelength_analyzer run-unittests
