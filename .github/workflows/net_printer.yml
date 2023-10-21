@@ -10,7 +10,7 @@ on:
   push:
   pull_request:
 jobs:
-  print_benchmarks:
+  print_static_globals:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
