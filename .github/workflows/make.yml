@@ -72,6 +72,9 @@ jobs:
           grep -H FAIL *.check
           # Allow following grep to fail if no URL
           grep -H -e "# of nets with routing errors[. :]\+[1-9]" -e "# of unrouted nets[. :]\+[1-9]" *.check.log || ${{ secrets.REPORT_ROUTE_STATUS_URL == '' }}
+      - name: Verify Critical-Path Wirelength computed
+        run: |
+          grep "^Wirelength: [1-9][0-9]*" *.wirelength
       - uses: actions/upload-artifact@v3
         if: always()
         with:
