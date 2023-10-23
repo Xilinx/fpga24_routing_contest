@@ -70,8 +70,8 @@ jobs:
           # Allow following grep to fail if no URL
           grep -H -e "# of nets with routing errors[. :]\+0" *.check.log || ${{ secrets.REPORT_ROUTE_STATUS_URL == '' }}
           # Check no multiple sources, no stubs
-          ! grep "UserWarning: Found [0-9]+ sources"
-          ! grep "UserWarning: Found [0-9]+ stubs"
+          ! grep "UserWarning: Found [0-9]+ sources" *.wirelength
+          ! grep "UserWarning: Found [0-9]+ stubs" *.wirelength
           # Check wirelength was computed
           grep "^Wirelength: [1-9][0-9]*" *.wirelength
       - name: Verify fail (nxroute-poc)
@@ -81,8 +81,8 @@ jobs:
           # Allow following grep to fail if no URL
           grep -H -e "# of nets with routing errors[. :]\+[1-9]" -e "# of unrouted nets[. :]\+[1-9]" *.check.log || ${{ secrets.REPORT_ROUTE_STATUS_URL == '' }}
           # Check no multiple sources, but expec stubs
-          ! grep "UserWarning: Found [0-9]+ sources"
-          grep "UserWarning: Found [0-9]+ stubs"
+          ! grep "UserWarning: Found [0-9]+ sources" *.wirelength
+          grep "UserWarning: Found [0-9]+ stubs" *.wirelength
           # Allow wirelength computation to fail since nxroute may not have routed anything or wirelength_analyzer was not run
           grep "^Wirelength: [1-9][0-9]*" *.wirelength || true
       - uses: actions/upload-artifact@v3
