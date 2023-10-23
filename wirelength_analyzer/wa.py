@@ -322,6 +322,10 @@ class WirelengthAnalyzer:
         """
         self.tstart()
         sl = self.phys.strList
+        nets_with_stubs = 0
+        stub_count = 0
+        nets_with_multiple_sources = 0
+        multisource_count = 0
         for net_index, n in enumerate(self.phys.physNets):
             this_net = sl[n.name]
             if n.type != "signal":
@@ -333,9 +337,11 @@ class WirelengthAnalyzer:
                 if len(n.sources) == 0:
                     # Nets with stubs but no sources are assumed to be hierarchical ports
                     continue
-                warnings.warn("Net: "+this_net+" has "+str(len(n.stubs))+" stub(s)")
+                nets_with_stubs += 1
+                stub_count += len(n.stubs)
             if len(n.sources) > 1:
-                warnings.warn("Net: "+this_net+" has "+str(len(n.sources))+" source(s)")
+                nets_with_multiple_sources += 1
+                multisource_count += len(n.sources)
             for branch in n.sources:
                 w = branch.routeSegment.which()
                 assert w == 'belPin', "Found root edge of type "+w+" on net "+this_net
@@ -351,6 +357,10 @@ class WirelengthAnalyzer:
                     self.roots.append(source)
                     self.G.add_node(source, net_index=net_index, segment=branch.routeSegment)
                     self.add_net_to_graph(source, branch)
+        if nets_with_stubs != 0:
+            warnings.warn("Found "+str(stub_count)+" stubs across "+str(nets_with_stubs)+" nets")
+        if nets_with_multiple_sources != 0:
+            warnings.warn("Found "+str(multisource_count)+" sources across "+str(nets_with_multiple_sources)+" nets")
         self.tstop("Added nets to graph")
 
     def join_nets(self):
