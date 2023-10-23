@@ -14,4 +14,4 @@ get-test-data:
 
 .PHONY: run-unittests
 run-unittests: get-test-data
-	python3 -m unittest discover -s test
+	python3 -m unittest discover -s test -v
