@@ -84,7 +84,7 @@ fpga-interchange-schema/interchange/capnp/java.capnp:
 
 %_$(ROUTER).wirelength: %_$(ROUTER).phys | setup-wirelength_analyzer
 	if [[ "$(WIRELENGTH_ANALYZER_MOCK_RESULT)" == "true" ]]; then \
-            echo "::warning file=$@::WIRELENGTH_ANALYZER_MOCK_RESULT is set"; \
+            echo "::warning file=$@::wirelength_analyzer not run because WIRELENGTH_ANALYZER_MOCK_RESULT is set"; \
 	    echo "Wirelength: inf" > $@; \
 	else \
 	    python3 wirelength_analyzer/wa.py $< $(call log_and_or_display,$@); \

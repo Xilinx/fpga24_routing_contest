@@ -75,9 +75,12 @@ jobs:
           grep -H FAIL *.check
           # Allow following grep to fail if no URL
           grep -H -e "# of nets with routing errors[. :]\+[1-9]" -e "# of unrouted nets[. :]\+[1-9]" *.check.log || ${{ secrets.REPORT_ROUTE_STATUS_URL == '' }}
-      - name: Verify Critical-Path Wirelength computed
-        # Allow wirelength check to fail for benchmarks that cannot be analyzed
+      - name: Verify Critical-Path Wirelength
         run: |
+          # Check no stubs, no multiple sources when not nxroute
+          grep "UserWarning: Found [0-9]+ sources" || ${{ matrix.router != 'nxroute-poc' }}
+          grep "UserWarning: Found [0-9]+ stubs" || ${{ matrix.router != 'nxroute-poc' }}
+          # Allow wirelength check to fail for benchmarks that cannot be analyzed
           grep "^Wirelength: [1-9][0-9]*" *.wirelength || ${{ matrix.router == 'nxroute-poc' }}
       - uses: actions/upload-artifact@v3
         if: always()
