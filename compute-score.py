@@ -12,6 +12,8 @@ reWallClockSeconds = re.compile(r'Wall-clock time \(sec\): ([0-9.]+)')
 
 total_rt = 0
 total_cpw = 0
+rt_format = '{:.2f}'
+cpw_format = '{:.0f}'
 results = []
 results.append(('Benchmark', 'Pass', 'Wall Clock (sec)', 'Critical-Path Wirelength'))
 for benchmark in sys.argv[1:]:
@@ -32,14 +34,13 @@ for benchmark in sys.argv[1:]:
             lines = fp.readlines()
             for l in lines:
                 if 'Wirelength: ' in l:
-                    cpw = int(l.split()[-1])
-                    break
+                    cpw = float(l.split()[-1])
     finally:
-        results.append((benchmark,check,runtime,cpw))
+        results.append((benchmark,check,rt_format.format(runtime),cpw_format.format(cpw)))
         total_rt += runtime
         total_cpw += cpw
 
-results.append(('Total', '', '{:.2f}'.format(total_rt), total_cpw))
+results.append(('Total', '', rt_format.format(total_rt), cpw_format.format(total_cpw)))
 
 column_widths = [0]*len(results[0])
 for row in results:
