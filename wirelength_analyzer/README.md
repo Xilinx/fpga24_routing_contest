@@ -56,7 +56,7 @@ column shows the name of the routeSegment or cell. For routeSegments that are
 the source of a net the name of the net is also indicated in the third column.
 At verbosity level 1 The detailed routing between cells is hidden, and `...` is
 printed to indicate that this line corresponds to many routeSegments. Running
-the previous example with at verbosity level 2 produces the following output:
+the previous example with verbosity level 2 produces the following output:
 
 ```
 $ python3 wa.py .. /vtr_mcml_rwroute.phys -v=2
@@ -107,7 +107,7 @@ Length  |  Total  | Segment Name
 ```
 
 As seen above at this level of verbosity the `...` is replaced with the detailed
-path taken between two cells. The final verbosity level, level 0, prints the
+path taken between two cells. The lowest verbosity level, level 0, prints the
 total wirelength and omits all other output. The second mode,
 `longest-single-net` mode, produces an identical output at each level of
 verbosity, except that the path printed is the longest that is contained

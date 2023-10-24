@@ -84,7 +84,7 @@ class TestWirelengthAnalyzer(unittest.TestCase):
         wa = WirelengthAnalyzer(phys_fname, 0)
         wa.find_lsn()
 
-        # in single net mode the wirelenth anlayzer should return a path with
+        # in single net mode the wirelength analyzer should return a path with
         # exactly one edge
         self.assertTrue(len(wa.lsn) == 2, msg="Found single net path with multiple edges")
 

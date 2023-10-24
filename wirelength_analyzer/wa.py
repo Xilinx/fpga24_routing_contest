@@ -643,7 +643,7 @@ class WirelengthAnalyzer:
 
     def vivado_timing_commands(self, cells_on_path):
         """
-        Given a list of cell names return a list of Vivado TCL commands. The
+        Given a list of cell names return a list of Vivado Tcl commands. The
         first command in the list reports timing through the list of cells, and
         the second commmand in the list selects all of the cells in device
         veiw.
@@ -651,7 +651,7 @@ class WirelengthAnalyzer:
         Args:
             cells_on_path: a list of cell names on a path
         Returns:
-            a list of two Vivado TCL commands
+            a list of two Vivado Tcl commands
         """
         cmds = []
         tcl_cmd = "report_timing -from {"+cells_on_path[0]+"} "
