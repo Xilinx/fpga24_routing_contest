@@ -714,9 +714,13 @@ def main():
                         help="verbosity",
                         default=1)
     parser.add_argument('--mode',
+                        metavar = 'MODE',
                         choices=['lsn', 'cp', 'longest-single-net', 'critical-path', 'both'],
                         default='cp',
-                        help="Compute either the length of the longest single net or the critical path or both")
+                        help=
+                        "MODE={lsn, longest-single-net} -- compute the length of the longest single routed net.\
+                        MODE={cp, critical-path} -- compute the length of the critical path.\
+                        MODE={both} -- run both previous modes consecutively.")
 
     args = parser.parse_args()
 
