@@ -88,7 +88,7 @@ score-$(ROUTER): $(addsuffix _$(ROUTER).check, $(BENCHMARKS))
 
 .PRECIOUS: %.device
 %.device: | compile-java
-	RapidWright/bin/rapidwright DeviceResourcesExample $*
+	_JAVA_OPTIONS="-Xms14g -Xmx14g" RapidWright/bin/rapidwright DeviceResourcesExample $*
 
 .PHONY: net_printer
 setup-net_printer: | install-python-deps fpga-interchange-schema/interchange/capnp/java.capnp
