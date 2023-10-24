@@ -4,7 +4,7 @@ has been written in Python and leverages the NetworkX graph library. The basic
 usage of this tool is:
 
 ```
-python3 wa.py [-h] [-v VERBOSITY] [--mode {lsn,cp,longest-single-net,critical-path,both}] physical_netlist
+python3 wa.py [-h] [-v VERBOSITY] [--mode MODE] physical_netlist
 ```
 
 The tool has three levels of verbosity and can operate in three different
@@ -49,14 +49,15 @@ reported by `wa.py` are dimensionless scores, for further detail about how
 these scores are computed and a description of the wirelength analyzer's
 algorithm see the [Scoring Criteria page](https://xilinx.github.io/fpga24_routing_contest/score.html).
 Each subsequent line in the table corresponds to one or more FPGA Interchange
-Format routeSegments, or combinatorial logic cells. The first column contains
-the wirelength of the routeSegments. The second column contains the running
-total wirelength and is indicated at every cell along the path. The Final
-column shows the name of the routeSegment or cell. For routeSegments that are
-the source of a net the name of the net is also indicated in the third column.
-At verbosity level 1 The detailed routing between cells is hidden, and `...` is
-printed to indicate that this line corresponds to many routeSegments. Running
-the previous example with verbosity level 2 produces the following output:
+Format routeSegments, or combinatorial logic cells. The first column (`Segment
+Length`) contains the wirelength of the routeSegments. The second column
+(`Running Total`) contains the running total wirelength and is indicated at
+every cell along the path. The final column (`Segment Name`) shows the name of
+the routeSegment or cell. For routeSegments that are the source of a net the
+name of the net is also indicated in the third column. At verbosity level 1 The
+detailed routing between cells is hidden, and `...` is printed to indicate that
+this line corresponds to many routeSegments. Running the previous example with
+verbosity level 2 produces the following output:
 
 ```
 $ python3 wa.py .. /vtr_mcml_rwroute.phys -v=2
@@ -108,8 +109,9 @@ Length  |  Total  | Segment Name
 
 As seen above at this level of verbosity the `...` is replaced with the detailed
 path taken between two cells. The lowest verbosity level, level 0, prints the
-total wirelength and omits all other output. The second mode,
-`longest-single-net` mode, produces an identical output at each level of
-verbosity, except that the path printed is the longest that is contained
-entirely in a single net. Finally, the third mode, `both` simply runs
+total wirelength and omits all other output.
+
+The second mode, `longest-single-net` mode, produces an identical output at
+each level of verbosity, except that the path printed is the longest that is
+contained entirely in a single net. Finally, the third mode, `both` simply runs
 `longest-single-net` mode and then `critical-path` mode consecutively.

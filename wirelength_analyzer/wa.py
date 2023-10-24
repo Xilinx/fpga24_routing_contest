@@ -711,7 +711,7 @@ def main():
     parser.add_argument('-v',
                         '--verbosity',
                         type=int,
-                        help="verbosity",
+                        help="output verbosity level",
                         default=1)
     parser.add_argument('--mode',
                         metavar = 'MODE',
