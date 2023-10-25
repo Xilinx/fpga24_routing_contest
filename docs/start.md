@@ -69,19 +69,22 @@ Upon calling `make` the default [Makefile](https://github.com/Xilinx/fpga24_rout
    These capabilities will be added soon.*
 4. Finally, [`compute-score.py`](https://github.com/Xilinx/fpga24_routing_contest/blob/master/compute-score.py) is called to generate output that looks like:
    ```
-   Benchmark                      Wall Clock (sec)
-   -----------------------------------------
-   boom_soc_rwroute                  3085.13
-   ispd16_example2_rwroute           1345.44
-   koios_dla_like_large_rwroute       835.93
-   rosetta_fd_rwroute                 351.38
-   vtr_mcml_rwroute                   516.83
-   -----------------------------------------
-   Total                             6134.71
+   +------------------------------+------+------------------+--------------------------+
+   | Benchmark                    | Pass | Wall Clock (sec) | Critical-Path Wirelength |
+   +------------------------------+------+------------------+--------------------------+
+   | vtr_mcml_rwroute             | True |           644.02 |                      642 |
+   | rosetta_fd_rwroute           | True |           421.75 |                      894 |
+   | koios_dla_like_large_rwroute | True |           920.04 |                      555 |
+   | ispd16_example2_rwroute      | True |          1332.61 |                      993 |
+   | boom_soc_rwroute             | True |           3285.0 |                     1786 |
+   +------------------------------+------+------------------+--------------------------+
+   | Total                        |      |          6603.42 |                     4870 |
+   +------------------------------+------+------------------+--------------------------+
    ```
-   Right now, only the wall clock time is displayed with the total displayed on the last row.
-   Routing that does not pass `CheckPhysNetlist` will have an `inf` wall clock time.  
-   The exact scoring criteria is under development and will be published soon.
+   Right now, the wall clock time and [critical-path wirelength](score.md#critical-path-wirelength)
+   are displayed with the totals displayed on the last row. Routing that does not
+   pass `CheckPhysNetlist` will be marked `False` in the `Pass` column. The exact
+   scoring criteria is under development and will be published soon.
 
 The terminal output of RWRoute for each benchmark is available at `<Benchmark>_rwroute.phys.log`
 while the output of `CheckPhysNetlist` can be found at `<Benchmark>_rwroute.check.log`.

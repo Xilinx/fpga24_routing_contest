@@ -82,19 +82,27 @@ fpga-interchange-schema/interchange/capnp/java.capnp:
             echo "FAIL" > $@; \
         fi
 
+%_$(ROUTER).wirelength: %_$(ROUTER).phys | setup-wirelength_analyzer
+	if [[ "$(WIRELENGTH_ANALYZER_MOCK_RESULT)" == "true" ]]; then \
+            echo "::warning file=$@::wirelength_analyzer not run because WIRELENGTH_ANALYZER_MOCK_RESULT is set"; \
+	    echo "Wirelength: inf" > $@; \
+	else \
+	    python3 wirelength_analyzer/wa.py $< $(call log_and_or_display,$@); \
+	fi
+
 .PHONY: score-$(ROUTER)
-score-$(ROUTER): $(addsuffix _$(ROUTER).check, $(BENCHMARKS))
+score-$(ROUTER): $(addsuffix _$(ROUTER).wirelength, $(BENCHMARKS)) $(addsuffix _$(ROUTER).check, $(BENCHMARKS))
 	python ./compute-score.py $(addsuffix _$(ROUTER), $(BENCHMARKS))
 
 .PRECIOUS: %.device
 %.device: | compile-java
 	_JAVA_OPTIONS="-Xms14g -Xmx14g" RapidWright/bin/rapidwright DeviceResourcesExample $*
 
-.PHONY: net_printer
-setup-net_printer: | install-python-deps fpga-interchange-schema/interchange/capnp/java.capnp
+.PHONY: setup-net_printer setup-wirelength_analyzer
+setup-net_printer setup-wirelength_analyzer: | install-python-deps fpga-interchange-schema/interchange/capnp/java.capnp
 
 clean:
-	rm -f *.{phys,check}*
+	rm -f *.{phys,check,wirelength}*
 
 distclean: clean
 	rm -rf *.device *_unrouted.phys *.netlist*

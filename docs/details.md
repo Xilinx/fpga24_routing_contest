@@ -59,8 +59,10 @@ The output Physical Netlist will also be analyzed to compute its critical-path w
 a small weight of the score.
 This metric serves as a simple-to-compute proxy for critical-path delay thus incentivizing contestants to not
 give up on quality-of-results entirely.
-The details of how wirelength is computed, and the tool to compute this critical-path wirelength, is currently
-under development.
+The details of how Critical-Path Wirelength will be computed are presented on
+the [Scoring Criteria](score.html#critical-path-wirelength-algorithm) webpage.
+Additionally a tool to compute this Critical-Path Wirelength, called `wa.py` is
+supplied in the [GitHub repository](https://github.com/Xilinx/fpga24_routing_contest/tree/master/wirelength_analyzer).
 
 Finally, all scoring components – legality of routing solution, wall-clock router runtime, critical-path wirelength
 (plus more) will be combined under a to-be-determined formula to produce the final score.

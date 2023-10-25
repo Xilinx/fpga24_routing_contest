@@ -10,7 +10,7 @@ on:
   push:
   pull_request:
 jobs:
-  net_printer:
+  print_static_globals:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -31,9 +31,11 @@ jobs:
           cache: 'pip'
       - run:
           make setup-net_printer download-benchmarks
-      - run:
+      - name: Print static nets
+        run:
           python3 net_printer/np.py ${{ matrix.benchmark }}_unrouted.phys GLOBAL_LOGIC0 GLOBAL_LOGIC1
-      - if: matrix.benchmark == 'ispd16_example2'
+      - name: Print global nets (ispd16_example2)
+        if: matrix.benchmark == 'ispd16_example2'
         run:
           python3 net_printer/np.py ${{ matrix.benchmark }}_unrouted.phys clk_BUFGP_net_top_wire controlSig0 controlSig1
 
