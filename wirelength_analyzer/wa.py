@@ -703,7 +703,8 @@ def main():
     """
     parser = argparse.ArgumentParser(
         prog="wa",
-        description="Compute the longest wirelength in a routed FPGA Interchange Format Physical Netlist")
+        description="Compute the longest wirelength in a routed FPGA Interchange Format Physical Netlist",
+        formatter_class=argparse.RawTextHelpFormatter)
 
     parser.add_argument('physical_netlist',
                         type=str,
@@ -718,9 +719,9 @@ def main():
                         choices=['lsn', 'cp', 'longest-single-net', 'critical-path', 'both'],
                         default='cp',
                         help=
-                        "MODE={lsn, longest-single-net} -- compute the length of the longest single routed net.\
-                        MODE={cp, critical-path} -- compute the length of the critical path.\
-                        MODE={both} -- run both previous modes consecutively.")
+                        "MODE is 'lsn' or 'longest-single-net' -- compute the length of the longest single routed net.\n"+
+                        "MODE is 'cp' or 'critical-path' -- compute the length of the critical path.\n"+
+                        "MODE is 'both' -- run both previous modes consecutively.")
 
     args = parser.parse_args()
 
