@@ -719,9 +719,12 @@ def main():
                         choices=['lsn', 'cp', 'longest-single-net', 'critical-path', 'both'],
                         default='cp',
                         help=
-                        "MODE is 'lsn' or 'longest-single-net' -- compute the length of the longest single routed net.\n"+
-                        "MODE is 'cp' or 'critical-path' -- compute the length of the critical path.\n"+
-                        "MODE is 'both' -- run both previous modes consecutively.")
+                        "MODE is 'cp' or 'critical-path' (default)\n"+
+                        "    compute the length of the critical path\n"+
+                        "MODE is 'lsn' or 'longest-single-net'\n"+
+                        "    compute the length of the longest single routed net\n"+
+                        "MODE is 'both'\n"+
+                        "    run both previous modes consecutively.")
 
     args = parser.parse_args()
 
