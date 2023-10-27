@@ -1,0 +1,27 @@
+# Copyright (C) 2023, Advanced Micro Devices, Inc.  All rights reserved.
+#
+# Author: Zak Nafziger, AMD
+#
+# SPDX-License-Identifier: MIT
+#
+
+name: scoring_criteria
+on:
+  push:
+  pull_request:
+jobs:
+  unittests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run: |
+          cd scoring_formula
+          python3 -m unittest test_scoring_formula.py
