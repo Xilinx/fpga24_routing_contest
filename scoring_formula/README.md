@@ -17,13 +17,13 @@ webpage.
 provided as a utility for other scripts (such as `compute-score.py`).
 
 ## `test_scoring_formula.py`
-`test_scoring_formulua.py` provides a set of test cases to illustrate how
+`test_scoring_formula.py` provides a set of test cases to illustrate how
 scores are computed and how teams are ranked. Each test case includes a brief
 description of the scenario presented. The command line to run these test cases
 is:
 
 ```
-python3 -m unittest test_scoring_formula.py
+python3 -m unittest test_scoring_formula.py -v
 ```
 
 By default all test cases should pass.
