@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: MIT
 #
 
-ASSETS_URL = https://github.com/zakn-amd/fpga24_routing_contest/releases/download/test_assets_v1/test_assets.tar.gz
+ASSETS_URL = https://github.com/Xilinx/fpga24_routing_contest/releases/latest/download/test_assets.tar.gz
 ASSETS_DIR = test/data
 .PHONY: get-test-data
 get-test-data:
