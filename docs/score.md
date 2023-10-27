@@ -1,12 +1,31 @@
 # Scoring Criteria
-The exact scoring criteria is currently being developed, but will be composed of:
-1. Legal routing solution (must pass for valid score)
-2. Wall-clock time (large weight)
-3. Critical-path wirelength (small weight)
-4. *Other to-be-announced criteria*
+Teams will be scored as follows:
 
-Over time, we plan to release a number of additional public benchmarks on which all competing routers will be evaluated on.
-Entrants will also be evaluated on a set of hidden benchmarks which will not be made public.
+1. After running each team's submission on each benchmark in the suite of
+   hidden evaluation benchmarks, compute a score according to:
+   - Benchmark Score = 0.9 * Wall Clock Runtime + 0.1 * [Critical-Path Wirelength](#critical-path-wirelength)
+   - Lower scores are better
+   - Each team's submission will be run multiple times, and the lowest score
+     will be taken
+   - If a submitted router fails to pass `CheckPhysNetlist` then a score of infinity will be assigned for that benchmark
+2. For each benchmark rank all teams based on their score
+   - If multiple teams achieve an identical score (e.g. `inf`) assign the same rank to each
+3. For each team compute the arithmetic mean of all rankings
+   - Lower mean ranking is better
+4. Sort teams by mean ranking, and assign prizes in ascending order
+
+> ℹ️ **NOTE**  
+> The contest organizers reserve the right to disqualify poorly performing routers.
+
+An implementation of the above scoring algorithm is provided in the
+[scoring_formula](https://github.com/Xilinx/fpga24_routing_contest/tree/master/scoring_formula)
+directory of the competition GitHub repository, along with a series of test
+cases that illustrate how the algorithm will rank teams in a variety of
+scenarios.
+
+Over time, we plan to release a number of additional public benchmarks on which
+all competing routers will be evaluated. Contestants will also be evaluated on
+a set of hidden benchmarks which will not be made public.
 
 ## Critical-Path Wirelength
 
