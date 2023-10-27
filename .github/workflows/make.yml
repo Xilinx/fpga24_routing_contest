@@ -40,12 +40,12 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '21'
           cache: 'gradle'
       - if: matrix.router == 'nxroute-poc'
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: '3.12'
           cache: 'pip'
       - name: Download xcvu3p.device (nxroute-poc only)
         if: matrix.router == 'nxroute-poc'
