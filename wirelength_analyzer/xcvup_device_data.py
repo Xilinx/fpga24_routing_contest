@@ -124,10 +124,10 @@ class xcvupDeviceData:
             (re.compile(r'[NS]{2}4_[EW]_BEG[0-7]'),                  5),
 
             #long horizontal
-            (re.compile(r'[EW]{2}12_BEG\d'),                         14),
+            (re.compile(r'[EW]{2}12_BEG[0-7]'),                      14),
 
             #long vertical
-            (re.compile(r'[NS]{2}12_BEG\d'),                         12),
+            (re.compile(r'[NS]{2}12_BEG[0-7]'),                      12),
 
             #ignored (static and global routing resources)
             (re.compile(r'VCC_WIRE'),                                0),
