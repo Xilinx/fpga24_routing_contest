@@ -75,9 +75,6 @@ fpga-interchange-schema/interchange/capnp/java.capnp:
 %_$(ROUTER).check: %.netlist %_$(ROUTER).phys | compile-java
 	if ./gradlew -DjvmArgs="-Xms6g -Xmx6g" -Dmain=com.xilinx.fpga24_routing_contest.CheckPhysNetlist :run --args='$^' $(call log_and_or_display,$@.log); then \
             echo "PASS" > $@; \
-        elif [[ "$(CHECK_PHYS_NETLIST_MOCK_PASS)" == "true" && -f "$(patsubst %.check,%.dcp,$@)" ]]; then \
-            echo "::warning file=$@::CheckPhysNetlist returned FAIL but CHECK_PHYS_NETLIST_MOCK_PASS is set"; \
-            echo "PASS" > $@; \
         else \
             echo "FAIL" > $@; \
         fi

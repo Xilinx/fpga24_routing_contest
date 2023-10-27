@@ -54,8 +54,6 @@ jobs:
       - env:
           REPORT_ROUTE_STATUS_URL:      ${{ secrets.REPORT_ROUTE_STATUS_URL }}
           REPORT_ROUTE_STATUS_AUTH:     ${{ secrets.REPORT_ROUTE_STATUS_AUTH }}
-          # With no access to Vivado, assume that CheckPhysNetlist always returns a PASS for all routers except for nxroute-poc
-          CHECK_PHYS_NETLIST_MOCK_PASS: ${{ matrix.router != 'nxroute-poc' && secrets.REPORT_ROUTE_STATUS_URL == '' }}
           # For certain benchmarks, wirelength_analyzer requires more memory than that available in GitHub Actions
           WIRELENGTH_ANALYZER_MOCK_RESULT: ${{ matrix.benchmark == 'koios_dla_like_large' }}
         run: |
