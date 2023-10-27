@@ -24,4 +24,4 @@ jobs:
           cache: 'pip'
       - run: |
           cd scoring_formula
-          python3 -m unittest test_scoring_formula.py
+          python3 -m unittest test_scoring_formula.py -v
