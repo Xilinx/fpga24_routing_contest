@@ -19,7 +19,7 @@ All contest collateral is distributed at [`https://github.com/Xilinx/fpga24_rout
 > make
 > ```
 
-> [!IMPORTANT]
+> ℹ️ **NOTE:**  
 > Where Vivado is required (to check the validity of or to inspect the routed result)
 > you will need the Vivado ML Enterprise Edition (not Standard Edition).
 
@@ -52,7 +52,7 @@ Upon calling `make` the default [Makefile](https://github.com/Xilinx/fpga24_rout
    structures, then invokes `PartialRouter` (which is a subclass of `RWRoute` that operates only on
    unrouted nets while preserving all existing routing) to complete routing.
 
-   > [!NOTE]
+   > ℹ️ **NOTE:**  
    > By default, `PartialRouterPhysNetlist` is configured with 32GB of heap memory for its Java Virtual Machine.
    > With this configuration, to account for off-heap memory utilization a machine with at least 40GB of free memory is required.
    > The heap size can be overridden using the following variable `make JVM_HEAP="-Xms14g -Xmx14g"` --
@@ -173,7 +173,7 @@ output Physical Netlist.
 Please examine the comments within the [`nxrouter-poc.py`](https://github.com/Xilinx/fpga24_routing_contest/blob/main/networkx-proof-of-concept-router/nxroute-poc.py) source code for an explanation of
 its limitations, how NetworkX is employed, why valid solutions are not returned, and more.
 
-> [!WARNING]
+> ⚠️ **WARNING**  
 > We DO NOT recommend the NXRoute proof-of-concept implementation be used as the baseline
 > for any contest entry, but merely as a reference example.
 
