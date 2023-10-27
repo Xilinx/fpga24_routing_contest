@@ -90,49 +90,49 @@ class xcvupDeviceData:
         # et al, link: https://www.rapidwright.io/docs/_downloads/6610b931d8a2e053e69a499d3923077f/FPT19-TimingModel.pdf
         self.pips =  [
             #intra-tile (zero wirelength)
-            (re.compile('LOGIC_OUTS_[LR]\d{1,2}'),                  0),
-            (re.compile('INT_NODE_SDQ_\d{1,2}_INT_OUT[01]'),        0),
-            (re.compile('INT_NODE_IMUX_\d{1,2}_INT_OUT[01]'),       0),
-            (re.compile('INT_INT_SDQ_\d{1,2}_INT_OUT[01]'),         0),
-            (re.compile('INT_NODE_GLOBAL_\d{1,2}_INT_OUT[01]'),     0),
-            (re.compile('IMUX_[EW]\d{1,2}'),                        0),
-            (re.compile('IMUX_(CMT_)?XIPHY\d{1,2}'),                0),
-            (re.compile('CTRL_[EW][0-9]'),                          0),
-            (re.compile('CLE_CLE_[LM]_SITE_0_[A-H](_O|MUX|Q(2)?)'), 0),
-            (re.compile('BYPASS_[EW]\d{1,2}'),                      0),
-            (re.compile('BOUNCE_[EW]_\d{1,2}_FT[01]'),              0),
-            (re.compile('INODE_[EW]_\d{1,2}_FT[01]'),               0),
-            (re.compile('SDQNODE_[EW]_\d{1,2}_FT[01]'),             0),
+            (re.compile(r'LOGIC_OUTS_[LR]\d{1,2}'),                  0),
+            (re.compile(r'INT_NODE_SDQ_\d{1,2}_INT_OUT[01]'),        0),
+            (re.compile(r'INT_NODE_IMUX_\d{1,2}_INT_OUT[01]'),       0),
+            (re.compile(r'INT_INT_SDQ_\d{1,2}_INT_OUT[01]'),         0),
+            (re.compile(r'INT_NODE_GLOBAL_\d{1,2}_INT_OUT[01]'),     0),
+            (re.compile(r'IMUX_[EW]\d{1,2}'),                        0),
+            (re.compile(r'IMUX_(CMT_)?XIPHY\d{1,2}'),                0),
+            (re.compile(r'CTRL_[EW][0-9]'),                          0),
+            (re.compile(r'CLE_CLE_[LM]_SITE_0_[A-H](_O|MUX|Q(2)?)'), 0),
+            (re.compile(r'BYPASS_[EW]\d{1,2}'),                      0),
+            (re.compile(r'BOUNCE_[EW]_\d{1,2}_FT[01]'),              0),
+            (re.compile(r'INODE_[EW]_\d{1,2}_FT[01]'),               0),
+            (re.compile(r'SDQNODE_[EW]_\d{1,2}_FT[01]'),             0),
 
             #single horizontal
-            (re.compile('[EW]{2}1_[EW]_BEG[0-7]'),                  1),
-            (re.compile('WW1_E_7_FT0'),                             1),
+            (re.compile(r'[EW]{2}1_[EW]_BEG[0-7]'),                  1),
+            (re.compile(r'WW1_E_7_FT0'),                             1),
 
             #single vertical
-            (re.compile('[NS]{2}1_[EW]_BEG[0-7]'),                  1),
+            (re.compile(r'[NS]{2}1_[EW]_BEG[0-7]'),                  1),
 
             #double horizontal
-            (re.compile('[EW]{2}2_[EW]_BEG[0-7]'),                  5),
+            (re.compile(r'[EW]{2}2_[EW]_BEG[0-7]'),                  5),
 
             #double vertical
-            (re.compile('[NS]{2}2_[EW]_BEG[0-7]'),                  3),
+            (re.compile(r'[NS]{2}2_[EW]_BEG[0-7]'),                  3),
 
             #quad horizontal
-            (re.compile('[EW]{2}4_[EW]_BEG[0-7]'),                  10),
+            (re.compile(r'[EW]{2}4_[EW]_BEG[0-7]'),                  10),
 
             #quad vertical
-            (re.compile('[NS]{2}4_[EW]_BEG[0-7]'),                  5),
+            (re.compile(r'[NS]{2}4_[EW]_BEG[0-7]'),                  5),
 
             #long horizontal
-            (re.compile('[EW]{2}12_BEG\d'),                         14),
+            (re.compile(r'[EW]{2}12_BEG\d'),                         14),
 
             #long vertical
-            (re.compile('[NS]{2}12_BEG\d'),                         12),
+            (re.compile(r'[NS]{2}12_BEG\d'),                         12),
 
             #ignored (static and global routing resources)
-            (re.compile('VCC_WIRE'),                                0),
-            (re.compile('GND_WIRE[1-3]'),                           0),
-            (re.compile('CLK_LEAF_SITES_\d_CLK_LEAF'),              0),
+            (re.compile(r'VCC_WIRE'),                                0),
+            (re.compile(r'GND_WIRE[1-3]'),                           0),
+            (re.compile(r'CLK_LEAF_SITES_\d_CLK_LEAF'),              0),
         ]
 
     def default_sequential(self, o):
