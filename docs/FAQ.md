@@ -31,7 +31,7 @@ Yes.
 
 ### The main objective of the contest appears to optimizing routing speed. However, should the router be timing-driven or wire-length driven? More specifically, should the criticality of nets be computed within the router to influence routing order?
 
-Indeed, the biggest focus of this contest is on producing a legal solution within the shortest possible wall-clock time. A secondary, smaller, component of the score is to optimize the critical-path (not the total) wirelength. This metric is similar to the critical-path delay that a timing-driven router would be expected to optimize for, but instead of considering the path with the maximum total logic and net delay from a timing startpoint to a timing endpoint (including through combinatorial elements such as LUTs) only the path with the maximum total net wirelength is considered. The intention is for critical-path wirelength to be much easier to compute, and documentation as well as reference code to do so will be published soon.
+Indeed, the biggest focus of this contest is on producing a legal solution within the shortest possible wall-clock time. A secondary, smaller, component of the score is to optimize the critical-path (not the total) wirelength. This metric is similar to the critical-path delay that a timing-driven router would be expected to optimize for, but instead of considering the path with the maximum total logic and net delay from a timing startpoint to a timing endpoint (including through combinatorial elements such as LUTs) only the path with the maximum total net wirelength is considered. The intention is for critical-path wirelength to be much easier to compute. For further details about Critical-Path Wirelength refer to the [Scoring Criteria](score.html#critical-path-wirelength) webpage.
 
 ### Can we use existing routers (i.e., VPR Pathfinder) as a starting point or should the team build a custom router from scratch.
 
@@ -39,7 +39,7 @@ Yes, any existing solutions or solutions built from scratch and/or derived from 
 
 ### How are we going to be evaluated and ranked against other contestants?
 
-All team solutions will be measured using the same criteria, hardware platform, and constraints.  A scoring tool will be provided that will measure the results of each team’s submission and will generate a score based on the scoring criteria.  
+All team solutions will be measured using the same criteria, hardware platform, and constraints.  Detailed information about how solutions will be scored and how teams will be ranked is available on the [Scoring Criteria](score.html) webpage.
 
 ### Can teams change the placement solution provided to improve the running time of the router?
 

@@ -67,27 +67,28 @@ Upon calling `make` the default [Makefile](https://github.com/Xilinx/fpga24_rout
    This class takes the original FPGAIF Logical Netlist, combines it with the routed Physical Netlist
    to generate a Vivado Design Checkpoint (DCP) and loads it in Vivado to undergo `report_route_status`
    (see [Contest Details](details.html#framework)).  
-   *Note: Currently, this scoring tool does not check that the output netlist's placement and intra-site routing is
-   identical to the input netlist's, nor does it compute the critical-path wirelength.
-   These capabilities will be added soon.*
+   *Note: This scoring tool does not check that the output netlist's placement and intra-site routing is
+   identical to the input netlist's, these capabilities will be added soon.*
 4. Finally, [`compute-score.py`](https://github.com/Xilinx/fpga24_routing_contest/blob/master/compute-score.py) is called to generate output that looks like:
    ```
-   +------------------------------+------+------------------+--------------------------+
-   | Benchmark                    | Pass | Wall Clock (sec) | Critical-Path Wirelength |
-   +------------------------------+------+------------------+--------------------------+
-   | vtr_mcml_rwroute             | True |           644.02 |                      642 |
-   | rosetta_fd_rwroute           | True |           421.75 |                      894 |
-   | koios_dla_like_large_rwroute | True |           920.04 |                      555 |
-   | ispd16_example2_rwroute      | True |          1332.61 |                      993 |
-   | boom_soc_rwroute             | True |           3285.0 |                     1786 |
-   +------------------------------+------+------------------+--------------------------+
-   | Total                        |      |          6603.42 |                     4870 |
-   +------------------------------+------+------------------+--------------------------+
+   +------------------------------+------+------------------+--------------------------+---------+
+   | Benchmark                    | Pass | Wall Clock (sec) | Critical-Path Wirelength | Score   |
+   +------------------------------+------+------------------+--------------------------+---------+
+   | vtr_mcml_rwroute             | True |           644.02 |                      642 |  643.82 |
+   | rosetta_fd_rwroute           | True |           421.75 |                      894 |  468.98 |
+   | koios_dla_like_large_rwroute | True |           920.04 |                      555 |  883.54 |
+   | ispd16_example2_rwroute      | True |          1332.61 |                      993 | 1298.65 |
+   | boom_soc_rwroute             | True |          3285.00 |                     1786 | 3135.10 |
+   +------------------------------+------+------------------+--------------------------+---------+
    ```
-   Right now, the wall clock time and [critical-path wirelength](score.md#critical-path-wirelength)
-   are displayed with the totals displayed on the last row. Routing that does not
-   pass `CheckPhysNetlist` will be marked `False` in the `Pass` column. The exact
-   scoring criteria is under development and will be published soon.
+   This table shows all of the criteria used to evaluate the performance of a
+   router on each benchmark, as well as the score that has been achieved on
+   that benchmark. The results of `CheckPhysNetlist` are marked either `True`
+   (if there are no routing errors) or `False` in the `Pass` column. The wall
+   clock runtime and [critical-path wirelength](score.html#critical-path-wirelength)
+   are displayed in the next two columns. The score achieved on each benchmark
+   is displayed in the final column. The details of how this score is computed
+   are discussed on the [Scoring Criteria](score.html) webpage.
 
 The terminal output of RWRoute for each benchmark is available at `<Benchmark>_rwroute.phys.log`
 while the output of `CheckPhysNetlist` can be found at `<Benchmark>_rwroute.check.log`.

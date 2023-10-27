@@ -6,11 +6,11 @@
 * Competing routers must consume a pre-placed and partially-routed
  [FPGA Interchange Format](http://www.rapidwright.io/docs/FPGA_Interchange_Format.html) Physical Netlist
   and emit a fully routed Physical Netlist.
-* The exact scoring criteria is currently being developed, but will be composed of:
-    1. Legal routing solution (must pass for valid score)
-    2. Wall-clock time (large weight)
-    3. Wirelength of critical-path (small weight)
-    4. *Other to-be-announced criteria*
+* The exact scoring criteria is presented on the [Scoring Criteria](score.html)
+  webpage. In general, contestant routers are expected, in order of importance, to:
+    1. Produce a legal routing solution ...
+    2. ... in as little wall-clock time as possible ...
+    3. ... with as low a [Critical-Path Wirelength](score.html#critical-path-wirelength-algorithm) as possible
 * Contestants can expect to be evaluated on an AMD multi-core Linux platform with >=32 cores, >=64GB RAM,
   and no internet connectivity.
   We are working on providing access to AMD compute and GPU resources for benchmarking purposes;
@@ -23,7 +23,7 @@ but partially routed FPGAIF design.
 Specifically, to lower the barrier to entry, only signal nets are required to be routed -- all global (e.g. clock) and
 static (VCC/GND) nets are pre-routed and **must** be fully preserved (i.e. cannot be ripped up and rerouted).
 Furthermore, the existing placement (including all intra-site routing) **must** also be fully preserved.
-Violation of these requirements will result in no score.
+Violation of these requirements result in being ranked last on such benchmarks.
 A more detailed look at the contest flow is shown below: 
 
 [![image](flow-detailed.png)](flow-detailed.png)
@@ -64,8 +64,12 @@ the [Scoring Criteria](score.html#critical-path-wirelength-algorithm) webpage.
 Additionally a tool to compute this Critical-Path Wirelength, called `wa.py` is
 supplied in the [GitHub repository](https://github.com/Xilinx/fpga24_routing_contest/tree/master/wirelength_analyzer).
 
-Finally, all scoring components – legality of routing solution, wall-clock router runtime, critical-path wirelength
-(plus more) will be combined under a to-be-determined formula to produce the final score.
+Finally, all scoring components – legality of routing solution, wall-clock
+router runtime, and critical-path wirelength will be combined to produce a per-benchmark
+score. These scores will be used to rank each team and averaged to
+determine the overall winners of the contest. The exact scoring formula and
+ranking algorithm is described in detail on the [Scoring Criteria](score.html)
+webpage.
 
 ## Getting Started
 
