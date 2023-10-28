@@ -76,8 +76,8 @@ matched against this `wire1` name and its associated wirelength score.
 | Double Vertical   |`[NS]{2}2_[EW]_BEG[0-7]` |                 3|
 | Quad Horizontal   |`[EW]{2}4_[EW]_BEG[0-7]` |                10|
 | Quad Vertical     |`[NS]{2}4_[EW]_BEG[0-7]` |                 5|
-| Long Horizontal   |`[EW]{2}12_BEG\d`        |                14|
-| Long Vertical     |`[NS]{2}12_BEG\d`        |                12|
+| Long Horizontal   |`[EW]{2}12_BEG[0-7]`     |                14|
+| Long Vertical     |`[NS]{2}12_BEG[0-7]`     |                12|
 | All others (e.g. Bounce) | (no matches above) |               0|
 
 Each of the wirelength scores in the previous table are taken from Table 1 in
