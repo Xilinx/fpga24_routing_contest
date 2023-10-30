@@ -259,7 +259,8 @@ class WirelengthAnalyzer:
                 is_tile = tile_name.startswith('INT_')
                 self.tile_cache[tile] = is_tile
                 if not is_tile and self.tile_root_name_regex.match(tile_name).group(1) not in \
-                    ('CLEL_R', 'CLEM', 'CLEM_R', 'BRAM', 'DSP'):
+                    ('CLEL_R', 'CLEM', 'CLEM_R', 'BRAM', 'DSP',
+                     'XIPHY_BYTE_L', 'HPIO_L', 'CMT_L'):
                     raise ValueError("Unrecognized tile on PIP: " + tile_name + ',' +  sl[seg.pip.wire0] + ',' + sl[wire1])
 
             if is_tile:
