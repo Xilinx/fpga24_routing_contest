@@ -68,7 +68,8 @@ The wirelength from the output to the input would be `w+x+y+z`.
 Each `pip` represents a connection that causes `wire0` to drive `wire1`;
 such connections incur a wirelength score based on the type of wire indicated
 by `wire1`. The following table presents regular expression patterns to be
-matched against this `wire1` name and its associated wirelength score.
+matched against the `wire1` name of PIPs with a tile name prefix of `INT`
+and its associated wirelength score.
 
 | Wire Type         | Regex Pattern           | Wirelength Score |
 |-------------------|-------------------------|------------------|
