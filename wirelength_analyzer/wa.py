@@ -18,6 +18,7 @@ import PhysicalNetlist_capnp
 import warnings
 import itertools
 from xcvup_device_data import xcvupDeviceData
+import re
 
 class WirelengthAnalyzer:
     """
@@ -115,6 +116,7 @@ class WirelengthAnalyzer:
         self.placements = {}
         for c in self.phys.placements:
             self.placements[(c.site, c.bel)] = c
+        self.tile_root_name_regex = re.compile(r'(.*)_X\d+Y\d+')
         self.add_all_nets_to_graph()
 
     def tstart(self):
@@ -249,18 +251,22 @@ class WirelengthAnalyzer:
         if seg.which() == 'pip':
             wire1 = seg.pip.wire1
             tile  = seg.pip.tile
+            sl = self.phys.strList
 
             is_tile = self.tile_cache.get(tile)
             if is_tile is None:
-                tile_name = self.phys.strList[tile]
+                tile_name = sl[tile]
                 is_tile = tile_name.startswith('INT')
                 self.tile_cache[tile] = is_tile
+                if not is_tile and self.tile_root_name_regex.match(tile_name).group(1) not in \
+                    ('CLEL_R', 'CLEM', 'CLEM_R', 'BRAM', 'DSP'):
+                    raise ValueError("Unrecognized tile on PIP: " + tile_name + ',' +  sl[seg.pip.wire0] + ',' + sl[wire1])
 
             if is_tile:
                 wl = self.pip_cache.get(wire1)
                 if wl is not None:
                     return wl
-                wire1_name = self.phys.strList[wire1]
+                wire1_name = sl[wire1]
                 for p in self.pips:
                     if p[0].fullmatch(wire1_name):
                         self.pip_cache[wire1] = p[1]
