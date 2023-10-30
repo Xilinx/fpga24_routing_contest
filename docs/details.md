@@ -41,8 +41,9 @@ Should contestants wish to test/train with more benchmarks than those that are p
 
 #### Router
 With just the pre-placed but partially-routed input Physical Netlist, competitors are required to route all
-signal nets while preserving all existing placement and routing. This fully-routed result must then be written
-out as a new Physical Netlist.
+signal nets while preserving all existing placement and routing. In practice this
+is achieved by inserting FPGAIF routeSegment objects of the type `pip` into the
+netlist. This fully-routed result must then be written out as a new Physical Netlist.
 
 #### Post-routing
 Once this fully-routed Physical Netlist is ready, RapidWright takes it again and combines it with the previous
