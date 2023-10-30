@@ -116,7 +116,7 @@ class WirelengthAnalyzer:
         self.placements = {}
         for c in self.phys.placements:
             self.placements[(c.site, c.bel)] = c
-        self.tile_root_name_regex = re.compile(r'(.*)_X\d+Y\d+')
+        self.tile_root_name_regex = re.compile(r'(.+)_X\d+Y\d+')
         self.add_all_nets_to_graph()
 
     def tstart(self):
@@ -256,7 +256,7 @@ class WirelengthAnalyzer:
             is_tile = self.tile_cache.get(tile)
             if is_tile is None:
                 tile_name = sl[tile]
-                is_tile = tile_name.startswith('INT')
+                is_tile = tile_name.startswith('INT_')
                 self.tile_cache[tile] = is_tile
                 if not is_tile and self.tile_root_name_regex.match(tile_name).group(1) not in \
                     ('CLEL_R', 'CLEM', 'CLEM_R', 'BRAM', 'DSP'):
