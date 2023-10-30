@@ -53,10 +53,11 @@ between a BEL output pin and a BEL input pin is simply the sum of the
 wirelength of every routeSegment that must be traced through to reach the input
 from the output.
 For the purposes of the contest, only routeSegments of the type `pip` can
-affect the wirelength. These `pip` routeSegments only occur in interconnect
+affect the wirelength.
+In almost all cases, these `pip` routeSegments exist in interconnect
 tiles (which have names starting with the `INT` prefix) and are the only way for
 signals to be routed between non-interconnect tiles.
-Since `pip`s are the only type of routeSegment that can connect tiles, all other types of
+Since `pip`s are the only type of routeSegment that can connect multiple tiles, all other types of
 routeSegment (`belPin`, `sitePin`, `sitePIP`) are assumed to have a wirelength
 of zero. Thus for a portion of a path that looks like this:
 ```
