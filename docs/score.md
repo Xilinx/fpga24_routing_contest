@@ -53,10 +53,13 @@ between a BEL output pin and a BEL input pin is simply the sum of the
 wirelength of every routeSegment that must be traced through to reach the input
 from the output.
 For the purposes of the contest, only routeSegments of the type `pip` can
-affect the wirelength, since these are the only type of routeSegment that can
-be added by contest routers. All other types of routeSegment (`belPin`,
-`sitePin`, `sitePIP`) are therefore assumed to have a wirelength of zero.
-Thus for a portion of a path that looks like this:
+affect the wirelength.
+In almost all cases, these `pip` routeSegments exist in interconnect
+tiles (which have names starting with the `INT` prefix) and are the only way for
+signals to be routed between non-interconnect tiles.
+Since `pip`s are the only type of routeSegment that can connect multiple tiles, all other types of
+routeSegment (`belPin`, `sitePin`, `sitePIP`) are assumed to have a wirelength
+of zero. Thus for a portion of a path that looks like this:
 ```
 output belPin -> ... -> pip1 -> pip2 -> ... -> pipN -> ... -> input belPin
       0           0      w       x       y       z      0          0
@@ -66,7 +69,8 @@ The wirelength from the output to the input would be `w+x+y+z`.
 Each `pip` represents a connection that causes `wire0` to drive `wire1`;
 such connections incur a wirelength score based on the type of wire indicated
 by `wire1`. The following table presents regular expression patterns to be
-matched against this `wire1` name and its associated wirelength score.
+matched against the `wire1` name of PIPs with a tile name prefix of `INT`
+and its associated wirelength score.
 
 | Wire Type         | Regex Pattern           | Wirelength Score |
 |-------------------|-------------------------|------------------|

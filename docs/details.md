@@ -5,7 +5,7 @@
 * The target device for this contest will be the AMD/Xilinx UltraScale+ xcvu3p.
 * Competing routers must consume a pre-placed and partially-routed
  [FPGA Interchange Format](http://www.rapidwright.io/docs/FPGA_Interchange_Format.html) Physical Netlist
-  and emit a fully routed Physical Netlist.
+  and emit a fully routed Physical Netlist formed by enabling some number of routing switches (termed PIPs).
 * The exact scoring criteria is presented on the [Scoring Criteria](score.html)
   webpage. In general, contestant routers are expected, in order of importance, to:
     1. Produce a legal routing solution ...
@@ -41,8 +41,9 @@ Should contestants wish to test/train with more benchmarks than those that are p
 
 #### Router
 With just the pre-placed but partially-routed input Physical Netlist, competitors are required to route all
-signal nets while preserving all existing placement and routing. This fully-routed result must then be written
-out as a new Physical Netlist.
+signal nets while preserving all existing placement and routing. In practice this
+is achieved by only inserting FPGAIF routeSegment objects of the type `pip` into the
+netlist. This fully-routed result must then be written out as a new Physical Netlist.
 
 #### Post-routing
 Once this fully-routed Physical Netlist is ready, RapidWright takes it again and combines it with the previous
