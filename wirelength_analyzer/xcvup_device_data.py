@@ -53,6 +53,8 @@ class xcvupDeviceData:
             'RAMB36E2':        self.default_sequential,
             'RAMB18E2':        self.default_sequential,
 
+            'MMCME4_ADV':      self.default_sequential,
+
             # combinatorial
             'LUT1':            self.default_combinatorial,
             'LUT2':            self.default_combinatorial,

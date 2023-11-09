@@ -114,6 +114,7 @@ BEL input and output pins for each type of PhysCell.
 |`RAMD32`, `RAMS32`                                                                        | `O5` and `O6` <- `A0` to `A4` | Distributed Memory |
 |`RAMD64E`, `RAMS64E`                                                                      | `O6` <- `A0` to `A5`          | Distributed Memory |
 |`RAMB36E2`, `RAMB18E2`                                                                    | (none) <- (none)              | Block Memory       |
+|`MMCME4_ADV`                                                                              | (none) <- (none)              | Clock Manager      |
 |`LUT1`, `LUT2`, `LUT3`, `LUT4`, `LUT5`, `LUT6`                                            | (all) <- (all)                | Look Up Table      |
 |`CARRY8`                                                                                  | [see table CARRY8](#carry8-connectivity) | Fast Carry Logic |
 |`MUXF7`, `MUXF8`, `MUXF9`                                                                 | (all) <- (all)                | Intrasite Mux      |
