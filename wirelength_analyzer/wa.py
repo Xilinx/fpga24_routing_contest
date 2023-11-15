@@ -110,6 +110,7 @@ class WirelengthAnalyzer:
         self.pips = xcvup.pips
         self.tile_root_name_regex = xcvup.tile_root_name_regex
         self.tile_types = xcvup.tile_types
+        self.global_net_drivers = xcvup.global_net_drivers
         self.pip_cache = {}
         self.tile_cache = {}
         if self.verbosity > 0:
@@ -354,7 +355,7 @@ class WirelengthAnalyzer:
                 # Omit source (BELPins) that don't have any fanout
                 if len(branch.branches) == 0:
                     continue
-                if sl[branch.routeSegment.belPin.bel] in ('BUFCE', 'BUFG_GT', 'BUFG_GT_SYNC'):
+                if sl[branch.routeSegment.belPin.bel] in self.global_net_drivers:
                     # don't analyze global (e.g. clk, rst) nets
                     if self.verbosity > 1:
                         print("Skipping global net:",this_net)

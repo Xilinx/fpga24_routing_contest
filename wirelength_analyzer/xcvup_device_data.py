@@ -147,12 +147,17 @@ class xcvupDeviceData:
             (re.compile(r'CLK_LEAF_SITES_\d_CLK_LEAF'),              0),
         ]
 
-        # recognized tile types and regex to string tile location
+        # recognized tile types and regex to strip tile location
         self.tile_root_name_regex = re.compile(r'(.+)_X\d+Y\d+')
         self.tile_types = {
             'CLEL_R', 'CLEM', 'CLEM_R', 'BRAM', 'DSP', 'XIPHY_BYTE_L',
             'HPIO_L', 'CMT_L', 'URAM_URAM_FT', 'URAM_URAM_DELAY_FT', 'GTY_L',
             'GTY_R'
+        }
+
+        # bels that drive global nets
+        self.global_net_drivers = {
+            'BUFCE', 'BUFG_GT', 'BUFG_GT_SYNC'
         }
 
     def default_sequential(self, o):
