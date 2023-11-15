@@ -36,10 +36,10 @@ class xcvupDeviceData:
 
         self.cells = {
             # sequential
-            'FDRE':            self.default_sequential,
-            'FDCE':            self.default_sequential,
-            'FDSE':            self.default_sequential,
-            'FDPE':            self.default_sequential,
+            'FDRE':            self.none_to_none,
+            'FDCE':            self.none_to_none,
+            'FDSE':            self.none_to_none,
+            'FDPE':            self.none_to_none,
 
             'SRL16E':          self.srl16e,
             'SRLC32E':         self.srlc32e,
@@ -50,35 +50,35 @@ class xcvupDeviceData:
             'RAMD64E':         self.ram_64e,
             'RAMS64E':         self.ram_64e,
 
-            'RAMB36E2':        self.default_sequential,
-            'RAMB18E2':        self.default_sequential,
+            'RAMB36E2':        self.none_to_none,
+            'RAMB18E2':        self.none_to_none,
 
-            'MMCME4_ADV':      self.default_sequential,
+            'MMCME4_ADV':      self.none_to_none,
 
-            'URAM288':         self.default_sequential,
+            'URAM288':         self.none_to_none,
 
-            'GTYE4_CHANNEL':   self.default_sequential,
-            'GTYE4_COMMON':    self.default_sequential,
-            'PCIE40E4':        self.default_sequential,
+            'GTYE4_CHANNEL':   self.none_to_none,
+            'GTYE4_COMMON':    self.none_to_none,
+            'PCIE40E4':        self.none_to_none,
 
-            'STARTUPE3':       self.default_sequential,
-            'ICAPE3':          self.default_sequential,
+            'STARTUPE3':       self.none_to_none,
+            'ICAPE3':          self.none_to_none,
 
             # combinatorial
-            'LUT1':            self.default_combinatorial,
-            'LUT2':            self.default_combinatorial,
-            'LUT3':            self.default_combinatorial,
-            'LUT4':            self.default_combinatorial,
-            'LUT5':            self.default_combinatorial,
-            'LUT6':            self.default_combinatorial,
+            'LUT1':            self.all_to_all,
+            'LUT2':            self.all_to_all,
+            'LUT3':            self.all_to_all,
+            'LUT4':            self.all_to_all,
+            'LUT5':            self.all_to_all,
+            'LUT6':            self.all_to_all,
 
             'CARRY8':          self.carry8,
 
-            'MUXF7':           self.default_combinatorial,
-            'MUXF8':           self.default_combinatorial,
-            'MUXF9':           self.default_combinatorial,
+            'MUXF7':           self.all_to_all,
+            'MUXF8':           self.all_to_all,
+            'MUXF9':           self.all_to_all,
 
-            'IBUFCTRL':        self.default_combinatorial,
+            'IBUFCTRL':        self.all_to_all,
 
             # The following cell types are BELs that make up a DSP macro.
             # Such DSPs contains a number of optional pipelining registers,
@@ -86,14 +86,14 @@ class xcvupDeviceData:
             # requires examining the design's corresponding Logical Netlist.
             # For the purpose of the FPGA24 Routing Contest, we optimistically
             # assume that all BELs possessing a CLK pin are fully sequential.
-            'DSP_A_B_DATA':    self.default_sequential,
-            'DSP_C_DATA':      self.default_sequential,
-            'DSP_M_DATA':      self.default_sequential,
-            'DSP_PREADD_DATA': self.default_sequential,
-            'DSP_OUTPUT':      self.default_sequential,
-            'DSP_ALU':         self.default_sequential,
-            'DSP_MULTIPLIER':  self.default_combinatorial,
-            'DSP_PREADD':      self.default_combinatorial,
+            'DSP_A_B_DATA':    self.none_to_none,
+            'DSP_C_DATA':      self.none_to_none,
+            'DSP_M_DATA':      self.none_to_none,
+            'DSP_PREADD_DATA': self.none_to_none,
+            'DSP_OUTPUT':      self.none_to_none,
+            'DSP_ALU':         self.none_to_none,
+            'DSP_MULTIPLIER':  self.all_to_all,
+            'DSP_PREADD':      self.all_to_all,
         }
 
         # pip wirelengths are assigned based on the values provided in Table 1
@@ -160,7 +160,7 @@ class xcvupDeviceData:
             'BUFCE', 'BUFG_GT', 'BUFG_GT_SYNC'
         }
 
-    def default_sequential(self, o):
+    def none_to_none(self, o):
         """
         Default connectivity for combinatorial logic
 
@@ -168,7 +168,7 @@ class xcvupDeviceData:
         """
         return self.empty
 
-    def default_combinatorial(self, o):
+    def all_to_all(self, o):
         """
         Default connectivity for combinatorial logic
 
