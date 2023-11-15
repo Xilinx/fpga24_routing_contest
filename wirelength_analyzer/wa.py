@@ -108,6 +108,8 @@ class WirelengthAnalyzer:
         xcvup = xcvupDeviceData()
         self.cells = xcvup.cells
         self.pips = xcvup.pips
+        self.tile_root_name_regex = xcvup.tile_root_name_regex
+        self.tile_types = xcvup.tile_types
         self.pip_cache = {}
         self.tile_cache = {}
         if self.verbosity > 0:
@@ -116,7 +118,6 @@ class WirelengthAnalyzer:
         self.placements = {}
         for c in self.phys.placements:
             self.placements[(c.site, c.bel)] = c
-        self.tile_root_name_regex = re.compile(r'(.+)_X\d+Y\d+')
         self.add_all_nets_to_graph()
 
     def tstart(self):
@@ -252,27 +253,25 @@ class WirelengthAnalyzer:
             wire1 = seg.pip.wire1
             tile  = seg.pip.tile
             sl = self.phys.strList
+            wire1_name = sl[wire1]
+            tile_name = sl[tile]
 
             is_int_tile = self.tile_cache.get(tile)
             if is_int_tile is None:
-                tile_name = sl[tile]
                 is_int_tile = tile_name.startswith('INT_')
                 self.tile_cache[tile] = is_int_tile
-                if not is_int_tile and self.tile_root_name_regex.match(tile_name).group(1) not in \
-                    ('CLEL_R', 'CLEM', 'CLEM_R', 'BRAM', 'DSP',
-                     'XIPHY_BYTE_L', 'HPIO_L', 'CMT_L'):
-                    raise ValueError("Unrecognized tile on PIP: " + tile_name + ',' +  sl[seg.pip.wire0] + ',' + sl[wire1])
+                if not is_int_tile and self.tile_root_name_regex.match(tile_name).group(1) not in self.tile_types:
+                    raise ValueError("Unrecognized tile on PIP: " + tile_name + ',' +  sl[seg.pip.wire0] + ',' + wire1_name)
 
             if is_int_tile:
                 wl = self.pip_cache.get(wire1)
                 if wl is not None:
                     return wl
-                wire1_name = sl[wire1]
                 for p in self.pips:
                     if p[0].fullmatch(wire1_name):
                         self.pip_cache[wire1] = p[1]
                         return p[1]
-                assert False, "Found unrecognized pip wire1: "+wire1_name+" in tile: "+tile
+                assert False, "Found unrecognized pip wire1: "+wire1_name+" in tile: "+tile_name
             else:
                 return 0
         return 0
@@ -355,7 +354,7 @@ class WirelengthAnalyzer:
                 # Omit source (BELPins) that don't have any fanout
                 if len(branch.branches) == 0:
                     continue
-                if sl[branch.routeSegment.belPin.bel] in ('BUFCE'):
+                if sl[branch.routeSegment.belPin.bel] in ('BUFCE', 'BUFG_GT', 'BUFG_GT_SYNC'):
                     # don't analyze global (e.g. clk, rst) nets
                     if self.verbosity > 1:
                         print("Skipping global net:",this_net)

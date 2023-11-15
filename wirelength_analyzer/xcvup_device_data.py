@@ -55,6 +55,15 @@ class xcvupDeviceData:
 
             'MMCME4_ADV':      self.default_sequential,
 
+            'URAM288':         self.default_sequential,
+
+            'GTYE4_CHANNEL':   self.default_sequential,
+            'GTYE4_COMMON':    self.default_sequential,
+            'PCIE40E4':        self.default_sequential,
+
+            'STARTUPE3':       self.default_sequential,
+            'ICAPE3':          self.default_sequential,
+
             # combinatorial
             'LUT1':            self.default_combinatorial,
             'LUT2':            self.default_combinatorial,
@@ -99,6 +108,7 @@ class xcvupDeviceData:
             (re.compile(r'INT_NODE_GLOBAL_\d{1,2}_INT_OUT[01]'),     0),
             (re.compile(r'IMUX_[EW]\d{1,2}'),                        0),
             (re.compile(r'IMUX_(CMT_)?XIPHY\d{1,2}'),                0),
+            (re.compile(r'IMUXOUT\d{1,2}'),                          0),
             (re.compile(r'CTRL_[EW][0-9]'),                          0),
             (re.compile(r'CLE_CLE_[LM]_SITE_0_[A-H](_O|MUX|Q(2)?)'), 0),
             (re.compile(r'BYPASS_[EW]\d{1,2}'),                      0),
@@ -136,6 +146,14 @@ class xcvupDeviceData:
             (re.compile(r'GND_WIRE[1-3]'),                           0),
             (re.compile(r'CLK_LEAF_SITES_\d_CLK_LEAF'),              0),
         ]
+
+        # recognized tile types and regex to string tile location
+        self.tile_root_name_regex = re.compile(r'(.+)_X\d+Y\d+')
+        self.tile_types = {
+            'CLEL_R', 'CLEM', 'CLEM_R', 'BRAM', 'DSP', 'XIPHY_BYTE_L',
+            'HPIO_L', 'CMT_L', 'URAM_URAM_FT', 'URAM_URAM_DELAY_FT', 'GTY_L',
+            'GTY_R'
+        }
 
     def default_sequential(self, o):
         """
