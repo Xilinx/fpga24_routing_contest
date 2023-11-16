@@ -44,11 +44,27 @@ public class PartialRouterPhysNetlist {
                 continue;
             }
             if (!net.hasPIPs()) {
+                // Route only nets with no PIPs
                 pinsToRoute.addAll(net.getSinkPins());
             }
         }
+
         boolean softPreserve = false;
-        PartialRouter.routeDesignPartialNonTimingDriven(design, pinsToRoute, softPreserve);
+        PartialRouter.routeDesignWithUserDefinedArguments(design, new String[] {
+                // Same options as PartialRouter.routeDesignPartialTimingDriven()
+                "--fixBoundingBox",
+                "--useUTurnNodes",
+                "--nonTimingDriven",
+                "--verbose",
+                // These options are set to their default value, a subset of which are duplicated here
+                // to ease modification; full documentation is available in RWRouteConfig.java
+                "--maxIterations", "100",
+                "--wirelengthWeight", "0.8",
+                "--initialPresentCongestionFactor", "0.5",
+                "--presentCongestionMultiplier", "2",
+                "--historicalCongestionFactor", "1",
+                },
+                pinsToRoute, softPreserve);
 
         // Write routed result to new Physical Netlist
         PhysNetlistWriter.writePhysNetlist(design, args[1]);
