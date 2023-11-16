@@ -33,12 +33,13 @@ jobs:
         exclude:
           # Insufficient memory on GitHub Actions
           - router: rwroute
+            benchmark: mlcad_d181_lefttwo3rds
+          - router: rwroute
+            benchmark: koios_dla_like_large
+          - router: rwroute
             benchmark: boom_soc
           - router: rwroute
             benchmark: ispd16_example2
-          - router: rwroute
-            benchmark: koios_dla_like_large
-
     steps:
       - uses: actions/checkout@v3
         with:
