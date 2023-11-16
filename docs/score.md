@@ -114,12 +114,17 @@ BEL input and output pins for each type of PhysCell.
 |`RAMD32`, `RAMS32`                                                                        | `O5` and `O6` <- `A0` to `A4` | Distributed Memory |
 |`RAMD64E`, `RAMS64E`                                                                      | `O6` <- `A0` to `A5`          | Distributed Memory |
 |`RAMB36E2`, `RAMB18E2`                                                                    | (none) <- (none)              | Block Memory       |
+|`URAM288`                                                                                 | (none) <- (none)              | UltraRAM Memory    |
+|`MMCME4_ADV`                                                                              | (none) <- (none)              | Clock Manager      |
 |`LUT1`, `LUT2`, `LUT3`, `LUT4`, `LUT5`, `LUT6`                                            | (all) <- (all)                | Look Up Table      |
 |`CARRY8`                                                                                  | [see table CARRY8](#carry8-connectivity) | Fast Carry Logic |
 |`MUXF7`, `MUXF8`, `MUXF9`                                                                 | (all) <- (all)                | Intrasite Mux      |
 |`IBUFCTRL`                                                                                | (all) <- (all)                | Input Buffer       |
 |`DSP_A_B_DATA`, `DSP_C_DATA`, `DSP_M_DATA`,<br>`DSP_PREADD_DATA`, `DSP_OUTPUT`, `DSP_ALU` | (none) <- (none) [see note](#dsp-cell-connectivity) | DSP Logic |
 |`DSP_MULTIPLIER`, `DSP_PREADD`                                                            | (all) <- (all) [see note](#dsp-cell-connectivity) | DSP Logic |
+|`PCIE40E4`                                                                                | (none) <- (none)              | PCIe Hard Macro    |
+|`GTYE4_CHANNEL`,`GTYE4_COMMON`                                                            | (none) <- (none)              | Gigabit Transceiver Components |
+|`STARTUPE3`,`ICAPE3`                                                                      | (none) <- (none)              | Device Configuration Components |
 
 ### CARRY8 Connectivity
 | BEL output pin | BEL input pins                     |
