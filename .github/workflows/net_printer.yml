@@ -16,26 +16,40 @@ jobs:
       fail-fast: false
       matrix:
         benchmark:
+          - boom_med_pb
+          - vtr_mcml
+          - rosetta_fd
+          - corundum_25g
+          - vtr_lu64peeng
+          - corescore_500
+          - corescore_500_pb
+          - mlcad_d181_lefttwo3rds
+          - koios_dla_like_large
           - boom_soc
           - ispd16_example2
-          - koios_dla_like_large
-          - rosetta_fd
-          - vtr_mcml
     steps:
       - uses: actions/checkout@v3
         with:
           submodules: 'recursive'
       - uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: '3.12'
           cache: 'pip'
       - run:
           make setup-net_printer download-benchmarks
       - name: Print static nets
         run:
           python3 net_printer/np.py ${{ matrix.benchmark }}_unrouted.phys GLOBAL_LOGIC0 GLOBAL_LOGIC1
-      - name: Print global nets (ispd16_example2)
-        if: matrix.benchmark == 'ispd16_example2'
+      - name: Print largest global net (corundum_25g)
+        if: matrix.benchmark == 'corundum_25g'
+        run:
+          python3 net_printer/np.py ${{ matrix.benchmark }}_unrouted.phys pcie_user_clk
+      - name: Print global nets (corescore_500/corescore_500_pb)
+        if: matrix.benchmark == 'corescore_500' || matrix.benchmark == 'corescore_500_pb'
+        run:
+          python3 net_printer/np.py ${{ matrix.benchmark }}_unrouted.phys clk_BUFGP rst
+      - name: Print global nets (mlcad_d181_lefttwo3rds/ispd16_example2)
+        if: matrix.benchmark == 'mlcad_d181_lefttwo3rds' || matrix.benchmark == 'ispd16_example2'
         run:
           python3 net_printer/np.py ${{ matrix.benchmark }}_unrouted.phys clk_BUFGP_net_top_wire controlSig0 controlSig1
 
