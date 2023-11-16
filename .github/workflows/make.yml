@@ -19,11 +19,17 @@ jobs:
           - rwroute
           - nxroute-poc
         benchmark:
+          - boom_med_pb
+          - vtr_mcml
+          - rosetta_fd
+          - corundum_25g
+          - vtr_lu64peeng
+          - corescore_500
+          - corescore_500_pb
+          - mlcad_d181_lefttwo3rds
+          - koios_dla_like_large
           - boom_soc
           - ispd16_example2
-          - koios_dla_like_large
-          - rosetta_fd
-          - vtr_mcml
         exclude:
           # Insufficient memory on GitHub Actions
           - router: rwroute
