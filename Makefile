@@ -6,13 +6,20 @@
 #
 
 # List of all benchmarks (default to all)
-BENCHMARKS ?= vtr_mcml			\
+BENCHMARKS ?= boom_med_pb		\
+              vtr_mcml			\
               rosetta_fd		\
+              corundum_25g		\
+              vtr_lu64peeng		\
+              corescore_500		\
+              corescore_500_pb		\
+              mlcad_d181_lefttwo3rds	\
               koios_dla_like_large 	\
-              ispd16_example2 		\
-              boom_soc
+              boom_soc			\
+              ispd16_example2
 
-BENCHMARKS_URL = https://github.com/Xilinx/fpga24_routing_contest/releases/latest/download/benchmarks.tar.gz
+
+BENCHMARKS_URL = https://github.com/eddieh-xlnx/fpga24_routing_contest/releases/download/benchmarks/benchmarks.tar.gz
 
 # Choice of router (default to rwroute)
 # (other supported values: nxroute-poc)
