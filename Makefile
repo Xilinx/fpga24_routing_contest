@@ -19,7 +19,7 @@ BENCHMARKS ?= boom_med_pb		\
               ispd16_example2
 
 
-BENCHMARKS_URL = https://github.com/eddieh-xlnx/fpga24_routing_contest/releases/download/benchmarks/benchmarks.tar.gz
+BENCHMARKS_URL = https://github.com/Xilinx/fpga24_routing_contest/releases/latest/download/benchmarks.tar.gz
 
 # Choice of router (default to rwroute)
 # (other supported values: nxroute-poc)
