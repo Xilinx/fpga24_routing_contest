@@ -1,4 +1,2 @@
 networkx
-# Currently, no pycapnp wheels are built for 3.12; build it from source using a fork that forces cython<3
-#pycapnp
-git+https://github.com/eddieh-xlnx/pycapnp.git@install_requires
+pycapnp
