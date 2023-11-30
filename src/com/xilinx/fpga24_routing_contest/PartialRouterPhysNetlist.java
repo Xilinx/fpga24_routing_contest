@@ -18,6 +18,7 @@ import com.xilinx.rapidwright.rwroute.PartialRouter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PartialRouterPhysNetlist {
@@ -49,8 +50,7 @@ public class PartialRouterPhysNetlist {
             }
         }
 
-        boolean softPreserve = false;
-        PartialRouter.routeDesignWithUserDefinedArguments(design, new String[] {
+        String[] routerArgs = new String[] {
                 // Same options as PartialRouter.routeDesignPartialTimingDriven()
                 "--fixBoundingBox",
                 "--useUTurnNodes",
@@ -63,7 +63,30 @@ public class PartialRouterPhysNetlist {
                 "--initialPresentCongestionFactor", "0.5",
                 "--presentCongestionMultiplier", "2",
                 "--historicalCongestionFactor", "1",
-                },
+                // Optionally, enable LUT pin swapping where all inputs of a LUT are considered
+                // to be equivalent
+                // "--lutPinSwapping",
+        };
+
+        if (Arrays.asList(routerArgs).contains("--lutPinSwapping")) {
+            // Ask RWRoute not to perform any intra-site routing updates to reflect
+            // any LUT pin swapping that occurs during routing, to fulfill the
+            // contest requirement that only PIPs may be modified.
+            // Instead, this updates is deferred until CheckPhysNetlist.
+            System.setProperty("rapidwright.rwroute.lutPinSwapping.deferIntraSiteRoutingUpdates", "true");
+
+            // Ask PhysNetlistWriter to simulate LUT pin swapping such that any
+            // routes that service an incorrect LUT input site pin are allowed to have
+            // a fake branch to the correct site pin on the same LUT for the
+            // purposes of simulating (prior to applying deferred updates) a fully
+            // routed net.
+            // Such fake branches are discarded by CheckPhysNetlist and does not
+            // affect the deferred update process.
+            System.setProperty("rapidwright.physNetlistWriter.simulateSwappedLutPins", "true");
+        }
+
+        boolean softPreserve = false;
+        PartialRouter.routeDesignWithUserDefinedArguments(design, routerArgs,
                 pinsToRoute, softPreserve);
 
         // Write routed result to new Physical Netlist
