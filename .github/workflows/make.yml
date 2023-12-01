@@ -107,6 +107,7 @@ jobs:
            *.wirelength
       - uses: actions/upload-artifact@v3
         if: always()
+        continue-on-error: true
         with:
           name: ${{ matrix.router }}-${{ matrix.benchmark }}
           path: |
