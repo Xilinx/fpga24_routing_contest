@@ -51,7 +51,7 @@ public class PartialRouterPhysNetlist {
         }
 
         String[] routerArgs = new String[] {
-                // Same options as PartialRouter.routeDesignPartialTimingDriven()
+                // Same options as PartialRouter.routeDesignPartialNonTimingDriven()
                 "--fixBoundingBox",
                 "--useUTurnNodes",
                 "--nonTimingDriven",
@@ -65,7 +65,7 @@ public class PartialRouterPhysNetlist {
                 "--historicalCongestionFactor", "1",
                 // Optionally, enable LUT pin swapping where all inputs of a LUT are considered
                 // to be equivalent
-                // "--lutPinSwapping",
+                "--lutPinSwapping",
         };
 
         if (Arrays.asList(routerArgs).contains("--lutPinSwapping")) {
