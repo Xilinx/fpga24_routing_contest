@@ -3,7 +3,7 @@
 ## LUT Pin Swapping
 
 An FPGA's Look-Up Tables can typically be used to implement any logical function
-based up to its maximum number of inputs.
+up to its maximum number of inputs.
 For example, a 3-input LUT can be configured to perform an AND function, an OR,
 a 2:1 multiplexer, etc.
 
@@ -19,7 +19,7 @@ Within the scope of this contest though, which considers only the critical-path
 wirelength, swapping LUT pins will have no effect. 
 
 The AMD UltraScale+ architecture contains 6-input LUTs which can support any
-a 1-bit output function of up to 6-inputs.
+1-bit output function of up to 6-inputs.
 However, such 6-input LUTs can also be *fractured* into two 5-input LUTs
 that must share up to 5-inputs -- the 6th input will be routed to VCC.
 A table of some example scenarios are shown below:
@@ -60,7 +60,8 @@ reflect the pin swapped result.
 
 The [baseline RWRoute](https://github.com/Xilinx/fpga24_routing_contest/blob/master/src/com/xilinx/fpga24_routing_contest/PartialRouterPhysNetlist.java)
 provided as part of this contest supports LUT pin swapping functionality in the
-above manner, which was added in the following [pull request](TODO).
+above manner, which was added in the following
+[pull request](https://github.com/Xilinx/fpga24_routing_contest/pull/47).
 As discussed at this link, this option is not enabled by default since it does not
 universally improve routing runtime.
 Contestants who wish to experiment with pin swapping or improve it can enable swapping

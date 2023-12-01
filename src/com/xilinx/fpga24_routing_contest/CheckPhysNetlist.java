@@ -74,6 +74,7 @@ public class CheckPhysNetlist {
             netlist.addEncryptedCells(encryptedCells);
         }
 
+        // Examine the design routing and perform any necessary LUT pin swaps
         LUTTools.swapLutPinsFromPIPs(design);
 
         // Write design to Vivado Design Checkpoint (DCP)
