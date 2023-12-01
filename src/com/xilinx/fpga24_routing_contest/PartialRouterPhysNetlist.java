@@ -50,25 +50,28 @@ public class PartialRouterPhysNetlist {
             }
         }
 
-        String[] routerArgs = new String[] {
-                // Same options as PartialRouter.routeDesignPartialNonTimingDriven()
-                "--fixBoundingBox",
-                "--useUTurnNodes",
-                "--nonTimingDriven",
-                "--verbose",
-                // These options are set to their default value, a subset of which are duplicated here
-                // to ease modification; full documentation is available in RWRouteConfig.java
-                "--maxIterations", "100",
-                "--wirelengthWeight", "0.8",
-                "--initialPresentCongestionFactor", "0.5",
-                "--presentCongestionMultiplier", "2",
-                "--historicalCongestionFactor", "1",
-                // Optionally, enable LUT pin swapping where all inputs of a LUT are considered
-                // to be equivalent
-                "--lutPinSwapping",
-        };
+        List<String> routerArgs = new ArrayList<>();
+        // Same options as PartialRouter.routeDesignPartialNonTimingDriven()
+        routerArgs.add("--fixBoundingBox");
+        routerArgs.add("--useUTurnNodes");
+        routerArgs.add("--nonTimingDriven");
+        routerArgs.add("--verbose");
+        // These options are set to their default value, a subset of which are duplicated here
+        // to ease modification; full documentation is available in RWRouteConfig.java
+        routerArgs.addAll(List.of("--maxIterations", "100"));
+        routerArgs.addAll(List.of("--wirelengthWeight", "0.8"));
+        routerArgs.addAll(List.of("--initialPresentCongestionFactor", "0.5"));
+        routerArgs.addAll(List.of("--presentCongestionMultiplier", "2"));
+        routerArgs.addAll(List.of("--historicalCongestionFactor", "1"));
+        // Optionally, enable LUT pin swapping where all inputs of a LUT are considered
+        // to be equivalent
+        //routerArgs.add("--lutPinSwapping");
 
-        if (Arrays.asList(routerArgs).contains("--lutPinSwapping")) {
+        if (System.getenv().getOrDefault("RWROUTE_FORCE_LUT_PIN_SWAP", "false").equals("true")) {
+            // For testing purposes
+            routerArgs.add("--lutPinSwapping");
+	}
+        if (routerArgs.contains("--lutPinSwapping")) {
             // Ask RWRoute not to perform any intra-site routing updates to reflect
             // any LUT pin swapping that occurs during routing, to fulfill the
             // contest requirement that only PIPs may be modified.
@@ -86,7 +89,7 @@ public class PartialRouterPhysNetlist {
         }
 
         boolean softPreserve = false;
-        PartialRouter.routeDesignWithUserDefinedArguments(design, routerArgs,
+        PartialRouter.routeDesignWithUserDefinedArguments(design, routerArgs.toArray(new String[0]),
                 pinsToRoute, softPreserve);
 
         // Write routed result to new Physical Netlist
