@@ -17,8 +17,10 @@ jobs:
       matrix:
         router:
           - rwroute
-          - rwroute-lutpinswap
           - nxroute-poc
+        lutpinswap:
+          - false
+          - true
         benchmark:
           - boom_med_pb
           - vtr_mcml
@@ -35,20 +37,15 @@ jobs:
           # Insufficient memory on GitHub Actions
           - router: rwroute
             benchmark: mlcad_d181_lefttwo3rds
-          - router: rwroute-lutpinswap
-            benchmark: mlcad_d181_lefttwo3rds
           - router: rwroute
-            benchmark: koios_dla_like_large
-          - router: rwroute-lutpinswap
             benchmark: koios_dla_like_large
           - router: rwroute
             benchmark: boom_soc
-          - router: rwroute-lutpinswap
-            benchmark: boom_soc
           - router: rwroute
             benchmark: ispd16_example2
-          - router: rwroute-lutpinswap
-            benchmark: ispd16_example2
+          # NXRoute does not support LUT pin swapping
+          - router: nxroute-poc
+            lutpinswap: false
     steps:
       - uses: actions/checkout@v3
         with:
@@ -72,7 +69,7 @@ jobs:
           REPORT_ROUTE_STATUS_AUTH:     ${{ secrets.REPORT_ROUTE_STATUS_AUTH }}
           # For certain benchmarks, wirelength_analyzer requires more memory than that available in GitHub Actions
           WIRELENGTH_ANALYZER_MOCK_RESULT: ${{ matrix.benchmark == 'koios_dla_like_large' }}
-          RWROUTE_FORCE_LUT_PIN_SWAP:   ${{ matrix.router == 'rwroute-lutpinswap' }}
+          RWROUTE_FORCE_LUT_PIN_SWAP:   ${{ matrix.lutpinswap }}
         run: |
           make ROUTER="${{ matrix.router }}" BENCHMARKS="${{ matrix.benchmark }}" VERBOSE=1
       - name: Score summary
