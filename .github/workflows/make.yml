@@ -45,7 +45,7 @@ jobs:
             benchmark: ispd16_example2
           # NXRoute does not support LUT pin swapping
           - router: nxroute-poc
-            lutpinswap: false
+            lutpinswap: true
     steps:
       - uses: actions/checkout@v3
         with:
