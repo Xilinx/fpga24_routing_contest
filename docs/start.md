@@ -10,9 +10,11 @@ All contest collateral is distributed at [`https://github.com/Xilinx/fpga24_rout
 - A corresponding set of FPGAIF Logical Netlists, to be reconstituted with the router's output
   Physical Netlist to generate a Vivado Design Checkpoint (DCP).
 - Source code to support this Getting Started guide.
-- [Reference Runs Using GitHub Actions](#reference-runs-using-github-actions).
+- [Reference runs using GitHub Actions](#reference-runs-using-github-actions).
 
-> **TL;DR**
+Once up and running, you may wish to consult the [Advanced Routing Topics](advanced.html) page.
+
+**TL;DR**
 > ```
 > git clone --recurse-submodules https://github.com/Xilinx/fpga24_routing_contest
 > cd fpga24_routing_contest
