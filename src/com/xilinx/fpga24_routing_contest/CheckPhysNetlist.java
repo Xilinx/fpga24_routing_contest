@@ -10,6 +10,7 @@
 package com.xilinx.fpga24_routing_contest;
 
 import com.xilinx.rapidwright.design.Design;
+import com.xilinx.rapidwright.design.tools.LUTTools;
 import com.xilinx.rapidwright.edif.EDIFNetlist;
 import com.xilinx.rapidwright.edif.EDIFTools;
 import com.xilinx.rapidwright.interchange.LogNetlistReader;
@@ -34,7 +35,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.zip.Deflater;
@@ -53,7 +53,6 @@ public class CheckPhysNetlist {
         PhysNetlistReader.CHECK_AND_CREATE_LOGICAL_CELL_IF_NOT_PRESENT = false;
         PhysNetlistReader.VALIDATE_MACROS_PLACED_FULLY = false;
         PhysNetlistReader.CHECK_MACROS_CONSISTENT = false;
-
 
         // Read the Logical Netlist
         EDIFNetlist netlist = LogNetlistReader.readLogNetlist(args[0]);
@@ -74,6 +73,9 @@ public class CheckPhysNetlist {
             }
             netlist.addEncryptedCells(encryptedCells);
         }
+
+        // Examine the design routing and perform any necessary LUT pin swaps
+        LUTTools.swapLutPinsFromPIPs(design);
 
         // Write design to Vivado Design Checkpoint (DCP)
         Path outputDcp = Paths.get(FileTools.removeFileExtension(args[1]) + ".dcp");
