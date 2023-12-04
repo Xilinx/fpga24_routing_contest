@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: MIT
 #
 
-SHELL = /bin/bash
+SHELL := /bin/bash -o pipefail
 
 # List of all benchmarks (default to all)
 BENCHMARKS ?= boom_med_pb		\
@@ -43,7 +43,6 @@ export TIME=Wall-clock time (sec): %e
 VERBOSE ?= 0
 ifneq ($(VERBOSE), 0)
     log_and_or_display = 2>&1 | tee $(1)
-    SHELL := /bin/bash -o pipefail
 else
     log_and_or_display = > $(1) 2>&1
 endif
@@ -62,8 +61,8 @@ export RAPIDWRIGHT_PATH = $(abspath RapidWright)
 .PHONY: run-$(ROUTER)
 run-$(ROUTER): score-$(ROUTER)
 
-# Use Gradle to compile Java source code in this repository
-# as well as the RapidWright repository
+# Use Gradle to compile Java source code in this repository as well as the RapidWright repository.
+# Also download/generate all device files necessary for the xcvu3p device
 .PHONY: compile-java
 compile-java:
 	./gradlew $(JAVA_PROXY) compileJava
