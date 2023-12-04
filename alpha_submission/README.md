@@ -1,6 +1,6 @@
 # Alpha Submission Containers
 
-This directory contains Example [Apptainer](https://apptainer.org/docs/user/latest/)
+This directory contains example [Apptainer](https://apptainer.org/docs/user/latest/)
 definition files that show how to containerize a router for submission.
 Contestants not building on top of RWRoute are required to provide a new file named `<router_name>_container.def`
 builds the environment for running their router.

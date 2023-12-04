@@ -40,8 +40,7 @@ allows the application to be run in an isolated environment.
 The [contest repository](https://github.com/Xilinx/fpga24_routing_contest/)
 has been updated with example `*.def` files in the `alpha_submission` directory
 for both `rwroute` and `nxroute-poc`. To build and run the default container
-(which on a fresh clone would be `rwroute`):
-one would just run:
+(which on a fresh clone would be `rwroute`) one would just run:
 
 ```
 make run-container
@@ -50,7 +49,7 @@ make run-container
 This is roughly equivalent to:
 ```
 apptainer build rwroute_container.sif alpha_submission/rwroute_container.def
-apptainer run --pid --home `pwd` --rocm --bind /etc/OpenCL --mount src=/tools/,dst=/tools/,ro rwroute_container.sif make ROUTER="rwroute" BENCHMARKS=<list of all benchmarks>
+apptainer run --pid --home `pwd` --rocm --bind /etc/OpenCL --mount src=/tools/,dst=/tools/,ro rwroute_container.sif make
 ```
 
 The `apptainer build` command creates an image from the `rwroute_container.def`
@@ -65,10 +64,10 @@ spawned by the container are not orphaned if the container is killed.
 directory to the container's `/tools` directory, which allows the container to
 access the host Vivado installation.
 
-The remainder of the Apptainer command line simply runs a make target in the
+The remainder of the Apptainer command line simply runs the default make target from inside the
 container.
 
-Finally, in order to aid in development the target
+Finally, in order to aid in development the target:
 
 ```
 make test-container
@@ -77,7 +76,7 @@ make test-container
 has also been provided. This target is identical to the `run-container` target,
 except that results are only collected for the `boom_med_pb` benchmark, instead
 of collecting results for every benchmark. This allows contestants to quickly
-test their apptainer flow and avoid overloading shared resources should they
+test their Apptainer flow and avoid overloading shared resources should they
 be working on a shared cluster.
 
 For further information about working with Apptainer containers please refer to
@@ -98,7 +97,7 @@ This `make` target builds a `*.sif` image from the
 `opencl_example_container.def` definition file and runs it with the command:
 
 ```
-apptainer run --pid --rocm --bind /etc/OpenCL opencl_example_container.sif
+apptainer run --pid --home `pwd` --rocm --bind /etc/OpenCL opencl_example_container.sif
 ```
 
 The `--rocm` switch enables AMD ROCm support in the container. The
