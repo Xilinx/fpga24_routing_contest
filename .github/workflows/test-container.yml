@@ -1,0 +1,31 @@
+# Copyright (C) 2023, Advanced Micro Devices, Inc.  All rights reserved.
+#
+# Author: Eddie Hung, AMD
+#
+# SPDX-License-Identifier: MIT
+#
+
+name: test-container
+on:
+  push:
+  pull_request:
+jobs:
+  test-container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+      - name: Setup Apptainer
+        env:
+          APPTAINER_VERSION: '1.2.5'
+        run: |
+          wget https://github.com/apptainer/apptainer/releases/download/v${APPTAINER_VERSION}/apptainer_${APPTAINER_VERSION}_amd64.deb
+          sudo dpkg -i apptainer_${APPTAINER_VERSION}_amd64.deb || true
+          sudo apt-get -f install
+      - run: |
+          make test-container
+      - uses: actions/upload-artifact@v3
+        with:
+          path: |
+           *.sif
