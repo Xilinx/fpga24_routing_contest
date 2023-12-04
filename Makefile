@@ -107,7 +107,7 @@ fpga-interchange-schema/interchange/capnp/java.capnp:
 	fi
 
 .PHONY: score-$(ROUTER)
-score-$(ROUTER): $(addsuffix _$(ROUTER).wirelength, $(BENCHMARKS)) $(addsuffix _$(ROUTER).check, $(BENCHMARKS))
+score-$(ROUTER): $(foreach b,$(BENCHMARKS),$b_$(ROUTER).wirelength $b_$(ROUTER).check)
 	python3 ./compute-score.py $(addsuffix _$(ROUTER), $(BENCHMARKS))
 
 .PRECIOUS: %.device
