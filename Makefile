@@ -5,6 +5,8 @@
 # SPDX-License-Identifier: MIT
 #
 
+SHELL = /bin/bash
+
 # List of all benchmarks (default to all)
 BENCHMARKS ?= boom_med_pb		\
               vtr_mcml			\
@@ -20,6 +22,14 @@ BENCHMARKS ?= boom_med_pb		\
 
 
 BENCHMARKS_URL = https://github.com/Xilinx/fpga24_routing_contest/releases/latest/download/benchmarks.tar.gz
+
+# Inherit proxy settings from the host if they exist
+HTTPHOST=$(firstword $(subst :, ,$(subst http:,,$(subst /,,$(HTTP_PROXY)))))
+HTTPPORT=$(lastword $(subst :, ,$(subst http:,,$(subst /,,$(HTTP_PROXY)))))
+HTTPSHOST=$(firstword $(subst :, ,$(subst http:,,$(subst /,,$(HTTPS_PROXY)))))
+HTTPSPORT=$(lastword $(subst :, ,$(subst http:,,$(subst /,,$(HTTPS_PROXY)))))
+JAVA_PROXY=$(if $(HTTPHOST),-Dhttp.proxyHost=$(HTTPHOST) -Dhttp.proxyPort=$(HTTPPORT),) \
+$(if $(HTTPSHOST),-Dhttps.proxyHost=$(HTTPSHOST) -Dhttps.proxyPort=$(HTTPSPORT),)
 
 # Choice of router (default to rwroute)
 # (other supported values: nxroute-poc)
@@ -46,6 +56,7 @@ else
     JVM_HEAP ?= -Xms32736m -Xmx32736m
 endif
 
+export RAPIDWRIGHT_PATH = $(abspath RapidWright)
 
 # Default recipe: route and score all given benchmarks
 .PHONY: run-$(ROUTER)
@@ -55,11 +66,12 @@ run-$(ROUTER): score-$(ROUTER)
 # as well as the RapidWright repository
 .PHONY: compile-java
 compile-java:
-	./gradlew compileJava
+	./gradlew $(JAVA_PROXY) compileJava
+	_JAVA_OPTIONS="$(JAVA_PROXY)" RapidWright/bin/rapidwright Jython -c "FileTools.ensureDataFilesAreStaticInstallFriendly('xcvu3p')"
 
 .PHONY: install-python-deps
 install-python-deps:
-	pip install -q -r requirements.txt --pre
+	pip install -q -r requirements.txt --pre --user
 
 # Download and unpack all benchmarks
 .PHONY: download-benchmarks
@@ -106,7 +118,7 @@ score-$(ROUTER): $(addsuffix _$(ROUTER).wirelength, $(BENCHMARKS)) $(addsuffix _
 setup-net_printer setup-wirelength_analyzer: | install-python-deps fpga-interchange-schema/interchange/capnp/java.capnp
 
 clean:
-	rm -f *.{phys,check,wirelength}*
+	rm -f *.{phys,check,wirelength,sif}*
 
 distclean: clean
 	rm -rf *.device *_unrouted.phys *.netlist*
@@ -119,7 +131,7 @@ distclean: clean
 # Gradle is used to invoke the PartialRouterPhysNetlist class' main method with arguments
 # $< (%_unrouted.phys) and $@ (%_rwroute.phys), and display/redirect all output into %_rwroute.phys.log
 %_rwroute.phys: %_unrouted.phys | compile-java
-	(/usr/bin/time ./gradlew -DjvmArgs="$(JVM_HEAP)" -Dmain=com.xilinx.fpga24_routing_contest.PartialRouterPhysNetlist :run --args='$< $@') $(call log_and_or_display,$@.log)
+	(/usr/bin/time ./gradlew  -DjvmArgs="$(JVM_HEAP)" -Dmain=com.xilinx.fpga24_routing_contest.PartialRouterPhysNetlist :run --args='$< $@') $(call log_and_or_display,$@.log)
 
 ## NXROUTE-POC
 %_nxroute-poc.phys: %_unrouted.phys xcvu3p.device | install-python-deps fpga-interchange-schema/interchange/capnp/java.capnp
@@ -130,6 +142,54 @@ distclean: clean
 # 	(/usr/bin/time <custom router here> $< $@) > $@.log $(call log_and_or_display,$@.log)
 
 #### END ROUTER RECIPES
+
+#### BEGIN CONTEST SUBMISSION RECIPES
+
+# Required Apptainer args:
+# --pid: ensures all processes apptainer spawns are killed with the container
+# --home `pwd`: overrides the home directory inside the container to be the current dir
+APPTAINER_RUN_ARGS = --pid --home `pwd`
+
+# Default Apptainer args. Contestants may modify as necessary.
+# --rocm --bind /etc/OpenCL: enables OpenCL access in the container
+APPTAINER_RUN_ARGS += --rocm --bind /etc/OpenCL
+
+# Build an Apptainer image from a definition file in the alpha_submission directory
+%_container.sif: alpha_submission/%_container.def
+	apptainer build $@ $<
+
+# Use the <ROUTER>_container.sif Apptainer image to run all benchmarks
+.PHONY: run-container
+run-container: $(ROUTER)_container.sif
+	apptainer run $(APPTAINER_RUN_ARGS) --mount src=/tools/,dst=/tools/,ro $< make ROUTER="$(ROUTER)" BENCHMARKS="$(BENCHMARKS)" VERBOSE="$(VERBOSE)"
+
+# Use the <ROUTER>_container.sif Apptainer image to run a single small benchmark for testing
+.PHONY: test-container
+test-container: $(ROUTER)_container.sif
+	apptainer run $(APPTAINER_RUN_ARGS) --mount src=/tools/,dst=/tools/,ro $< make ROUTER="$(ROUTER)" BENCHMARKS="boom_med_pb" VERBOSE="$(VERBOSE)"
+
+SUBMISSION_NAME = $(ROUTER)_submission_$(shell date +%Y%m%d%H%M%S)
+
+# distclean the repo and create an archive ready for submission
+# Submission name is <ROUTER NAME>_submission_<timestamp>
+.PHONY: distclean-and-package-submission
+distclean-and-package-submission: distclean
+	tar -czf ../$(SUBMISSION_NAME).tar.gz .
+	mv ../$(SUBMISSION_NAME).tar.gz .
+
+#### END CONTEST SUBMISSION RECIPES
+
+#### BEGIN EXAMPLE RECIPES
+
+# Build and run an example OpenCL application in an Apptainer container
+opencl_example_container.sif: alpha_submission/opencl_example/opencl_example_container.def
+	apptainer build $@ $<
+
+.PHONY: run-opencl-example
+run-opencl-example: opencl_example_container.sif
+	apptainer run $(APPTAINER_RUN_ARGS) $<
+
+#### END EXAMPLE RECIPES
 
 # Tell make to not treat routed results as intermediate files (which would get deleted)
 .PRECIOUS: %_$(ROUTER).phys

@@ -8,5 +8,6 @@ build/
 *.dcp
 *.tcl
 *.wirelength
+*.sif
 wirelength_analyzer/test/data/
 **/__pycache__/
