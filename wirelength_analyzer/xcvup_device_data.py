@@ -80,7 +80,7 @@ class xcvupDeviceData:
 
             'IBUFCTRL':        self.all_to_all,
             'INBUF':           self.all_to_all,
-            'OUTBUF':          self.all_to_all,
+            'OBUFT':           self.all_to_all,
 
             # The following cell types are BELs that make up a DSP macro.
             # Such DSPs contains a number of optional pipelining registers,
