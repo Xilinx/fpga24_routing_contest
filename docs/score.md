@@ -119,7 +119,7 @@ BEL input and output pins for each type of PhysCell.
 |`LUT1`, `LUT2`, `LUT3`, `LUT4`, `LUT5`, `LUT6`                                            | (all) <- (all)                | Look Up Table      |
 |`CARRY8`                                                                                  | [see table CARRY8](#carry8-connectivity) | Fast Carry Logic |
 |`MUXF7`, `MUXF8`, `MUXF9`                                                                 | (all) <- (all)                | Intrasite Mux      |
-|`IBUFCTRL`, `INBUF`                                                                       | (all) <- (all)                | Input Buffer       |
+|`IBUFCTRL`, `INBUF`, `OUTBUF`                                                             | (all) <- (all)                | I/O Buffer         |
 |`DSP_A_B_DATA`, `DSP_C_DATA`, `DSP_M_DATA`,<br>`DSP_PREADD_DATA`, `DSP_OUTPUT`, `DSP_ALU` | (none) <- (none) [see note](#dsp-cell-connectivity) | DSP Logic |
 |`DSP_MULTIPLIER`, `DSP_PREADD`                                                            | (all) <- (all) [see note](#dsp-cell-connectivity) | DSP Logic |
 |`PCIE40E4`                                                                                | (none) <- (none)              | PCIe Hard Macro    |
