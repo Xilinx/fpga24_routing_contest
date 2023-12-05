@@ -27,5 +27,6 @@ jobs:
           make test-container
       - uses: actions/upload-artifact@v3
         with:
+          name: rwroute_container.sif
           path: |
            *.sif
