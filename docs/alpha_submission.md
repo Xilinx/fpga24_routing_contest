@@ -67,7 +67,7 @@ access the host Vivado installation.
 The remainder of the Apptainer command line simply runs the default make target from inside the
 container.
 
-Finally, in order to aid in development the target:
+Finally, in order to aid in development the the Makefile target:
 
 ```
 make test-container
