@@ -22,7 +22,7 @@ benchmark) when run on contest hardware.
 Aside from running under Linux without network access, no restrictions are
 placed on the languages, software dependencies, or runtime environment that
 contestants may use to implement their router. In order to enable this platform
-independence contestants must containerize their router and runtime environment
+independence, contestants must containerize their router and runtime environment
 with the [Apptainer](https://apptainer.org/docs/user/latest/) framework.
 
 ### Apptainer
@@ -106,7 +106,7 @@ which is required to allow the containerized OpenCL stack to discover the host
 resources.
 
 Please note that contestants are free to use GPU interfaces other than OpenCL,
-such as AMD HIP.
+such as [AMD HIP](https://github.com/ROCm-Developer-Tools/HIP).
 
 ## Submission Format
 
@@ -154,6 +154,6 @@ make run-container
 
 While contestants are strongly encouraged to open-source their solutions at the
 conclusion of the contest, there is no requirement to do so. In such cases,
-it is still necessary use the flow described above to produce a binary only
+it is still necessary to use the flow described above to produce a binary only
 submission. That is, any precompiled router must still work inside Apptainer
 and be invoke-able using `make run-container` on the contest hardware.
