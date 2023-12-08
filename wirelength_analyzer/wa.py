@@ -432,7 +432,7 @@ class WirelengthAnalyzer:
         # node in the Networkx longest path, stopping at the first cell/bel
         # that is not a combinatorial driver of any subsequent routeSegments
 
-        def search_for_first_valid_sink(source, path=()):
+        def search_for_first_valid_sink(source, path=[]):
             """
             Run a Depth First Search from the provided source returning the
             first path found to a cell that is not a combinatorial driver for
@@ -446,22 +446,21 @@ class WirelengthAnalyzer:
                 if a valid path can be found.
             """
             out_edges = self.G.out_edges(source)
-            path = (*path, source)
+            path = path + [source]
             if len(out_edges) == 0:
                 source_seg = self.G.nodes[source]['segment']
                 if source_seg.which() == 'belPin':
-                    if self.placements.get((source_seg.belPin.site, source_seg.belPin.bel)) is not None:
+                    if (source_seg.belPin.site, source_seg.belPin.bel) in self.placements:
                         return path
-                    return None
-                return None
+                return []
             for oe in out_edges:
                 ret = search_for_first_valid_sink(oe[1], path)
-                if ret is not None:
+                if ret:
                     return ret
-            return None
+            return []
 
         tail = search_for_first_valid_sink(lp[-1])
-        lp = lp + list(tail)[1:]
+        lp = lp + tail[1:]
         return lp
 
     def expand_edge(self, source, sink):
