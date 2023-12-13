@@ -458,12 +458,15 @@ class WirelengthAnalyzer:
                     return ret
             return []
 
-        tail = search_for_first_valid_sink(lp[-1])
+        last = lp[-1]
+        tail = search_for_first_valid_sink(last)
         if tail:
             lp = lp + tail[1:]
         else:
-            warnings.warn("No valid sink found from " + self.format_segment(lp[-1]) + "; " +
-                          "assuming that drives a hierarchical port.")
+            seg = self.G.nodes[last]['segment']
+            cell = self.placements[(seg.belPin.site, seg.belPin.bel)]
+            sl = self.phys.strList
+            warnings.warn("No valid sink found from cell " + sl[cell.cellName] + "; assuming that it drives a hierarchical port.")
         return lp
 
     def expand_edge(self, source, sink):
