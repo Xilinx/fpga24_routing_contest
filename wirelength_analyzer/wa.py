@@ -421,18 +421,17 @@ class WirelengthAnalyzer:
         self.tstart()
         lp = nx.dag_longest_path(self.G, weight='wirelength')
 
-        # The final edge in the path returned by Networkx's longest path
-        # algorithm always has a non-zero weight. This means that, the final
-        # node in the longest path may be an ancestor to subsequent edges as
-        # as long as these subsequent edges have zero weight. In the context
-        # of the wirelength analyzer this means that the terminal cell in the
-        # longest path reported by Networkx may be a combinatorial driver for
-        # subsequent routeSegments that do not appear in the reported path. To
-        # avoid this scenario we perform a Depth First Search from the final
-        # node in the Networkx longest path, stopping at the first cell/bel
-        # that is not a combinatorial driver of any subsequent routeSegments
+        # NetworkX's longest path algorithm will return the longest path by
+        # wirelength, but it is not necessarily a path that terminates in a
+        # timing endpoint (e.g. a FF).
+        # Consider the example where the tail of such a longest path consists
+        # of a LUT followed by an intra-site connection to a FF.
+        # NetworkX will return a path that terminates at the LUT, since the
+        # intra-site connection to the FF incurs no additional wirelength.
+        # Rather than present this truncated path to the user, attempt to
+        # extend this longest path to include connections to downstream cells.
 
-        def search_for_first_valid_sink(source, path=()):
+        def search_for_first_valid_sink(source, path=[]):
             """
             Run a Depth First Search from the provided source returning the
             first path found to a cell that is not a combinatorial driver for
@@ -440,28 +439,34 @@ class WirelengthAnalyzer:
 
             Args:
                 source: the source node to begin searching from
-                path: an empty tuple that will containt the path found
+                path: the current list of nodes leading to source
             Returns:
-                a tuple of nodes (starting at the source node) forming a path
-                if a valid path can be found.
+                a list of nodes (starting at the source node) forming a path
+                to the first sink, empty list if one cannot be found.
             """
             out_edges = self.G.out_edges(source)
-            path = (*path, source)
+            path = path + [source]
             if len(out_edges) == 0:
                 source_seg = self.G.nodes[source]['segment']
                 if source_seg.which() == 'belPin':
-                    if self.placements.get((source_seg.belPin.site, source_seg.belPin.bel)) is not None:
+                    if (source_seg.belPin.site, source_seg.belPin.bel) in self.placements:
                         return path
-                    return None
-                return None
+                return []
             for oe in out_edges:
                 ret = search_for_first_valid_sink(oe[1], path)
-                if ret is not None:
+                if ret:
                     return ret
-            return None
+            return []
 
-        tail = search_for_first_valid_sink(lp[-1])
-        lp = lp + list(tail)[1:]
+        last = lp[-1]
+        tail = search_for_first_valid_sink(last)
+        if tail:
+            lp = lp + tail[1:]
+        else:
+            seg = self.G.nodes[last]['segment']
+            cell = self.placements[(seg.belPin.site, seg.belPin.bel)]
+            sl = self.phys.strList
+            warnings.warn("No valid sink found from cell " + sl[cell.cellName] + "; assuming that it drives a hierarchical port.")
         return lp
 
     def expand_edge(self, source, sink):
