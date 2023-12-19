@@ -202,6 +202,7 @@ class NxRoutingGraph(nx.DiGraph):
                                         continue
                                 wire2nodeGet = wire2node.get
                                 tileName = s[tile.name]
+                                isCleTile = tileName.startswith('CLE')
                                 tileType = tileTypes[tile.type]
                                 tileWires = tileType.wires
                                 # Note that the tileType determines the (superset) of all
@@ -211,9 +212,9 @@ class NxRoutingGraph(nx.DiGraph):
                                 # by the fact that either wire on the PIP does not have a
                                 # corresponding node
                                 for pip in tileType.pips:
-                                        if pip.which() != 'conventional':
-                                                # Ignore non-conventional PIPs (e.g. LUT route-thrus
-                                                # that traverse an entire site)
+                                        if isCleTile and pip.which() != 'conventional':
+                                                # Ignore non-conventional PIPs on CLE tiles
+                                                # (LUT route-thrus that traverse an entire site)
                                                 continue
                                         wire0Name = tileWires[pip.wire0]
                                         node0Idx = wire2nodeGet(wire0Name)
