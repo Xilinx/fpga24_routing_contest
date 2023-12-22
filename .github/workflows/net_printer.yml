@@ -37,9 +37,18 @@ jobs:
           cache: 'pip'
       - run:
           make setup-net_printer download-benchmarks
-      - name: Print static nets
+      - name: Print GND net
         run:
-          python3 net_printer/np.py ${{ matrix.benchmark }}_unrouted.phys GLOBAL_LOGIC0 GLOBAL_LOGIC1
+          python3 net_printer/np.py ${{ matrix.benchmark }}_unrouted.phys GLOBAL_LOGIC0 | tee gnd.physnet
+      - name: Print GND stubs
+        run:
+          sed -n -e '/Stub: 0/,$p' gnd.physnet
+      - name: Print VCC net
+        run:
+          python3 net_printer/np.py ${{ matrix.benchmark }}_unrouted.phys GLOBAL_LOGIC1 | tee vcc.physnet
+      - name: Print VCC stubs
+        run:
+          sed -n -e '/Stub: 0/,$p' vcc.physnet
       - name: Print largest global net (corundum_25g)
         if: matrix.benchmark == 'corundum_25g'
         run:
