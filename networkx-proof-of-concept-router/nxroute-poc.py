@@ -147,7 +147,7 @@ class NxRoutingGraph(nx.DiGraph):
                         tend = time.time()
                         print('\tRead DeviceResources: %.1fs' % (tend-tstart))
                         tstart = time.time()
-                        s = device.strList
+                        s = CachedTextList(device.strList)
 
                         # Build a dictionary of all in-bounds tiles
                         tileNames = set()
@@ -255,23 +255,22 @@ class NxRoutingGraph(nx.DiGraph):
                                         pinNames = siteTypePinNames[siteType.primaryType]
                                         for pinIndex,wireName in enumerate(siteType.primaryPinsToTileWires):
                                                 pinName = pinNames[pinIndex]
-                                                self.tileType2SiteTypePinName2wire.setdefault(tileTypeIdx, {})[siteTypeIdx,pinName] = wireName
+                                                self.tileType2SiteTypePinName2wire.setdefault(tileTypeIdx, {})[siteTypeIdx,pinName] = s[wireName]
 
                         # Build self.site2tileAndTypes
-                        tileList = device.tileList
-                        tile2wire2node = self.tile2wire2node
                         for tile in tiles:
                                 if not tile.sites:
                                         continue
                                 for site in tile.sites:
                                         siteName = s[site.name]
-                                        self.site2tileAndTypes[siteName] = (tile.name,tile.type,site.type)
+                                        tileName = s[tile.name]
+                                        self.site2tileAndTypes[siteName] = (tileName,tile.type,site.type)
 
-                                # Keep only site pin wires in self.tile2wire2node
-                                siteTypePinName2wire = self.tileType2SiteTypePinName2wire[tile.type]
-                                sitePinWires = set(siteTypePinName2wire.values())
-                                wire2node = {k:v for k,v in tile2wire2node[tile.name].items() if k in sitePinWires}
-                                tile2wire2node[tile.name] = wire2node
+                        # Convert self.tile2wire2node from having integer keys to string keys
+                        # so that it can be used without access to device.strList
+                        self.tile2wire2node = {s[k]: {s[k2]:v2
+                                for k2,v2 in v.items()}
+                                for k,v in self.tile2wire2node.items()}
                         tend = time.time()
                         print('\tBuild lookups: %.1fs' % (tend-tstart))
 
@@ -330,12 +329,13 @@ class NxRouter:
                 # (b) list of sink nodes
                 self.net2pin2node = {}
 
-                s = self.netlist.strList
+                s = CachedTextList(netlist.strList)
+
                 for net in self.netlist.physNets:
                         assert len(net.stubNodes) == 0
-
-                        sinkPins = self.extractSitePins(net.stubs)
                         if net.type == 'signal' and net.stubs:
+                                sinkPins = self.extractSitePins(net.stubs)
+
                                 # Net is a signal net (not vcc/gnd) and
                                 # has some stub branches (unrouted site pins)
                                 if not sinkPins:
@@ -383,14 +383,23 @@ class NxRouter:
 
                                 self.net2pin2node[net.name] = (sourcePin2node,sinkNodes)
                         else:
-                                # This net either has no stubs (fully routed) or it is a gnd/vcc net
-                                # Remove all its site pin nodes from the routing graph so that they can't
-                                # be used by other nets (otherwise Vivado reports a site pin conflict)
-                                for sp in self.extractSitePins(net.sources) + sinkPins:
-                                        siteName,sinkName = s[sp.site],s[sp.pin]
-                                        blockedNode = self.G.getNodeFromSitePin(siteName, sinkName)
-                                        if blockedNode is not None:
-                                                self.G.remove_node(blockedNode)
+                                tile2wire2nodeGet = self.G.tile2wire2node.get
+                                queue = list(net.sources)
+                                while queue:
+                                        rb = queue.pop()
+                                        rs = rb.routeSegment
+                                        if rs.which() == 'pip':
+                                                # Remove driven node from graph so no other nets can drive it
+                                                pip = rs.pip
+                                                wire2node = tile2wire2nodeGet(s[pip.tile])
+                                                if wire2node:
+                                                        blockedNode = wire2node.get(s[pip.wire1 if pip.forward else pip.wire0])
+                                                        if blockedNode is not None:
+                                                                self.G.remove_node(blockedNode)
+                                                else:
+                                                        # Tile must be out of bounds
+                                                        pass
+                                        queue.extend(rb.branches)
                 tend = time.time()
                 print('\tPrepare site pins: %.1fs' % (tend-tstart))
 
@@ -575,6 +584,18 @@ class NxRouter:
 
         def getStringIndex(self, string):
                 return self.strings.setdefault(string, len(self.strings))
+
+class CachedTextList:
+        """Drop-in class for wrapping capnp's 'List<Text>' objects where
+           gotten strings are cached rather than deep copied on each call"""
+        def __init__(self, s):
+                self.s = s
+                self.i = [None] * len(s)
+        def __getitem__(self, k):
+                v = self.i[k]
+                if v is None:
+                        v = self.i[k] = self.s[k]
+                return v
 
 
 if len(sys.argv) != 3:
