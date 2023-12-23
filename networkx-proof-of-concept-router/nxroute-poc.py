@@ -384,6 +384,11 @@ class NxRouter:
 
                                 self.net2pin2node[net.name] = (sourcePin2node,sinkNodes)
                         else:
+                                # This is a non-signal net (i.e. gnd/vcc) or it has no routing
+                                # stubs (meaning it is fully routed). Walk its routing tree
+                                # to identify all used routing resources and remove them from
+                                # the routing graph so that no other nets will conflict.
+
                                 tile2wire2nodeGet = self.G.tile2wire2node.get
                                 queue = list(net.sources)
                                 while queue:
@@ -588,7 +593,7 @@ class NxRouter:
 
 class CachedTextList:
         """Drop-in class for wrapping capnp's 'List<Text>' objects where
-           gotten strings are cached rather than deep copied on each call"""
+           gotten strings are cached rather than deep copied on each lookup"""
         def __init__(self, s):
                 self.s = s
                 self.i = [None] * len(s)
