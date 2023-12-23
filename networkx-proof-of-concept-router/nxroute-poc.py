@@ -66,7 +66,7 @@ class NxRoutingGraph(nx.DiGraph):
         MIN_Y = 60
         MAX_Y = 119
 
-        # Entire device (requires ~40GB RAM)
+        # Entire device (requires ~50GB RAM)
         # MIN_X = 0
         # MAX_X = sys.maxsize
         # MIN_Y = 0
