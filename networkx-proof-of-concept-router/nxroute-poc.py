@@ -40,6 +40,7 @@ import capnp
 import gzip
 import networkx as nx
 import re
+import resource
 from contextlib import contextmanager
 
 # Tell pycapnp to search for schema files inside the
@@ -605,3 +606,5 @@ if len(sys.argv) != 3:
 with NxRouter.create('xcvu3p.device', sys.argv[1]) as router:
         router.route()
         router.write(sys.argv[2])
+
+print('Peak memory:', resource.getrusage(resource.RUSAGE_SELF).ru_maxrss, 'KB')
