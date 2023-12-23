@@ -406,6 +406,9 @@ class NxRouter:
                                                         # Tile must be out of bounds
                                                         pass
                                         queue.extend(rb.branches)
+                del self.G.tileType2SiteTypePinName2wire
+                del self.G.site2tileAndTypes
+                del self.G.tile2wire2node
                 tend = time.time()
                 print('\tPrepare site pins: %.1fs' % (tend-tstart))
 
