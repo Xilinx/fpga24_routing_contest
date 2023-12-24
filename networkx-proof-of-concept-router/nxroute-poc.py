@@ -15,10 +15,10 @@ baseline for any contest entry, but merely as a reference example.
 Specifically, this code demonstrates how a FPGA Interchange DeviceResources
 file can be parsed to extract the complete routing graph, as well as how an
 Interchange PhysicalNetlist can be parsed to determine the source and sink
-pins/nodes to be routed, and how to insert the routed result back into the
-output PhysicalNetlist.
+pins/nodes to be routed, the routing resources already occupied by pre-routed
+nets, and how to insert the routed result back into the output PhysicalNetlist.
 
-We use the NetworkX package to capture the routing graph, and also call employ
+We use the NetworkX package to capture the routing graph, and also employ
 its shortest-path algorithms to find routing solutions. Since NetworkX is a
 pure Python package, runtime and memory performance is expected to be poor.
 For this reason, by default only a subset of the FPGA routing graph is
