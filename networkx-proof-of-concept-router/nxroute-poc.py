@@ -216,7 +216,8 @@ class NxRoutingGraph(nx.DiGraph):
                                         if isCleOrRclkTile and pip.which() != 'conventional':
                                                 # Ignore non-conventional PIPs on CLE tiles
                                                 # (LUT route-thrus that traverse an entire site)
-                                                # and on RCLK tiles (BUFCE routethrus)
+                                                # and on RCLK tiles (BUFCE route-thrus that access
+                                                # the global routing network)
                                                 continue
                                         wire0Name = tileWires[pip.wire0]
                                         node0Idx = wire2nodeGet(wire0Name)
