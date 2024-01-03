@@ -163,7 +163,7 @@ class xcvupDeviceData:
         self.tile_types = {
             'CLEL_R', 'CLEM', 'CLEM_R', 'BRAM', 'DSP', 'XIPHY_BYTE_L',
             'HPIO_L', 'CMT_L', 'URAM_URAM_FT', 'URAM_URAM_DELAY_FT', 'GTY_L',
-            'GTY_R'
+            'GTY_R', 'LAG_LAG'
         }
 
         # bels that drive global nets
