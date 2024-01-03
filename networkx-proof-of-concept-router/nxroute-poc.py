@@ -15,10 +15,10 @@ baseline for any contest entry, but merely as a reference example.
 Specifically, this code demonstrates how a FPGA Interchange DeviceResources
 file can be parsed to extract the complete routing graph, as well as how an
 Interchange PhysicalNetlist can be parsed to determine the source and sink
-pins/nodes to be routed, and how to insert the routed result back into the
-output PhysicalNetlist.
+pins/nodes to be routed, the routing resources already occupied by pre-routed
+nets, and how to insert the routed result back into the output PhysicalNetlist.
 
-We use the NetworkX package to capture the routing graph, and also call employ
+We use the NetworkX package to capture the routing graph, and also employ
 its shortest-path algorithms to find routing solutions. Since NetworkX is a
 pure Python package, runtime and memory performance is expected to be poor.
 For this reason, by default only a subset of the FPGA routing graph is
@@ -40,6 +40,7 @@ import capnp
 import gzip
 import networkx as nx
 import re
+import resource
 from contextlib import contextmanager
 
 # Tell pycapnp to search for schema files inside the
@@ -65,7 +66,7 @@ class NxRoutingGraph(nx.DiGraph):
         MIN_Y = 60
         MAX_Y = 119
 
-        # Entire device (requires ~40GB RAM)
+        # Entire device (requires ~50GB RAM)
         # MIN_X = 0
         # MAX_X = sys.maxsize
         # MIN_Y = 0
@@ -147,7 +148,7 @@ class NxRoutingGraph(nx.DiGraph):
                         tend = time.time()
                         print('\tRead DeviceResources: %.1fs' % (tend-tstart))
                         tstart = time.time()
-                        s = device.strList
+                        s = CachedTextList(device.strList)
 
                         # Build a dictionary of all in-bounds tiles
                         tileNames = set()
@@ -215,7 +216,8 @@ class NxRoutingGraph(nx.DiGraph):
                                         if isCleOrRclkTile and pip.which() != 'conventional':
                                                 # Ignore non-conventional PIPs on CLE tiles
                                                 # (LUT route-thrus that traverse an entire site)
-                                                # and on RCLK tiles (BUFCE routethrus)
+                                                # and on RCLK tiles (BUFCE route-thrus that access
+                                                # the global routing network)
                                                 continue
                                         wire0Name = tileWires[pip.wire0]
                                         node0Idx = wire2nodeGet(wire0Name)
@@ -255,23 +257,22 @@ class NxRoutingGraph(nx.DiGraph):
                                         pinNames = siteTypePinNames[siteType.primaryType]
                                         for pinIndex,wireName in enumerate(siteType.primaryPinsToTileWires):
                                                 pinName = pinNames[pinIndex]
-                                                self.tileType2SiteTypePinName2wire.setdefault(tileTypeIdx, {})[siteTypeIdx,pinName] = wireName
+                                                self.tileType2SiteTypePinName2wire.setdefault(tileTypeIdx, {})[siteTypeIdx,pinName] = s[wireName]
 
                         # Build self.site2tileAndTypes
-                        tileList = device.tileList
-                        tile2wire2node = self.tile2wire2node
                         for tile in tiles:
                                 if not tile.sites:
                                         continue
                                 for site in tile.sites:
                                         siteName = s[site.name]
-                                        self.site2tileAndTypes[siteName] = (tile.name,tile.type,site.type)
+                                        tileName = s[tile.name]
+                                        self.site2tileAndTypes[siteName] = (tileName,tile.type,site.type)
 
-                                # Keep only site pin wires in self.tile2wire2node
-                                siteTypePinName2wire = self.tileType2SiteTypePinName2wire[tile.type]
-                                sitePinWires = set(siteTypePinName2wire.values())
-                                wire2node = {k:v for k,v in tile2wire2node[tile.name].items() if k in sitePinWires}
-                                tile2wire2node[tile.name] = wire2node
+                        # Convert self.tile2wire2node from having integer keys to string keys
+                        # so that it can be used without access to device.strList
+                        self.tile2wire2node = {s[k]: {s[k2]:v2
+                                for k2,v2 in v.items()}
+                                for k,v in self.tile2wire2node.items()}
                         tend = time.time()
                         print('\tBuild lookups: %.1fs' % (tend-tstart))
 
@@ -330,12 +331,13 @@ class NxRouter:
                 # (b) list of sink nodes
                 self.net2pin2node = {}
 
-                s = self.netlist.strList
+                s = CachedTextList(netlist.strList)
+
                 for net in self.netlist.physNets:
                         assert len(net.stubNodes) == 0
-
-                        sinkPins = self.extractSitePins(net.stubs)
                         if net.type == 'signal' and net.stubs:
+                                sinkPins = self.extractSitePins(net.stubs)
+
                                 # Net is a signal net (not vcc/gnd) and
                                 # has some stub branches (unrouted site pins)
                                 if not sinkPins:
@@ -383,14 +385,31 @@ class NxRouter:
 
                                 self.net2pin2node[net.name] = (sourcePin2node,sinkNodes)
                         else:
-                                # This net either has no stubs (fully routed) or it is a gnd/vcc net
-                                # Remove all its site pin nodes from the routing graph so that they can't
-                                # be used by other nets (otherwise Vivado reports a site pin conflict)
-                                for sp in self.extractSitePins(net.sources) + sinkPins:
-                                        siteName,sinkName = s[sp.site],s[sp.pin]
-                                        blockedNode = self.G.getNodeFromSitePin(siteName, sinkName)
-                                        if blockedNode is not None:
-                                                self.G.remove_node(blockedNode)
+                                # This is a non-signal net (i.e. gnd/vcc) or it has no routing
+                                # stubs (meaning it is fully routed). Walk its routing tree
+                                # to identify all used routing resources and remove them from
+                                # the routing graph so that no other nets will conflict.
+
+                                tile2wire2nodeGet = self.G.tile2wire2node.get
+                                queue = list(net.sources)
+                                while queue:
+                                        rb = queue.pop()
+                                        rs = rb.routeSegment
+                                        if rs.which() == 'pip':
+                                                # Remove driven node from graph so no other nets can drive it
+                                                pip = rs.pip
+                                                wire2node = tile2wire2nodeGet(s[pip.tile])
+                                                if wire2node:
+                                                        blockedNode = wire2node.get(s[pip.wire1 if pip.forward else pip.wire0])
+                                                        if blockedNode is not None:
+                                                                self.G.remove_node(blockedNode)
+                                                else:
+                                                        # Tile must be out of bounds
+                                                        pass
+                                        queue.extend(rb.branches)
+                del self.G.tileType2SiteTypePinName2wire
+                del self.G.site2tileAndTypes
+                del self.G.tile2wire2node
                 tend = time.time()
                 print('\tPrepare site pins: %.1fs' % (tend-tstart))
 
@@ -576,6 +595,18 @@ class NxRouter:
         def getStringIndex(self, string):
                 return self.strings.setdefault(string, len(self.strings))
 
+class CachedTextList:
+        """Drop-in class for wrapping capnp's 'List<Text>' objects where
+           gotten strings are cached rather than deep copied on each lookup"""
+        def __init__(self, s):
+                self.s = s
+                self.i = [None] * len(s)
+        def __getitem__(self, k):
+                v = self.i[k]
+                if v is None:
+                        v = self.i[k] = self.s[k]
+                return v
+
 
 if len(sys.argv) != 3:
         print('USAGE: <unrouted.phys> <routed.phys>')
@@ -584,3 +615,5 @@ if len(sys.argv) != 3:
 with NxRouter.create('xcvu3p.device', sys.argv[1]) as router:
         router.route()
         router.write(sys.argv[2])
+
+print('Peak memory:', resource.getrusage(resource.RUSAGE_SELF).ru_maxrss, 'KB')
