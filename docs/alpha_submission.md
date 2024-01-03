@@ -135,8 +135,8 @@ Internally, this executes the following commands:
 
 ```
 make distclean
-tar -czf ../<router_name>_submission_<timestamp>.tar.gz.tar.gz .
-mv ../<router_name>_submission_<timestamp>.tar.gz.tar.gz .
+tar -czf ../<router_name>_submission_<timestamp>.tar.gz .
+mv ../<router_name>_submission_<timestamp>.tar.gz .
 ```
 
 Note that `make distclean` will delete all unrouted design files, routed
