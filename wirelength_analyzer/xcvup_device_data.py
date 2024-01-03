@@ -104,6 +104,7 @@ class xcvupDeviceData:
         # et al, link: https://www.rapidwright.io/docs/_downloads/6610b931d8a2e053e69a499d3923077f/FPT19-TimingModel.pdf
         self.pips =  [
             #intra-tile (zero wirelength)
+            # INT tiles
             (re.compile(r'LOGIC_OUTS_[LR]\d{1,2}'),                  0),
             (re.compile(r'INT_NODE_SDQ_\d{1,2}_INT_OUT[01]'),        0),
             (re.compile(r'INT_NODE_IMUX_\d{1,2}_INT_OUT[01]'),       0),
@@ -118,6 +119,13 @@ class xcvupDeviceData:
             (re.compile(r'BOUNCE_[EW]_\d{1,2}_FT[01]'),              0),
             (re.compile(r'INODE_[EW]_\d{1,2}_FT[01]'),               0),
             (re.compile(r'SDQNODE_[EW]_\d{1,2}_FT[01]'),             0),
+            # LAG_LAG tiles
+            (re.compile(r'LAG_MUX_ATOM_\d{1,2}_TXOUT'),              0),
+            (re.compile(r'UBUMP\d{1,2}'),                            0), # In multi-SLR devices, this wire is typically
+                                                                         # used to cross the SLR. Since the xcvu3p is
+                                                                         # a single SLR device, this wire can only be
+                                                                         # used as a 'U-turn' back into the same tile
+            (re.compile(r'RXD\d{1,2}'),                              0),
 
             #single horizontal
             (re.compile(r'[EW]{2}1_[EW]_BEG[0-7]'),                  1),
