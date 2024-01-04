@@ -10,6 +10,7 @@
 package com.xilinx.fpga24_routing_contest;
 
 import com.xilinx.rapidwright.design.Design;
+import com.xilinx.rapidwright.design.compare.DesignComparator;
 import com.xilinx.rapidwright.design.tools.LUTTools;
 import com.xilinx.rapidwright.edif.EDIFNetlist;
 import com.xilinx.rapidwright.edif.EDIFTools;
@@ -43,8 +44,8 @@ import java.util.zip.ZipEntry;
 
 public class CheckPhysNetlist {
     public static void main(String[] args) throws IOException, InterruptedException {
-        if (args.length != 2) {
-            System.err.println("USAGE: <input.netlist> <input.phys>");
+        if (args.length != 3) {
+            System.err.println("USAGE: <input.netlist> <routed.phys> <unrouted.phys>");
             return;
         }
 
@@ -54,15 +55,26 @@ public class CheckPhysNetlist {
         PhysNetlistReader.VALIDATE_MACROS_PLACED_FULLY = false;
         PhysNetlistReader.CHECK_MACROS_CONSISTENT = false;
 
+        // Read the routed and unrouted Physical Netlists
+        Design routedDesign = PhysNetlistReader.readPhysNetlist(args[1]);
+        Design unroutedDesign = PhysNetlistReader.readPhysNetlist(args[2]);
+
+        DesignComparator dc = new DesignComparator();
+        dc.setComparePIPs(false);
+        int numDiffs = dc.compareDesigns(unroutedDesign, routedDesign);
+        unroutedDesign = null;
+        if (numDiffs == 0) {
+            System.out.println("INFO: No non-PIP differences found between routed and unrouted netlists");
+        } else {
+            System.err.println("ERROR: Detected " + numDiffs + " non-PIP differences between " + args[1] + " and " + args[2]);
+        }
+
         // Read the Logical Netlist
         EDIFNetlist netlist = LogNetlistReader.readLogNetlist(args[0]);
 
-        // Read the Physical Netlist
-        Design design = PhysNetlistReader.readPhysNetlist(args[1]);
-
         // Combine Physical Netlist with Logical
-        design.setNetlist(netlist);
-        design.setName(netlist.getName());
+        routedDesign.setNetlist(netlist);
+        routedDesign.setName(netlist.getName());
 
         // Add encrypted EDIF cells to the design if found
         Path ednDirectory = Paths.get(args[0] + ".edn");
@@ -75,11 +87,11 @@ public class CheckPhysNetlist {
         }
 
         // Examine the design routing and perform any necessary LUT pin swaps
-        LUTTools.swapLutPinsFromPIPs(design);
+        LUTTools.swapLutPinsFromPIPs(routedDesign);
 
         // Write design to Vivado Design Checkpoint (DCP)
         Path outputDcp = Paths.get(FileTools.removeFileExtension(args[1]) + ".dcp");
-        design.writeCheckpoint(outputDcp);
+        routedDesign.writeCheckpoint(outputDcp);
 
         // Call Vivado's `report_route_status` command on this DCP
         ReportRouteStatusResult rrs = null;
@@ -147,7 +159,7 @@ public class CheckPhysNetlist {
         }
 
         // Exit code 0 only if Vivado reported that it was fully routed
-        System.exit(rrs.logicalNets > 0 && rrs.isFullyRouted() ? 0 : 1);
+        System.exit(numDiffs == 0 && rrs.logicalNets > 0 && rrs.isFullyRouted() ? 0 : 1);
     }
 }
 
