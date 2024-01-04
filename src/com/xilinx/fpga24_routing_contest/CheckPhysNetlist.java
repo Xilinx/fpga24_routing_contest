@@ -57,6 +57,7 @@ public class CheckPhysNetlist {
 
         // Read the routed and unrouted Physical Netlists
         Design routedDesign = PhysNetlistReader.readPhysNetlist(args[1]);
+        int numDiffs = 0;
         if (System.getenv("CHECK_PHYS_NETLIST_DIFF_MOCK_RESULT").equals("true")) {
             System.out.println("::warning file=" + args[1] + "::CheckPhysNetlist's DesignComparator not run because CHECK_PHYS_NETLIST_DIFF_MOCK_RESULT is set");
         } else {
@@ -64,12 +65,12 @@ public class CheckPhysNetlist {
 
             DesignComparator dc = new DesignComparator();
             dc.setComparePIPs(false);
-            int numDiffs = dc.compareDesigns(unroutedDesign, routedDesign);
-            if (numDiffs == 0) {
-                System.out.println("INFO: No non-PIP differences found between routed and unrouted netlists");
-            } else {
-                System.err.println("ERROR: Detected " + numDiffs + " non-PIP differences between " + args[1] + " and " + args[2]);
-            }
+            numDiffs = dc.compareDesigns(unroutedDesign, routedDesign);
+        }
+        if (numDiffs == 0) {
+            System.out.println("INFO: No non-PIP differences found between routed and unrouted netlists");
+        } else {
+            System.err.println("ERROR: Detected " + numDiffs + " non-PIP differences between " + args[1] + " and " + args[2]);
         }
 
         // Read the Logical Netlist
