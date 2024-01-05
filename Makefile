@@ -137,8 +137,8 @@ distclean: clean
 	(/usr/bin/time python3 networkx-proof-of-concept-router/nxroute-poc.py $< $@) $(call log_and_or_display,$@.log)
 
 ## EXAMPLEROUTE
-# %_exampleroute.phys: %_unrouted.phys | fpga-interchange-schema/interchange/capnp/java.capnp
-# 	(/usr/bin/time <custom router here> $< $@) > $@.log $(call log_and_or_display,$@.log)
+# %_exampleroute.phys: %_unrouted.phys
+# 	(/usr/bin/time <custom router here> $< $@) $(call log_and_or_display,$@.log)
 
 #### END ROUTER RECIPES
 
@@ -168,12 +168,12 @@ endif
 # Use the <ROUTER>_container.sif Apptainer image to run all benchmarks
 .PHONY: run-container
 run-container: $(ROUTER)_container.sif
-	apptainer run $(APPTAINER_RUN_ARGS) $< make ROUTER="$(ROUTER)" BENCHMARKS="$(BENCHMARKS)" VERBOSE="$(VERBOSE)"
+	apptainer exec $(APPTAINER_RUN_ARGS) $< make ROUTER="$(ROUTER)" BENCHMARKS="$(BENCHMARKS)" VERBOSE="$(VERBOSE)"
 
 # Use the <ROUTER>_container.sif Apptainer image to run a single small benchmark for testing
 .PHONY: test-container
 test-container: $(ROUTER)_container.sif
-	apptainer run $(APPTAINER_RUN_ARGS) $< make ROUTER="$(ROUTER)" BENCHMARKS="boom_med_pb" VERBOSE="$(VERBOSE)"
+	apptainer exec $(APPTAINER_RUN_ARGS) $< make ROUTER="$(ROUTER)" BENCHMARKS="boom_med_pb" VERBOSE="$(VERBOSE)"
 
 SUBMISSION_NAME = $(ROUTER)_submission_$(shell date +%Y%m%d%H%M%S)
 
