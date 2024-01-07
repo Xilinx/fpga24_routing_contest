@@ -49,12 +49,12 @@ make run-container
 This is roughly equivalent to:
 ```
 apptainer build rwroute_container.sif alpha_submission/rwroute_container.def
-apptainer run --pid --home `pwd` --rocm --bind /etc/OpenCL --mount src=/tools/,dst=/tools/,ro rwroute_container.sif make
+apptainer exec --pid --home `pwd` --rocm --bind /etc/OpenCL --mount src=/tools/,dst=/tools/,ro rwroute_container.sif make
 ```
 
 The `apptainer build` command creates an image from the `rwroute_container.def`
-definition, and the `apptainer run` command runs this image. The Apptainer
-command line options do the following:
+definition, and the `apptainer exec` command runs the given command inside this image.
+The Apptainer command line options do the following:
 
 * `--pid` runs the container in a new process ID namespace to ensure processes
 spawned by the container are not orphaned if the container is killed.
