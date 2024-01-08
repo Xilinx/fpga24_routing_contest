@@ -64,13 +64,14 @@ public class CheckPhysNetlist {
             Design unroutedDesign = PhysNetlistReader.readPhysNetlist(args[2]);
 
             DesignComparator dc = new DesignComparator();
-            dc.setComparePIPs(false);
+            // Only compare PIPs on static and clock nets
+            dc.setComparePIPs((net) -> net.isStaticNet() || net.isClockNet());
             numDiffs = dc.compareDesigns(unroutedDesign, routedDesign);
         }
         if (numDiffs == 0) {
-            System.out.println("INFO: No non-PIP differences found between routed and unrouted netlists");
+            System.out.println("INFO: No differences found between routed and unrouted netlists");
         } else {
-            System.err.println("ERROR: Detected " + numDiffs + " non-PIP differences between " + args[1] + " and " + args[2]);
+            System.err.println("ERROR: Detected " + numDiffs + " differences between " + args[1] + " and " + args[2]);
         }
 
         // Read the Logical Netlist
