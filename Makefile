@@ -21,7 +21,7 @@ BENCHMARKS ?= boom_med_pb		\
               ispd16_example2
 
 
-BENCHMARKS_URL = https://github.com/Xilinx/fpga24_routing_contest/releases/latest/download/benchmarks.tar.gz
+BENCHMARKS_URL = https://github.com/eddieh-xlnx/fpga24_routing_contest/releases/download/benchmarks/benchmarks.tar.gz
 
 # Inherit proxy settings from the host if they exist
 HTTPHOST=$(firstword $(subst :, ,$(subst http:,,$(subst /,,$(HTTP_PROXY)))))
@@ -90,7 +90,7 @@ fpga-interchange-schema/interchange/capnp/java.capnp:
 # Gradle is used to invoke the CheckPhysNetlist class' main method with arguments
 # $^ (%.netlist and %_rwroute.phys), and display/redirect all output to $@.log (%_rwroute.check.log).
 # The exit code of Gradle determines if 'PASS' or 'FAIL' is written to $@ (%_rwroute.check)
-%_$(ROUTER).check: %.netlist %_$(ROUTER).phys | compile-java
+%_$(ROUTER).check: %.netlist %_$(ROUTER).phys %_unrouted.phys | compile-java
 	if ./gradlew -DjvmArgs="-Xms6g -Xmx6g" -Dmain=com.xilinx.fpga24_routing_contest.CheckPhysNetlist :run --args='$^' $(call log_and_or_display,$@.log); then \
             echo "PASS" > $@; \
         else \
@@ -99,7 +99,7 @@ fpga-interchange-schema/interchange/capnp/java.capnp:
 
 %_$(ROUTER).wirelength: %_$(ROUTER).phys | setup-wirelength_analyzer
 	if [[ "$(WIRELENGTH_ANALYZER_MOCK_RESULT)" == "true" ]]; then \
-            echo "::warning file=$@::wirelength_analyzer not run because WIRELENGTH_ANALYZER_MOCK_RESULT is set"; \
+            echo "::warning file=$<::wirelength_analyzer not run because WIRELENGTH_ANALYZER_MOCK_RESULT is set"; \
 	    echo "Wirelength: inf" > $@; \
 	else \
 	    python3 wirelength_analyzer/wa.py $< $(call log_and_or_display,$@); \
