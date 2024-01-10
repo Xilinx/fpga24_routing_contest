@@ -16,10 +16,12 @@ jobs:
       fail-fast: false
       matrix:
         benchmark:
+          - logicnets_jscl
           - boom_med_pb
           - vtr_mcml
           - rosetta_fd
           - corundum_25g
+          - finn_radioml
           - vtr_lu64peeng
           - corescore_500
           - corescore_500_pb
@@ -49,6 +51,10 @@ jobs:
       - name: Print VCC stubs
         run: |
           sed -n -e '/Stub: 0/,$p' vcc.physnet
+      - name: Print global nets (boom_med_pb)
+        if: matrix.benchmark == 'boom_med_pb'
+        run:
+          python3 net_printer/np.py ${{ matrix.benchmark }}_unrouted.phys clock_uncore_clock_IBUF_BUFG system/prci_ctrl_domain/resetSynchronizer/x1_member_allClocks_uncore_reset_catcher/io_sync_reset_chain/output_chain/sync_0_reg_0
       - name: Print largest global net (corundum_25g)
         if: matrix.benchmark == 'corundum_25g'
         run:

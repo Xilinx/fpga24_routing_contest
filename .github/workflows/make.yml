@@ -22,10 +22,12 @@ jobs:
           - false
           - true
         benchmark:
+          - logicnets_jscl
           - boom_med_pb
           - vtr_mcml
           - rosetta_fd
           - corundum_25g
+          - finn_radioml
           - vtr_lu64peeng
           - corescore_500
           - corescore_500_pb
