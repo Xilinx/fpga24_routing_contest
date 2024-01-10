@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023, Advanced Micro Devices, Inc.  All rights reserved.
+ * Copyright (C) 2024, Advanced Micro Devices, Inc.  All rights reserved.
  *
  * Author: Eddie Hung, AMD
  *
@@ -39,7 +39,7 @@ public class DiffPhysNetlist {
         if (numDiffs == 0) {
             System.out.println("INFO: No differences found between routed and unrouted netlists");
         } else {
-            dc.printDiffReportSummary(System.out);
+            dc.printDiffReport(System.out);
         }
 
         System.exit(numDiffs == 0 ? 0 : 1);
