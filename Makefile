@@ -8,10 +8,12 @@
 SHELL := /bin/bash -o pipefail
 
 # List of all benchmarks (default to all)
-BENCHMARKS ?= boom_med_pb		\
+BENCHMARKS ?= logicnets_jscl		\
+              boom_med_pb		\
               vtr_mcml			\
               rosetta_fd		\
               corundum_25g		\
+              finn_radioml		\
               vtr_lu64peeng		\
               corescore_500		\
               corescore_500_pb		\
