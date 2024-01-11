@@ -147,7 +147,7 @@ distclean: clean
 
 # Required Apptainer args:
 # --pid: ensures all processes apptainer spawns are killed with the container
-# --home `pwd`: overrides the home directory inside the container to be the 'fakehome' subdir
+# --home: overrides the home directory bound into the container to be the 'fakehome' subdir
 APPTAINER_RUN_ARGS = --pid --home `pwd`/fakehome
 ifneq ($(wildcard /tools),)
     # Creates a read-only mount of the host system's `/tools` directory to the container's
