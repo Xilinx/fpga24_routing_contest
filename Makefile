@@ -146,8 +146,8 @@ distclean: clean
 
 # Required Apptainer args:
 # --pid: ensures all processes apptainer spawns are killed with the container
-# --home `pwd`: overrides the home directory inside the container to be the current dir
-APPTAINER_RUN_ARGS = --pid --home `pwd`
+# --home `pwd`: overrides the home directory inside the container to be the 'fakehome' subdir
+APPTAINER_RUN_ARGS = --pid --home `pwd`/fakehome
 ifneq ($(wildcard /tools),)
     # Creates a read-only mount of the host system's `/tools` directory to the container's
     # /tools` directory, which allows the container to access the host Vivado installation
@@ -165,14 +165,21 @@ endif
 %_container.sif: alpha_submission/%_container.def
 	apptainer build $@ $<
 
+fakehome:
+	mkdir fakehome
+
 # Use the <ROUTER>_container.sif Apptainer image to run all benchmarks
 .PHONY: run-container
-run-container: $(ROUTER)_container.sif
+run-container: $(ROUTER)_container.sif | fakehome
+	# Clear out the fakehome subdirectory
+	rm -rf fakehome/* fakehome/.*
 	apptainer exec $(APPTAINER_RUN_ARGS) $< make ROUTER="$(ROUTER)" BENCHMARKS="$(BENCHMARKS)" VERBOSE="$(VERBOSE)"
 
 # Use the <ROUTER>_container.sif Apptainer image to run a single small benchmark for testing
-.PHONY: test-container
+.PHONY: test-container | fakehome
 test-container: $(ROUTER)_container.sif
+	# Clear out the fakehome subdirectory
+	rm -rf fakehome/* fakehome/.*
 	apptainer exec $(APPTAINER_RUN_ARGS) $< make ROUTER="$(ROUTER)" BENCHMARKS="boom_med_pb" VERBOSE="$(VERBOSE)"
 
 SUBMISSION_NAME = $(ROUTER)_submission_$(shell date +%Y%m%d%H%M%S)
