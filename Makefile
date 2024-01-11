@@ -65,7 +65,7 @@ run-$(ROUTER): score-$(ROUTER)
 # Also download/generate all device files necessary for the xcvu3p device
 .PHONY: compile-java
 compile-java:
-	./gradlew $(JAVA_PROXY) compileJava
+	_JAVA_OPTIONS="$(JAVA_PROXY)" ./gradlew compileJava
 	_JAVA_OPTIONS="$(JAVA_PROXY)" RapidWright/bin/rapidwright Jython -c "FileTools.ensureDataFilesAreStaticInstallFriendly('xcvu3p')"
 
 .PHONY: install-python-deps
@@ -91,7 +91,7 @@ fpga-interchange-schema/interchange/capnp/java.capnp:
 # $^ (%.netlist and %_rwroute.phys), and display/redirect all output to $@.log (%_rwroute.check.log).
 # The exit code of Gradle determines if 'PASS' or 'FAIL' is written to $@ (%_rwroute.check)
 %_$(ROUTER).check: %.netlist %_$(ROUTER).phys %_unrouted.phys | compile-java
-	if ./gradlew -DjvmArgs="-Xms6g -Xmx6g" -Dmain=com.xilinx.fpga24_routing_contest.CheckPhysNetlist :run --args='$^' $(call log_and_or_display,$@.log); then \
+	if ./gradlew --offline -DjvmArgs="-Xms6g -Xmx6g" -Dmain=com.xilinx.fpga24_routing_contest.CheckPhysNetlist :run --args='$^' $(call log_and_or_display,$@.log); then \
             echo "PASS" > $@; \
         else \
             echo "FAIL" > $@; \
@@ -130,13 +130,14 @@ distclean: clean
 # Gradle is used to invoke the PartialRouterPhysNetlist class' main method with arguments
 # $< (%_unrouted.phys) and $@ (%_rwroute.phys), and display/redirect all output into %_rwroute.phys.log
 %_rwroute.phys: %_unrouted.phys | compile-java
-	(/usr/bin/time ./gradlew -DjvmArgs="$(JVM_HEAP)" -Dmain=com.xilinx.fpga24_routing_contest.PartialRouterPhysNetlist :run --args='$< $@') $(call log_and_or_display,$@.log)
+	(/usr/bin/time ./gradlew --offline -DjvmArgs="$(JVM_HEAP)" -Dmain=com.xilinx.fpga24_routing_contest.PartialRouterPhysNetlist :run --args='$< $@') $(call log_and_or_display,$@.log)
 
 ## NXROUTE-POC
 %_nxroute-poc.phys: %_unrouted.phys xcvu3p.device | install-python-deps fpga-interchange-schema/interchange/capnp/java.capnp
 	(/usr/bin/time python3 networkx-proof-of-concept-router/nxroute-poc.py $< $@) $(call log_and_or_display,$@.log)
 
 ## EXAMPLEROUTE
+## (please only modify '<custom router here>' to ensure that all contest infrastructure remains in place)
 # %_exampleroute.phys: %_unrouted.phys
 # 	(/usr/bin/time <custom router here> $< $@) $(call log_and_or_display,$@.log)
 
@@ -146,8 +147,8 @@ distclean: clean
 
 # Required Apptainer args:
 # --pid: ensures all processes apptainer spawns are killed with the container
-# --home `pwd`: overrides the home directory inside the container to be the current dir
-APPTAINER_RUN_ARGS = --pid --home `pwd`
+# --home: overrides the home directory bound into the container to be the 'fakehome' subdir
+APPTAINER_RUN_ARGS = --pid --home `pwd`/fakehome
 ifneq ($(wildcard /tools),)
     # Creates a read-only mount of the host system's `/tools` directory to the container's
     # /tools` directory, which allows the container to access the host Vivado installation
@@ -165,14 +166,21 @@ endif
 %_container.sif: alpha_submission/%_container.def
 	apptainer build $@ $<
 
+fakehome:
+	mkdir fakehome
+
 # Use the <ROUTER>_container.sif Apptainer image to run all benchmarks
 .PHONY: run-container
-run-container: $(ROUTER)_container.sif
+run-container: $(ROUTER)_container.sif | fakehome
+	# Clear out the fakehome subdirectory
+	rm -rf fakehome/* fakehome/.*
 	apptainer exec $(APPTAINER_RUN_ARGS) $< make ROUTER="$(ROUTER)" BENCHMARKS="$(BENCHMARKS)" VERBOSE="$(VERBOSE)"
 
 # Use the <ROUTER>_container.sif Apptainer image to run a single small benchmark for testing
-.PHONY: test-container
+.PHONY: test-container | fakehome
 test-container: $(ROUTER)_container.sif
+	# Clear out the fakehome subdirectory
+	rm -rf fakehome/* fakehome/.*
 	apptainer exec $(APPTAINER_RUN_ARGS) $< make ROUTER="$(ROUTER)" BENCHMARKS="boom_med_pb" VERBOSE="$(VERBOSE)"
 
 SUBMISSION_NAME = $(ROUTER)_submission_$(shell date +%Y%m%d%H%M%S)
