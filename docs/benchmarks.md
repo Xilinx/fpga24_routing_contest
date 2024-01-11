@@ -7,10 +7,10 @@ table:
 
 |Source Benchmark Suite|Benchmark Name|LUTs|FFs|DSPs|BRAMs|OOC [1]|
 |----------------------|--------------|----|---|----|-----|-------|
-| [BOOM](https://docs.boom-core.org/en/latest/sections/intro-overview/boom.html)                                          |`med_pb` (MediumBoomConfig with area constraint)   |36k |17k |24  |142|Y   |
+| [BOOM](https://docs.boom-core.org/en/latest/sections/intro-overview/boom.html)                                          |`med_pb` (MediumBoomConfig with area constraint)   |36k |17k |24  |142|N   |
 | [VTR](https://docs.verilogtorouting.org/en/latest/vtr/benchmarks/#vtr-benchmarks)                                       |`mcml`                                             |43k |15k |105 |142|Y   |
 | [Rosetta](https://github.com/cornell-zhang/rosetta)                                                                     |`fd` (face-detection)                              |46k |39k |72  |62 |Y   |
-| [Corundum](https://github.com/corundum/corundum)                                                                        |`25g` (ADM_PCIE_9V3 25G)                           |73k |96k |0   |221|Y   |
+| [Corundum](https://github.com/corundum/corundum)                                                                        |`25g` (ADM_PCIE_9V3 25G)                           |73k |96k |0   |221|N   |
 | [VTR](https://github.com/verilog-to-routing/vtr-verilog-to-routing/blob/master/vtr_flow/benchmarks/verilog/LU64PEEng.v) |`lu64peeng`                                        |90k |36k |128 |303|Y   |
 | [CoreScore](https://github.com/olofk/corescore)                                                                         |`500` (500 SERV cores)                             |96k |116k|0   |250|N   |
 | [CoreScore](https://github.com/olofk/corescore)                                                                         |`500_pb` (500 SERV cores with area constraint)     |96k |116k|0   |250|N   |
