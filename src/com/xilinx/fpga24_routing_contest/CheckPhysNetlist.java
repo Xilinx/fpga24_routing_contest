@@ -58,7 +58,7 @@ public class CheckPhysNetlist {
         // Read the routed and unrouted Physical Netlists
         Design routedDesign = PhysNetlistReader.readPhysNetlist(args[1]);
         int numDiffs = 0;
-        if (System.getenv("CHECK_PHYS_NETLIST_DIFF_MOCK_RESULT").equals("true")) {
+        if ("true".equals(System.getenv("CHECK_PHYS_NETLIST_DIFF_MOCK_RESULT")) {
             System.out.println("::warning file=" + args[1] + "::CheckPhysNetlist's DesignComparator not run because CHECK_PHYS_NETLIST_DIFF_MOCK_RESULT is set");
         } else {
             Design unroutedDesign = PhysNetlistReader.readPhysNetlist(args[2]);
