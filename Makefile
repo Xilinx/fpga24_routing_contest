@@ -137,6 +137,7 @@ distclean: clean
 	(/usr/bin/time python3 networkx-proof-of-concept-router/nxroute-poc.py $< $@) $(call log_and_or_display,$@.log)
 
 ## EXAMPLEROUTE
+## (please only modify '<custom router here>' to ensure that all contest infrastructure remains in place)
 # %_exampleroute.phys: %_unrouted.phys
 # 	(/usr/bin/time <custom router here> $< $@) $(call log_and_or_display,$@.log)
 
