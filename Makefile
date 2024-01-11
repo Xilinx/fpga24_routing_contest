@@ -23,7 +23,8 @@ BENCHMARKS ?= logicnets_jscl		\
               ispd16_example2
 
 
-BENCHMARKS_URL = https://github.com/Xilinx/fpga24_routing_contest/releases/latest/download/benchmarks.tar.gz
+#BENCHMARKS_URL = https://github.com/Xilinx/fpga24_routing_contest/releases/latest/download/benchmarks.tar.gz
+BENCHMARKS_URL = https://github.com/eddieh-xlnx/fpga24_routing_contest/releases/download/benchmarks/benchmarks.tar.gz
 
 # Inherit proxy settings from the host if they exist
 HTTPHOST=$(firstword $(subst :, ,$(subst http:,,$(subst /,,$(HTTP_PROXY)))))
