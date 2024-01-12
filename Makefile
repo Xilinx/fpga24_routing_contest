@@ -1,4 +1,4 @@
-# Copyright (C) 2023, Advanced Micro Devices, Inc.  All rights reserved.
+# Copyright (C) 2024, Advanced Micro Devices, Inc.  All rights reserved.
 #
 # Author: Eddie Hung, AMD
 #
@@ -8,10 +8,12 @@
 SHELL := /bin/bash -o pipefail
 
 # List of all benchmarks (default to all)
-BENCHMARKS ?= boom_med_pb		\
+BENCHMARKS ?= logicnets_jscl		\
+              boom_med_pb		\
               vtr_mcml			\
               rosetta_fd		\
               corundum_25g		\
+              finn_radioml		\
               vtr_lu64peeng		\
               corescore_500		\
               corescore_500_pb		\
@@ -21,7 +23,8 @@ BENCHMARKS ?= boom_med_pb		\
               ispd16_example2
 
 
-BENCHMARKS_URL = https://github.com/Xilinx/fpga24_routing_contest/releases/latest/download/benchmarks.tar.gz
+#BENCHMARKS_URL = https://github.com/Xilinx/fpga24_routing_contest/releases/latest/download/benchmarks.tar.gz
+BENCHMARKS_URL = https://github.com/eddieh-xlnx/fpga24_routing_contest/releases/download/benchmarks/benchmarks.tar.gz
 
 # Inherit proxy settings from the host if they exist
 HTTPHOST=$(firstword $(subst :, ,$(subst http:,,$(subst /,,$(HTTP_PROXY)))))

@@ -1,4 +1,4 @@
-# Copyright (C) 2023, Advanced Micro Devices, Inc.  All rights reserved.
+# Copyright (C) 2024, Advanced Micro Devices, Inc.  All rights reserved.
 #
 # Author: Eddie Hung, AMD
 #
@@ -22,10 +22,12 @@ jobs:
           - false
           - true
         benchmark:
+          - logicnets_jscl
           - boom_med_pb
           - vtr_mcml
           - rosetta_fd
           - corundum_25g
+          - finn_radioml
           - vtr_lu64peeng
           - corescore_500
           - corescore_500_pb
