@@ -18,7 +18,10 @@ jobs:
         router:
           - rwroute
           - nxroute-poc
-        lutpinswap:
+        lutpinswapping:
+          - false
+          - true
+        lutroutethru:
           - false
           - true
         benchmark:
@@ -47,7 +50,10 @@ jobs:
             benchmark: ispd16_example2
           # NXRoute does not support LUT pin swapping
           - router: nxroute-poc
-            lutpinswap: true
+            lutpinswapping: true
+          # NXRoute does not support LUT routethrus
+          - router: nxroute-poc
+            lutroutethru: true
     steps:
       - uses: actions/checkout@v3
         with:
@@ -72,7 +78,8 @@ jobs:
           # For certain benchmarks, wirelength_analyzer/CheckPhysNetlist requires more memory than that available in GitHub Actions
           WIRELENGTH_ANALYZER_MOCK_RESULT: ${{ matrix.benchmark == 'koios_dla_like_large' }}
           CHECK_PHYS_NETLIST_DIFF_MOCK_RESULT: ${{ matrix.benchmark == 'koios_dla_like_large' }}
-          RWROUTE_FORCE_LUT_PIN_SWAP:   ${{ matrix.router == 'rwroute' && matrix.lutpinswap }}
+          RWROUTE_FORCE_LUT_PINSWAPPING: ${{ matrix.router == 'rwroute' && matrix.lutpinswapping }}
+          RWROUTE_FORCE_LUT_ROUTETHRU:   ${{ matrix.router == 'rwroute' && matrix.lutroutethru }}
         run: |
           make ROUTER="${{ matrix.router }}" BENCHMARKS="${{ matrix.benchmark }}" VERBOSE=1
       - name: Score summary
@@ -115,7 +122,8 @@ jobs:
       - uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: ${{ matrix.router }}${{ matrix.router == 'rwroute' && matrix.lutpinswap && '-lutpinswap' || ''}}-${{ matrix.benchmark }}
+          name: ${{ matrix.router }}${{ matrix.router == 'rwroute' && matrix.lutpinswapping && '-lutpinswapping' || ''}}-${{ matrix.benchmark }}
+          name: ${{ matrix.router }}${{ matrix.router == 'rwroute' && matrix.lutroutethru && '-lutroutethru' || ''}}-${{ matrix.benchmark }}
           path: |
            *.dcp
            *.phys
