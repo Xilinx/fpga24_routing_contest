@@ -63,14 +63,24 @@ public class PartialRouterPhysNetlist {
         routerArgs.addAll(List.of("--initialPresentCongestionFactor", "0.5"));
         routerArgs.addAll(List.of("--presentCongestionMultiplier", "2"));
         routerArgs.addAll(List.of("--historicalCongestionFactor", "1"));
-        // Optionally, enable LUT pin swapping where all inputs of a LUT are considered
-        // to be equivalent
+
+        // Optionally, allow RWRoute to perform LUT pin swapping such that all LUT input sinks
+        // are considered to be equivalent
         //routerArgs.add("--lutPinSwapping");
 
-        if (System.getenv().getOrDefault("RWROUTE_FORCE_LUT_PIN_SWAP", "false").equals("true")) {
-            // For testing purposes
+        // Optionally, allow RWRoute to consider LUT routethrus, where unused LUT resources
+        // (subject to a number of constraints) can be repurposed as an additional routing
+        // resource
+        //routerArgs.add("--lutRoutethru");
+
+        // Primarily for testing purposes
+        if (System.getenv().getOrDefault("RWROUTE_FORCE_LUT_PINSWAPPING", "false").equals("true")) {
             routerArgs.add("--lutPinSwapping");
-	}
+        }
+        if (System.getenv().getOrDefault("RWROUTE_FORCE_LUT_ROUTETHRU", "false").equals("true")) {
+            routerArgs.add("--lutRoutethru");
+        }
+
         if (routerArgs.contains("--lutPinSwapping")) {
             // Ask RWRoute not to perform any intra-site routing updates to reflect
             // any LUT pin swapping that occurs during routing, to fulfill the
