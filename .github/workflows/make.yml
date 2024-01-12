@@ -122,8 +122,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: ${{ matrix.router }}${{ matrix.router == 'rwroute' && matrix.lutpinswapping && '-lutpinswapping' || ''}}-${{ matrix.benchmark }}
-          name: ${{ matrix.router }}${{ matrix.router == 'rwroute' && matrix.lutroutethru && '-lutroutethru' || ''}}-${{ matrix.benchmark }}
+          name: ${{ matrix.router }}${{ matrix.router == 'rwroute' && matrix.lutpinswapping && '-lutpinswapping' || ''}}${{ matrix.router == 'rwroute' && matrix.lutroutethru && '-lutroutethru' || ''}}-${{ matrix.benchmark }}
           path: |
            *.dcp
            *.phys
