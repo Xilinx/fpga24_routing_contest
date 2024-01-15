@@ -24,7 +24,7 @@ jobs:
           sudo dpkg -i apptainer_${APPTAINER_VERSION}_amd64.deb || true
           sudo apt-get -f install
       - run: |
-          make test-container
+          make test-container VERBOSE=1
       - uses: actions/upload-artifact@v3
         with:
           name: rwroute_container.sif
