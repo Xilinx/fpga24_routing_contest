@@ -151,7 +151,7 @@ distclean: clean
 # --pid: ensures all processes apptainer spawns are killed with the container
 # --containall: isolate the container from the host environment
 # --workdir: working directory for /home, /tmp, etc. inside container
-APPTAINER_RUN_ARGS = --pid --containall --workdir `pwd`/workdir --bind `pwd`:/pwd --pwd /pwd
+APPTAINER_RUN_ARGS = --pid --containall --workdir `pwd`/workdir --home `pwd`/workdir/home --bind `pwd`:/pwd --pwd /pwd
 ifneq ($(wildcard /tools),)
     # Creates a read-only mount of the host system's `/tools` directory to the container's
     # /tools` directory, which allows the container to access the host Vivado installation
@@ -173,14 +173,14 @@ endif
 .PHONY: run-container
 run-container: $(ROUTER)_container.sif
 	# Clear out the per-session workdir subdirectory
-	rm -rf workdir && mkdir workdir
+	rm -rf workdir && mkdir workdir workdir/home
 	apptainer exec $(APPTAINER_RUN_ARGS) $< make ROUTER="$(ROUTER)" BENCHMARKS="$(BENCHMARKS)" VERBOSE="$(VERBOSE)"
 
 # Use the <ROUTER>_container.sif Apptainer image to run a single small benchmark for testing
 .PHONY: test-container
 test-container: $(ROUTER)_container.sif
 	# Clear out the per-session workdir subdirectory
-	rm -rf workdir && mkdir workdir
+	rm -rf workdir && mkdir workdir workdir/home
 	apptainer exec $(APPTAINER_RUN_ARGS) $< make ROUTER="$(ROUTER)" BENCHMARKS="boom_med_pb" VERBOSE="$(VERBOSE)"
 
 SUBMISSION_NAME = $(ROUTER)_submission_$(shell date +%Y%m%d%H%M%S)
@@ -203,7 +203,7 @@ opencl_example_container.sif: alpha_submission/opencl_example/opencl_example_con
 .PHONY: run-opencl-example
 run-opencl-example: opencl_example_container.sif
 	# Clear out the per-session workdir subdirectory
-	rm -rf workdir && mkdir workdir
+	rm -rf workdir && mkdir workdir workdir/home
 	apptainer run $(APPTAINER_RUN_ARGS) $<
 
 #### END EXAMPLE RECIPES
