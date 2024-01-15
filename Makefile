@@ -151,7 +151,7 @@ distclean: clean
 # --pid: ensures all processes apptainer spawns are killed with the container
 # --containall: isolate the container from the host environment
 # --workdir: working directory for /home, /tmp, etc. inside container
-APPTAINER_RUN_ARGS = --pid --containall --workdir `pwd`/workdir --home `pwd`/workdir/home --bind `pwd`:/pwd --pwd /pwd
+APPTAINER_RUN_ARGS = --pid --containall --workdir `pwd`/workdir --home `pwd`:/home
 ifneq ($(wildcard /tools),)
     # Creates a read-only mount of the host system's `/tools` directory to the container's
     # /tools` directory, which allows the container to access the host Vivado installation
