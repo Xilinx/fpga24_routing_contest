@@ -66,7 +66,7 @@ Deadlines refer to Anywhere On Earth.
 
 ## Prizes 
 
-Prizes will be awarded to the top 5 finalists:
+Prizes will be awarded to up to 5 finalists:
 
 | Rank | Prize (USD) |
 |------|-------------|
