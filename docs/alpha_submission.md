@@ -59,7 +59,7 @@ The Apptainer command line options do the following:
 * `--pid` runs the container in a new process ID namespace to ensure processes
 spawned by the container are not orphaned if the container is killed.
 * ``--home `pwd` `` sets the container home directory to be the current directory
-* `--rocm --bind /etc/OpenCL` configures [GPU Access](alpha_submission.md#gpu-access)
+* `--rocm --bind /etc/OpenCL` configures [GPU Access](#gpu-access)
 * `--mount ...` creates a read-only mount of the host system's `/tools`
 directory to the container's `/tools` directory, which allows the container to
 access the host Vivado installation.
