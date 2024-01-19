@@ -119,14 +119,14 @@ score-$(ROUTER): $(foreach b,$(BENCHMARKS),$b_$(ROUTER).wirelength $b_$(ROUTER).
 setup-net_printer setup-wirelength_analyzer: | install-python-deps fpga-interchange-schema/interchange/capnp/java.capnp
 
 clean:
-	rm -f *.{phys,check,wirelength,sif}*
+	rm -f *.{check,wirelength,sif}* *_(ROUTER).phys*
 
 distclean: clean
-	rm -rf *.device *_unrouted.phys *.netlist*
+	rm -rf *.device *.phys *.netlist*
 	rm -f *.dcp *_load.tcl
 	rm -rf workdir .gradle .local .cache .wget-hsts
 	rm -rf .Xilinx
-	cd RapidWright && _JAVA_OPTIONS="$(JAVA_PROXY)" ./gradlew clean
+	_JAVA_OPTIONS="$(JAVA_PROXY)" ./gradlew clean
 
 
 #### BEGIN ROUTER RECIPES
