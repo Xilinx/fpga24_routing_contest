@@ -124,7 +124,8 @@ clean:
 distclean: clean
 	rm -rf *.device *_unrouted.phys *.netlist*
 	rm -f *.dcp *_load.tcl
-	rm -rf workdir .gradle
+	rm -rf workdir .gradle .local .cache .wget-hsts
+	rm -rf .Xilinx
 	cd RapidWright && ./gradlew clean
 
 
