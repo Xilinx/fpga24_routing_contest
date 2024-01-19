@@ -1,0 +1,13 @@
+BootStrap: docker
+From: ubuntu:20.04
+
+%post
+	apt-get -y update
+	apt-get -y install ocl-icd-libopencl1 ocl-icd-opencl-dev opencl-headers git build-essential
+	git clone https://github.com/cqcallaw/ocl-samples.git
+	cd /ocl-samples
+	make
+
+%runscript
+	cd /ocl-samples/
+	./hello
