@@ -10,7 +10,7 @@
   * Contest organizers will use their best efforts to run all submissions multiple (equal) number of times
     and accept their best result
 * Contestants are required to use [Apptainer](https://apptainer.org/docs/user/latest/) to containerize their submission (details below)
-* Router performance will depend solely on a set of hidden benchmarks
+* Routers will be evaluated solely on a set of hidden benchmarks
 * Final results will be made public at the [FPGA 2024 conference](https://www.isfpga.org/)
 
 ## Runtime Environment
@@ -148,9 +148,7 @@ tar -xvf <router_name>_submission_<timestamp>.tar.gz
 make run-container BENCHMARKS="<hidden benchmarks>"
 ```
 
-| ❗ **NIMPORTANT:** | Ensure that your final submission works with the process above!
-This includes integrating your router with the provided Makefile, taking care not to modify
-any of the contest infrastructure necessary for scoring and validating outputs. |
+| ❗ **IMPORTANT:** | Ensure that your final submission works with the process above!<br>This includes integrating your router with the provided Makefile, taking care not to modify any of the contest infrastructure necessary for scoring and validating outputs. |
 | - | - |
 
 ### Closed-Source Submissions
