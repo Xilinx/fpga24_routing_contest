@@ -119,7 +119,7 @@ score-$(ROUTER): $(foreach b,$(BENCHMARKS),$b_$(ROUTER).wirelength $b_$(ROUTER).
 setup-net_printer setup-wirelength_analyzer: | install-python-deps fpga-interchange-schema/interchange/capnp/java.capnp
 
 clean:
-	rm -f *.{check,wirelength,sif}* *_(ROUTER).phys*
+	rm -f *.{check,wirelength,sif}* *_$(ROUTER).phys*
 
 distclean: clean
 	rm -rf *.device *.phys *.netlist*
