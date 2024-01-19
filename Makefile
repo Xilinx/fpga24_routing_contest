@@ -123,6 +123,9 @@ clean:
 
 distclean: clean
 	rm -rf *.device *_unrouted.phys *.netlist*
+	rm -f *.dcp *_load.tcl
+	rm -rf workdir .gradle
+	cd RapidWright && ./gradlew clean
 
 
 #### BEGIN ROUTER RECIPES
@@ -167,8 +170,8 @@ ifneq ($(wildcard /etc/OpenCL),)
     APPTAINER_RUN_ARGS += --bind /etc/OpenCL
 endif
 
-# Build an Apptainer image from a definition file in the alpha_submission directory
-%_container.sif: alpha_submission/%_container.def
+# Build an Apptainer image from a definition file in the final_submission directory
+%_container.sif: final_submission/%_container.def
 	apptainer build $@ $<
 
 # Use the <ROUTER>_container.sif Apptainer image to run all benchmarks
@@ -199,7 +202,7 @@ distclean-and-package-submission: distclean
 #### BEGIN EXAMPLE RECIPES
 
 # Build and run an example OpenCL application in an Apptainer container
-opencl_example_container.sif: alpha_submission/opencl_example/opencl_example_container.def
+opencl_example_container.sif: final_submission/opencl_example/opencl_example_container.def
 	apptainer build $@ $<
 
 .PHONY: run-opencl-example
