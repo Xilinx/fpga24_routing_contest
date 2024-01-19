@@ -60,6 +60,7 @@ class xcvupDeviceData:
             'GTYE4_CHANNEL':   self.none_to_none,
             'GTYE4_COMMON':    self.none_to_none,
             'PCIE40E4':        self.none_to_none,
+            'CMACE4':          self.none_to_none,
 
             'STARTUPE3':       self.none_to_none,
             'ICAPE3':          self.none_to_none,
