@@ -56,8 +56,8 @@ The Apptainer command line options do the following:
 spawned by the container are not orphaned if the container is killed
 * `--containall` isolates the container from the host environment
 * `--env ...` propagates given environment variables despite `--containall` above
-* `--workdir `pwd`/workdir `provides a working directory for /tmp, etc. within container
-* ``--home `pwd`/home ``: map present working directory as /home inside container
+* ``--workdir `pwd`/workdir ``provides a working directory for /tmp, etc. within container
+* ``--home `pwd`/home `` maps the present working directory as /home inside container
 * `--bind /tools` mounts the host system's `/tools` directory into the container, allowing it to
 access the host Vivado installation.
 * `--rocm --bind /etc/OpenCL` configures [GPU Access](#gpu-access)
