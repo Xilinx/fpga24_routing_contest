@@ -119,10 +119,14 @@ score-$(ROUTER): $(foreach b,$(BENCHMARKS),$b_$(ROUTER).wirelength $b_$(ROUTER).
 setup-net_printer setup-wirelength_analyzer: | install-python-deps fpga-interchange-schema/interchange/capnp/java.capnp
 
 clean:
-	rm -f *.{phys,check,wirelength,sif}*
+	rm -f *.{check,wirelength,sif}* *_$(ROUTER).phys*
 
 distclean: clean
-	rm -rf *.device *_unrouted.phys *.netlist*
+	rm -rf *.device *.phys *.netlist*
+	rm -f *.dcp *_load.tcl
+	rm -rf workdir .gradle .local .cache .wget-hsts
+	rm -rf .Xilinx
+	_JAVA_OPTIONS="$(JAVA_PROXY)" ./gradlew clean
 
 
 #### BEGIN ROUTER RECIPES
@@ -167,22 +171,23 @@ ifneq ($(wildcard /etc/OpenCL),)
     APPTAINER_RUN_ARGS += --bind /etc/OpenCL
 endif
 
-# Build an Apptainer image from a definition file in the alpha_submission directory
-%_container.sif: alpha_submission/%_container.def
+# Build an Apptainer image from a definition file in the final_submission directory
+%_container.sif: final_submission/%_container.def
 	apptainer build $@ $<
+
+.PHONY: workdir
+workdir:
+	# Clear out the per-session workdir subdirectory
+	rm -rf workdir && mkdir workdir
 
 # Use the <ROUTER>_container.sif Apptainer image to run all benchmarks
 .PHONY: run-container
-run-container: $(ROUTER)_container.sif
-	# Clear out the per-session workdir subdirectory
-	rm -rf workdir && mkdir workdir
+run-container: $(ROUTER)_container.sif workdir
 	apptainer exec $(APPTAINER_RUN_ARGS) $< make ROUTER="$(ROUTER)" BENCHMARKS="$(BENCHMARKS)" VERBOSE="$(VERBOSE)"
 
 # Use the <ROUTER>_container.sif Apptainer image to run a single small benchmark for testing
 .PHONY: test-container
-test-container: $(ROUTER)_container.sif
-	# Clear out the per-session workdir subdirectory
-	rm -rf workdir && mkdir workdir
+test-container: $(ROUTER)_container.sif workdir
 	apptainer exec $(APPTAINER_RUN_ARGS) $< make ROUTER="$(ROUTER)" BENCHMARKS="boom_med_pb" VERBOSE="$(VERBOSE)"
 
 SUBMISSION_NAME = $(ROUTER)_submission_$(shell date +%Y%m%d%H%M%S)
@@ -199,13 +204,11 @@ distclean-and-package-submission: distclean
 #### BEGIN EXAMPLE RECIPES
 
 # Build and run an example OpenCL application in an Apptainer container
-opencl_example_container.sif: alpha_submission/opencl_example/opencl_example_container.def
+opencl_example_container.sif: final_submission/opencl_example/opencl_example_container.def
 	apptainer build $@ $<
 
 .PHONY: run-opencl-example
-run-opencl-example: opencl_example_container.sif
-	# Clear out the per-session workdir subdirectory
-	rm -rf workdir && mkdir workdir
+run-opencl-example: opencl_example_container.sif workdir
 	apptainer run $(APPTAINER_RUN_ARGS) $<
 
 #### END EXAMPLE RECIPES

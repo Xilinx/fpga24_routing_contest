@@ -1,21 +1,17 @@
-# Alpha Submission
-
-In order to ensure that the contest environment is able to support all router
-entries ahead of the final submission deadline, a mandatory step for continued
-participation in the contest is the submission of an early "alpha" release.
-The performance of this alpha submission will have **zero** effect on the
-final submission score; instead, the organizers will endeavour to work with
-contestants to ensure that the runtime environment is as desired.
-Contestants will receive private feedback from the organizers assessing the
-performance of just their router on the released benchmark suite (plus a hidden
-benchmark) when run on contest hardware.
+# Final Submission
 
 ## Key Details
 
-* Alpha submission is mandatory for continued participation in the contest
-* Performance of alpha submissions will be shared privately with contestants and will not impact the final score
-* Alpha submissions will be evaluated on [AMD Heterogeneous Compute Cluster (HACC)](https://www.amd-haccs.io/) hardware
+* Final submission process/requirements are largely the same as for the [alpha submission](alpha_submission.html),
+  but will be more strictly enforced
+  * Please follow this process closely! Although contest organizers will use their best efforts to run all
+    submissions, failures may lead to disqualification
+* Final submissions will be evaluated on [AMD Heterogeneous Compute Cluster (HACC)](https://www.amd-haccs.io/) hardware
+  * Contest organizers will use their best efforts to run all submissions multiple (equal) number of times
+    and accept their best result
 * Contestants are required to use [Apptainer](https://apptainer.org/docs/user/latest/) to containerize their submission (details below)
+* Routers will be evaluated solely on a set of hidden benchmarks
+* Final results will be made public at the [FPGA 2024 conference](https://www.isfpga.org/)
 
 ## Runtime Environment
 
@@ -38,7 +34,7 @@ definition file can then be compiled into an executable `*.sif` image which
 allows the application to be run in an isolated environment.
 
 The [contest repository](https://github.com/Xilinx/fpga24_routing_contest/)
-has been updated with example `*.def` files in the `alpha_submission` directory
+has been updated with example `*.def` files in the `final_submission` directory
 for both `rwroute` and `nxroute-poc`. To build and run the default container
 (which on a fresh clone would be `rwroute`) one would just run:
 
@@ -48,7 +44,7 @@ make run-container
 
 This is roughly equivalent to:
 ```
-apptainer build rwroute_container.sif alpha_submission/rwroute_container.def
+apptainer build rwroute_container.sif final_submission/rwroute_container.def
 apptainer exec --pid --home `pwd` --rocm --bind /etc/OpenCL --mount src=/tools/,dst=/tools/,ro rwroute_container.sif make
 ```
 
@@ -57,17 +53,19 @@ definition, and the `apptainer exec` command runs the given command inside this 
 The Apptainer command line options do the following:
 
 * `--pid` runs the container in a new process ID namespace to ensure processes
-spawned by the container are not orphaned if the container is killed.
-* ``--home `pwd` `` sets the container home directory to be the current directory
-* `--rocm --bind /etc/OpenCL` configures [GPU Access](#gpu-access)
-* `--mount ...` creates a read-only mount of the host system's `/tools`
-directory to the container's `/tools` directory, which allows the container to
+spawned by the container are not orphaned if the container is killed
+* `--containall` isolates the container from the host environment
+* `--env ...` propagates given environment variables despite `--containall` above
+* ``--workdir `pwd`/workdir ``provides a working directory for `/tmp`, etc. within container
+* ``--home `pwd`/home `` maps the present working directory as `/home` inside container
+* `--bind /tools` mounts the host system's `/tools` directory into the container, allowing it to
 access the host Vivado installation.
+* `--rocm --bind /etc/OpenCL` configures [GPU Access](#gpu-access)
 
 The remainder of the Apptainer command line simply runs the default make target from inside the
 container.
 
-Finally, in order to aid in development the Makefile target:
+Finally, in order to aid in development of the Makefile target:
 
 ```
 make test-container
@@ -85,7 +83,7 @@ For further information about working with Apptainer containers please refer to
 ### GPU Access
 
 It is possible to access AMD GPU resources on the host from an Apptainer
-container. The directory `alpha_submission/opencl_example` contains a sample
+container. The directory `final_submission/opencl_example` contains a sample
 `*.def` file that builds a [C++/OpenCL "Hello World" example](https://github.com/cqcallaw/ocl-samples).
 To run this example:
 
@@ -97,7 +95,7 @@ This `make` target builds a `*.sif` image from the
 `opencl_example_container.def` definition file and runs it with the command:
 
 ```
-apptainer run --pid --home `pwd` --rocm --bind /etc/OpenCL opencl_example_container.sif
+apptainer run <same as above> --rocm --bind /etc/OpenCL opencl_example_container.sif
 ```
 
 The `--rocm` switch enables AMD ROCm support in the container. The
@@ -116,9 +114,9 @@ Specifically, organizers must be able to run the submitted router by calling onl
 the `make run-container` target. By default, in a fresh checkout of the contest
 repository, this target will run `rwroute` in an Apptainer container.
 Thus in addition to their router contestants must supply a custom `*.def` file
-in the `alpha_submission` directory, as well as a Makefile that has been
+in the `final_submission` directory, as well as a Makefile that has been
 modified to run their router by default. To set the default router in the
-Makefile contestants must change the value of the `ROUTER` variable from
+Makefile, contestants must change the value of the `ROUTER` variable from
 `rwroute` to the name of their router.
 
 Starting from a clone of the contest repository that has already had its
@@ -144,11 +142,14 @@ results and logs, as well as the device description. The organizers will then
 evaluate the artifact with a process similar to the following:
 
 ```
-mkdir <router_name>_alpha_submission
-cd <router_name>_alpha_submission
+mkdir <router_name>_final_submission
+cd <router_name>_final_submission
 tar -xvf <router_name>_submission_<timestamp>.tar.gz
-make run-container
+make run-container BENCHMARKS="<hidden benchmarks>"
 ```
+
+| ❗ **IMPORTANT:** | Ensure that your final submission works with the process above!<br>This includes integrating your router with the provided Makefile, taking care not to modify any of the contest infrastructure necessary for scoring and validating outputs. |
+| - | - |
 
 ### Closed-Source Submissions
 
