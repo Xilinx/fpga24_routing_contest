@@ -52,6 +52,7 @@ class xcvupDeviceData:
 
             'RAMB36E2':        self.none_to_none,
             'RAMB18E2':        self.none_to_none,
+            'FIFO18E2':        self.none_to_none,
 
             'MMCME4_ADV':      self.none_to_none,
 
@@ -113,7 +114,7 @@ class xcvupDeviceData:
             (re.compile(r'INT_INT_SDQ_\d{1,2}_INT_OUT[01]'),         0),
             (re.compile(r'INT_NODE_GLOBAL_\d{1,2}_INT_OUT[01]'),     0),
             (re.compile(r'IMUX_[EW]\d{1,2}'),                        0),
-            (re.compile(r'IMUX_(CMT_)?XIPHY\d{1,2}'),                0),
+            (re.compile(r'IMUX(_CMT)?(_XIPHY\d{1,2})?'),             0),
             (re.compile(r'IMUXOUT\d{1,2}'),                          0),
             (re.compile(r'CTRL_[EW][0-9]'),                          0),
             (re.compile(r'CLE_CLE_[LM]_SITE_0_[A-H](_O|MUX|Q(2)?)'), 0),
