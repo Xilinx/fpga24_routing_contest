@@ -3,7 +3,7 @@
 ## Key Details
 
 * Final submission process/requirements are largely the same as for the [alpha submission](alpha_submission.html),
-  but will be more strictly enforced.
+  but will be more strictly enforced
   * Please follow this process closely! Although contest organizers will use their best efforts to run all
     submissions, failures may lead to disqualification
 * Final submissions will be evaluated on [AMD Heterogeneous Compute Cluster (HACC)](https://www.amd-haccs.io/) hardware
@@ -65,7 +65,7 @@ access the host Vivado installation.
 The remainder of the Apptainer command line simply runs the default make target from inside the
 container.
 
-Finally, in order to aid in development the Makefile target:
+Finally, in order to aid in development of the Makefile target:
 
 ```
 make test-container
@@ -116,7 +116,7 @@ repository, this target will run `rwroute` in an Apptainer container.
 Thus in addition to their router contestants must supply a custom `*.def` file
 in the `final_submission` directory, as well as a Makefile that has been
 modified to run their router by default. To set the default router in the
-Makefile contestants must change the value of the `ROUTER` variable from
+Makefile, contestants must change the value of the `ROUTER` variable from
 `rwroute` to the name of their router.
 
 Starting from a clone of the contest repository that has already had its
