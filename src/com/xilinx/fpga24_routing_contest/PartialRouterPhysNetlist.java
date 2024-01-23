@@ -58,11 +58,12 @@ public class PartialRouterPhysNetlist {
         routerArgs.add("--verbose");
         // These options are set to their default value, a subset of which are duplicated here
         // to ease modification; full documentation is available in RWRouteConfig.java
-        routerArgs.addAll(List.of("--maxIterations", "100"));
         routerArgs.addAll(List.of("--wirelengthWeight", "0.8"));
         routerArgs.addAll(List.of("--initialPresentCongestionFactor", "0.5"));
         routerArgs.addAll(List.of("--presentCongestionMultiplier", "2"));
         routerArgs.addAll(List.of("--historicalCongestionFactor", "1"));
+        // Maximum number of iterations has been increased from the default of 100
+        routerArgs.addAll(List.of("--maxIterations", "150"));
 
         // Optionally, allow RWRoute to perform LUT pin swapping such that all LUT input sinks
         // are considered to be equivalent
