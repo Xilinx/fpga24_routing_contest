@@ -37,8 +37,8 @@ $(if $(HTTPSHOST),-Dhttps.proxyHost=$(HTTPSHOST) -Dhttps.proxyPort=$(HTTPSPORT),
 # (other supported values: nxroute-poc)
 ROUTER ?= rwroute
 
-# Make /usr/bin/time only print out wall-clock time in seconds
-export TIME=Wall-clock time (sec): %e
+# Make /usr/bin/time only print out wall-clock and user time in seconds
+export TIME="Wall-clock time (sec): %e\nUser-CPU time (sec): %U"
 
 # Existence of the VERBOSE environment variable indicates whether router/
 # checker outputs will be displayed on screen
