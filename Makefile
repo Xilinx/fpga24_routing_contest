@@ -72,7 +72,7 @@ run-$(ROUTER): score-$(ROUTER)
 compile-java:
 	_JAVA_OPTIONS="$(JAVA_PROXY)" ./gradlew compileJava
 	_JAVA_OPTIONS="$(JAVA_PROXY)" RapidWright/bin/rapidwright Jython -c "FileTools.ensureDataFilesAreStaticInstallFriendly('xcvu3p')"
-	$(eval CLASSPATH := $(shell ./gradlew -quiet --offline runtimeClasspath):build/classes/java/main)
+	$(eval CLASSPATH := $$(shell ./gradlew -quiet --offline runtimeClasspath):build/classes/java/main)
 
 .PHONY: install-python-deps
 install-python-deps:
