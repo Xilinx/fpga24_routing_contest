@@ -62,6 +62,8 @@ endif
 
 export RAPIDWRIGHT_PATH = $(abspath RapidWright)
 
+GET_CLASSPATH = $$(./gradlew -quiet --offline runtimeClasspath):build/classes/java/main
+
 # Default recipe: route and score all given benchmarks
 .PHONY: run-$(ROUTER)
 run-$(ROUTER): score-$(ROUTER)
@@ -72,7 +74,6 @@ run-$(ROUTER): score-$(ROUTER)
 compile-java:
 	_JAVA_OPTIONS="$(JAVA_PROXY)" ./gradlew compileJava
 	_JAVA_OPTIONS="$(JAVA_PROXY)" RapidWright/bin/rapidwright Jython -c "FileTools.ensureDataFilesAreStaticInstallFriendly('xcvu3p')"
-	$(eval CLASSPATH := $$(shell ./gradlew -quiet --offline runtimeClasspath):build/classes/java/main)
 
 .PHONY: install-python-deps
 install-python-deps:
@@ -97,7 +98,7 @@ fpga-interchange-schema/interchange/capnp/java.capnp:
 # $^ (%.netlist and %_rwroute.phys), and display/redirect all output to $@.log (%_rwroute.check.log).
 # The exit code of Gradle determines if 'PASS' or 'FAIL' is written to $@ (%_rwroute.check)
 %_$(ROUTER).check: %.netlist %_$(ROUTER).phys %_unrouted.phys | compile-java
-	if java -cp $(CLASSPATH) $(JVM_HEAP) com.xilinx.fpga24_routing_contest.CheckPhysNetlist $^ $(call log_and_or_display,$@.log); then \
+	if java -cp $(GET_CLASSPATH) $(JVM_HEAP) com.xilinx.fpga24_routing_contest.CheckPhysNetlist $^ $(call log_and_or_display,$@.log); then \
             echo "PASS" > $@; \
         else \
             echo "FAIL" > $@; \
@@ -140,7 +141,7 @@ distclean: clean
 # Gradle is used to invoke the PartialRouterPhysNetlist class' main method with arguments
 # $< (%_unrouted.phys) and $@ (%_rwroute.phys), and display/redirect all output into %_rwroute.phys.log
 %_rwroute.phys: %_unrouted.phys | compile-java
-	(/usr/bin/time java -cp $(CLASSPATH) $(JVM_HEAP) com.xilinx.fpga24_routing_contest.PartialRouterPhysNetlist $< $@) $(call log_and_or_display,$@.log)
+	(/usr/bin/time java -cp $(GET_CLASSPATH) $(JVM_HEAP) com.xilinx.fpga24_routing_contest.PartialRouterPhysNetlist $< $@) $(call log_and_or_display,$@.log)
 
 
 ## NXROUTE-POC
