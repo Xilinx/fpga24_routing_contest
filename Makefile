@@ -30,8 +30,8 @@ HTTPHOST=$(firstword $(subst :, ,$(subst http:,,$(subst /,,$(HTTP_PROXY)))))
 HTTPPORT=$(lastword $(subst :, ,$(subst http:,,$(subst /,,$(HTTP_PROXY)))))
 HTTPSHOST=$(firstword $(subst :, ,$(subst http:,,$(subst /,,$(HTTPS_PROXY)))))
 HTTPSPORT=$(lastword $(subst :, ,$(subst http:,,$(subst /,,$(HTTPS_PROXY)))))
-JAVA_PROXY=$(if $(HTTPHOST),-Dhttp.proxyHost=$(HTTPHOST) -Dhttp.proxyPort=$(HTTPPORT),) \
-$(if $(HTTPSHOST),-Dhttps.proxyHost=$(HTTPSHOST) -Dhttps.proxyPort=$(HTTPSPORT),)
+JAVA_PROXY=$(if $(HTTPHOST),-Dhttp.proxyHost=$(HTTPHOST) -Dhttp.proxyPort=$(HTTPPORT),)\
+$(if $(HTTPSHOST), -Dhttps.proxyHost=$(HTTPSHOST) -Dhttps.proxyPort=$(HTTPSPORT),)
 
 # Choice of router (default to rwroute)
 # (other supported values: nxroute-poc)
