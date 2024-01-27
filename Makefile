@@ -30,20 +30,17 @@ HTTPHOST=$(firstword $(subst :, ,$(subst http:,,$(subst /,,$(HTTP_PROXY)))))
 HTTPPORT=$(lastword $(subst :, ,$(subst http:,,$(subst /,,$(HTTP_PROXY)))))
 HTTPSHOST=$(firstword $(subst :, ,$(subst http:,,$(subst /,,$(HTTPS_PROXY)))))
 HTTPSPORT=$(lastword $(subst :, ,$(subst http:,,$(subst /,,$(HTTPS_PROXY)))))
-JAVA_PROXY=$(if $(HTTPHOST),-Dhttp.proxyHost=$(HTTPHOST) -Dhttp.proxyPort=$(HTTPPORT),)\
-$(if $(HTTPSHOST), -Dhttps.proxyHost=$(HTTPSHOST) -Dhttps.proxyPort=$(HTTPSPORT),)
+JAVA_PROXY=$(if $(HTTPHOST),-Dhttp.proxyHost=$(HTTPHOST) -Dhttp.proxyPort=$(HTTPPORT),) \
+$(if $(HTTPSHOST),-Dhttps.proxyHost=$(HTTPSHOST) -Dhttps.proxyPort=$(HTTPSPORT),)
 
 # Choice of router (default to rwroute)
 # (other supported values: nxroute-poc)
 ROUTER ?= rwroute
 
 # Make /usr/bin/time only print out wall-clock and user time in seconds
-TIME=Wall-clock time (sec): %e
-ifneq ($(ROUTER), rwroute)
-    # Note that User-CPU time is for information purposes only (not used for scoring)
-    # and is not reported correctly when spawned using Gradle, such as for RWRoute
-    TIME += \nUser-CPU time (sec): %U
-endif
+TIME = Wall-clock time (sec): %e
+# Note that User-CPU time is for information purposes only (not used for scoring)
+TIME += \nUser-CPU time (sec): %U
 export TIME
 
 # Existence of the VERBOSE environment variable indicates whether router/
@@ -75,6 +72,7 @@ run-$(ROUTER): score-$(ROUTER)
 compile-java:
 	_JAVA_OPTIONS="$(JAVA_PROXY)" ./gradlew compileJava
 	_JAVA_OPTIONS="$(JAVA_PROXY)" RapidWright/bin/rapidwright Jython -c "FileTools.ensureDataFilesAreStaticInstallFriendly('xcvu3p')"
+	$(eval CLASSPATH=$(shell ./gradlew -quiet --offline runtimeClasspath):build/classes/java/main)
 
 .PHONY: install-python-deps
 install-python-deps:
@@ -99,7 +97,7 @@ fpga-interchange-schema/interchange/capnp/java.capnp:
 # $^ (%.netlist and %_rwroute.phys), and display/redirect all output to $@.log (%_rwroute.check.log).
 # The exit code of Gradle determines if 'PASS' or 'FAIL' is written to $@ (%_rwroute.check)
 %_$(ROUTER).check: %.netlist %_$(ROUTER).phys %_unrouted.phys | compile-java
-	if ./gradlew --offline -DjvmArgs="$(JVM_HEAP)" -Dmain=com.xilinx.fpga24_routing_contest.CheckPhysNetlist :run --args='$^' $(call log_and_or_display,$@.log); then \
+	if java -cp $(CLASSPATH) $(JVM_HEAP) com.xilinx.fpga24_routing_contest.CheckPhysNetlist $^ $(call log_and_or_display,$@.log); then \
             echo "PASS" > $@; \
         else \
             echo "FAIL" > $@; \
@@ -142,7 +140,8 @@ distclean: clean
 # Gradle is used to invoke the PartialRouterPhysNetlist class' main method with arguments
 # $< (%_unrouted.phys) and $@ (%_rwroute.phys), and display/redirect all output into %_rwroute.phys.log
 %_rwroute.phys: %_unrouted.phys | compile-java
-	(/usr/bin/time ./gradlew --offline -DjvmArgs="$(JVM_HEAP)" -Dmain=com.xilinx.fpga24_routing_contest.PartialRouterPhysNetlist :run --args='$< $@') $(call log_and_or_display,$@.log)
+	(/usr/bin/time java -cp $(CLASSPATH) $(JVM_HEAP) com.xilinx.fpga24_routing_contest.PartialRouterPhysNetlist $< $@) $(call log_and_or_display,$@.log)
+
 
 ## NXROUTE-POC
 %_nxroute-poc.phys: %_unrouted.phys xcvu3p.device | install-python-deps fpga-interchange-schema/interchange/capnp/java.capnp
