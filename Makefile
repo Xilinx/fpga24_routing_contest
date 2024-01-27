@@ -38,10 +38,13 @@ $(if $(HTTPSHOST), -Dhttps.proxyHost=$(HTTPSHOST) -Dhttps.proxyPort=$(HTTPSPORT)
 ROUTER ?= rwroute
 
 # Make /usr/bin/time only print out wall-clock and user time in seconds
-export TIME=Wall-clock time (sec): %e
-# Note that User-CPU time is for information purposes only (not used for scoring)
-# and is not reported correctly when spawned using Gradle, such as for RWRoute
-export TIME += \nUser-CPU time (sec): %U
+TIME=Wall-clock time (sec): %e
+ifneq ($(ROUTER), rwroute)
+    # Note that User-CPU time is for information purposes only (not used for scoring)
+    # and is not reported correctly when spawned using Gradle, such as for RWRoute
+    TIME += \nUser-CPU time (sec): %U
+endif
+export TIME
 
 # Existence of the VERBOSE environment variable indicates whether router/
 # checker outputs will be displayed on screen
