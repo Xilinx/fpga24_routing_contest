@@ -62,11 +62,14 @@ endif
 
 export RAPIDWRIGHT_PATH = $(abspath RapidWright)
 
-GET_CLASSPATH = $$(./gradlew -quiet --offline runtimeClasspath):build/classes/java/main
-
 # Default recipe: route and score all given benchmarks
 .PHONY: run-$(ROUTER)
 run-$(ROUTER): score-$(ROUTER)
+
+JAVA_CLASSPATH_TXT = java-classpath.txt
+.INTERMEDIATE: $(JAVA_CLASSPATH_TXT)
+$(JAVA_CLASSPATH_TXT): compile-java
+	echo "$$(./gradlew -quiet --offline runtimeClasspath):build/classes/java/main" > $@
 
 # Use Gradle to compile Java source code in this repository as well as the RapidWright repository.
 # Also download/generate all device files necessary for the xcvu3p device
@@ -97,8 +100,8 @@ fpga-interchange-schema/interchange/capnp/java.capnp:
 # Gradle is used to invoke the CheckPhysNetlist class' main method with arguments
 # $^ (%.netlist and %_rwroute.phys), and display/redirect all output to $@.log (%_rwroute.check.log).
 # The exit code of Gradle determines if 'PASS' or 'FAIL' is written to $@ (%_rwroute.check)
-%_$(ROUTER).check: %.netlist %_$(ROUTER).phys %_unrouted.phys | compile-java
-	if java -cp $(GET_CLASSPATH) $(JVM_HEAP) com.xilinx.fpga24_routing_contest.CheckPhysNetlist $^ $(call log_and_or_display,$@.log); then \
+%_$(ROUTER).check: %.netlist %_$(ROUTER).phys %_unrouted.phys $(JAVA_CLASSPATH_TXT)
+	if java -cp $$(cat $(JAVA_CLASSPATH_TXT)) $(JVM_HEAP) com.xilinx.fpga24_routing_contest.CheckPhysNetlist $^ $(call log_and_or_display,$@.log); then \
             echo "PASS" > $@; \
         else \
             echo "FAIL" > $@; \
@@ -140,8 +143,8 @@ distclean: clean
 # /usr/bin/time is used to measure the wall clock time
 # Gradle is used to invoke the PartialRouterPhysNetlist class' main method with arguments
 # $< (%_unrouted.phys) and $@ (%_rwroute.phys), and display/redirect all output into %_rwroute.phys.log
-%_rwroute.phys: %_unrouted.phys | compile-java
-	(/usr/bin/time java -cp $(GET_CLASSPATH) $(JVM_HEAP) com.xilinx.fpga24_routing_contest.PartialRouterPhysNetlist $< $@) $(call log_and_or_display,$@.log)
+%_rwroute.phys: %_unrouted.phys $(JAVA_CLASSPATH_TXT)
+	(/usr/bin/time java -cp $$(cat $(JAVA_CLASSPATH_TXT)) $(JVM_HEAP) com.xilinx.fpga24_routing_contest.PartialRouterPhysNetlist $< $@) $(call log_and_or_display,$@.log)
 
 
 ## NXROUTE-POC
