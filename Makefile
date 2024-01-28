@@ -101,7 +101,7 @@ fpga-interchange-schema/interchange/capnp/java.capnp:
 # $^ (%.netlist and %_rwroute.phys), and display/redirect all output to $@.log (%_rwroute.check.log).
 # The exit code of Gradle determines if 'PASS' or 'FAIL' is written to $@ (%_rwroute.check)
 %_$(ROUTER).check: %.netlist %_$(ROUTER).phys %_unrouted.phys $(JAVA_CLASSPATH_TXT)
-	if java -cp $$(cat $(JAVA_CLASSPATH_TXT)) $(JVM_HEAP) com.xilinx.fpga24_routing_contest.CheckPhysNetlist $^ $(call log_and_or_display,$@.log); then \
+	if java -cp $$(cat $(JAVA_CLASSPATH_TXT)) $(JVM_HEAP) com.xilinx.fpga24_routing_contest.CheckPhysNetlist $(wordlist 1,3,$^) $(call log_and_or_display,$@.log); then \
             echo "PASS" > $@; \
         else \
             echo "FAIL" > $@; \
