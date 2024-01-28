@@ -108,9 +108,9 @@ jobs:
           grep -H -e "# of nets with routing errors[. :]\+[1-9]" -e "# of unrouted nets[. :]\+[1-9]" *.check.log || ${{ secrets.REPORT_ROUTE_STATUS_URL == '' }}
           # But CheckPhysNetlist must have no differences (except koios because out-of-memory)
           grep "INFO: No differences found between routed and unrouted netlists" *.check.log || ${{ matrix.benchmark == 'koios_dla_like_large' }}
-          # Check no multiple sources, no stubs
+          # Check no multiple sources, but expect possibility of stubs since nxroute is unlikely to fully route the design
           grep "UserWarning: Found [0-9]\+ sources" *.wirelength && exit 1
-          grep "UserWarning: Found [0-9]\+ stubs" *.wirelength && exit 1
+          grep "UserWarning: Found [0-9]\+ stubs" *.wirelength || true
           # Allow wirelength computation to fail since nxroute may not have routed anything or wirelength_analyzer was not run
           grep "^Wirelength: [1-9][0-9]*" *.wirelength || true
       - uses: actions/upload-artifact@v3
