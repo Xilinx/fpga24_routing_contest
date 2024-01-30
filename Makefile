@@ -69,23 +69,19 @@ setup: compile-java setup-net_printer setup-wirelength_analyzer setup-benchmarks
 .PHONY: setup-benchmarks
 setup-benchmarks: $(addsuffix _unrouted.phys,$(BENCHMARKS)) $(addsuffix .netlist,$(BENCHMARKS))
 
+.PHONY: compile-java
+.PHONY: install-python-deps
+ifneq ($(APPTAINER_NETWORK),none)
 # Use Gradle to compile Java source code in this repository as well as the RapidWright repository.
 # Also download/generate all device files necessary for the xcvu3p device
-.PHONY: compile-java
 compile-java:
-ifneq ($(APPTAINER_NETWORK),none)
 	_JAVA_OPTIONS="$(JAVA_PROXY)" ./gradlew compileJava
 	_JAVA_OPTIONS="$(JAVA_PROXY)" RapidWright/bin/rapidwright Jython -c "FileTools.ensureDataFilesAreStaticInstallFriendly('xcvu3p')"
-else
-	# $@ target skipped
-endif
-
-.PHONY: install-python-deps
 install-python-deps:
-ifneq ($(APPTAINER_NETWORK),none)
 	pip install -q -r requirements.txt --pre --user
 else
-	# $@ target skipped
+compile-java install-python-deps:
+	echo "$@ target skipped since network disabled inside apptainer"
 endif
 
 # Download and unpack all benchmarks
@@ -185,6 +181,10 @@ ifneq ($(wildcard /etc/OpenCL),)
     APPTAINER_RUN_ARGS += --bind /etc/OpenCL
 endif
 
+# In addition, disable network access when running router
+APPTAINER_RUN_ARGS_NO_NETWORK = $(APPTAINER_RUN_ARGS)
+APPTAINER_RUN_ARGS_NO_NETWORK += --network none --env APPTAINER_NETWORK=none
+
 # Build an Apptainer image from a definition file in the final_submission directory
 %_container.sif: final_submission/%_container.def
 	apptainer build $@ $<
@@ -194,19 +194,20 @@ workdir:
 	# Clear out the per-session workdir subdirectory
 	rm -rf workdir && mkdir workdir
 
+# Use the <ROUTER>_container.sif to perform all necessary setup that requires network access
 .PHONY: setup-container
 setup-container: $(ROUTER)_container.sif | workdir
 	apptainer exec $(APPTAINER_RUN_ARGS) $< make setup
 
-# Use the <ROUTER>_container.sif Apptainer image to run all benchmarks
+# Use the <ROUTER>_container.sif Apptainer image to run all benchmarks without network access
 .PHONY: run-container
 run-container: $(ROUTER)_container.sif | setup-container
-	apptainer exec --network none --env APPTAINER_NETWORK=none $(APPTAINER_RUN_ARGS) $< make ROUTER="$(ROUTER)" BENCHMARKS="$(BENCHMARKS)" VERBOSE="$(VERBOSE)"
+	apptainer exec $(APPTAINER_RUN_ARGS_NO_NETWORK) $< make ROUTER="$(ROUTER)" BENCHMARKS="$(BENCHMARKS)" VERBOSE="$(VERBOSE)"
 
 # Use the <ROUTER>_container.sif Apptainer image to run a single small benchmark for testing
 .PHONY: test-container
 test-container: $(ROUTER)_container.sif | setup-container
-	apptainer exec --network none --env APPTAINER_NETWORK=none $(APPTAINER_RUN_ARGS) $< make ROUTER="$(ROUTER)" BENCHMARKS="boom_med_pb" VERBOSE="$(VERBOSE)"
+	apptainer exec $(APPTAINER_RUN_ARGS_NO_NETWORK) $< make ROUTER="$(ROUTER)" BENCHMARKS="boom_med_pb" VERBOSE="$(VERBOSE)"
 
 SUBMISSION_NAME = $(ROUTER)_submission_$(shell date +%Y%m%d%H%M%S)
 
@@ -227,7 +228,7 @@ opencl_example_container.sif: final_submission/opencl_example/opencl_example_con
 
 .PHONY: run-opencl-example
 run-opencl-example: opencl_example_container.sif | workdir
-	apptainer run --network none --env APPTAINER_NETWORK=none $(APPTAINER_RUN_ARGS) $<
+	apptainer run $(APPTAINER_RUN_ARGS_NO_NETWORK) $<
 
 #### END EXAMPLE RECIPES
 
