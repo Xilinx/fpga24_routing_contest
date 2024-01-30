@@ -195,7 +195,7 @@ run-container: $(ROUTER)_container.sif setup-container
 # Use the <ROUTER>_container.sif Apptainer image to run a single small benchmark for testing
 .PHONY: test-container
 test-container: $(ROUTER)_container.sif setup-container
-	apptainer exec $(APPTAINER_RUN_ARGS) $< make ROUTER="$(ROUTER)" BENCHMARKS="boom_med_pb" VERBOSE="$(VERBOSE)"
+	apptainer exec --network none $(APPTAINER_RUN_ARGS) $< make ROUTER="$(ROUTER)" BENCHMARKS="boom_med_pb" VERBOSE="$(VERBOSE)"
 
 SUBMISSION_NAME = $(ROUTER)_submission_$(shell date +%Y%m%d%H%M%S)
 
@@ -216,7 +216,7 @@ opencl_example_container.sif: final_submission/opencl_example/opencl_example_con
 
 .PHONY: run-opencl-example
 run-opencl-example: opencl_example_container.sif workdir
-	apptainer run $(APPTAINER_RUN_ARGS) $<
+	apptainer run --network none $(APPTAINER_RUN_ARGS) $<
 
 #### END EXAMPLE RECIPES
 
