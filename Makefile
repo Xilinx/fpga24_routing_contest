@@ -70,12 +70,20 @@ setup: compile-java setup-net_printer setup-wirelength_analyzer
 # Also download/generate all device files necessary for the xcvu3p device
 .PHONY: compile-java
 compile-java:
+ifneq ($(APPTAINER_NETWORK),none)
 	_JAVA_OPTIONS="$(JAVA_PROXY)" ./gradlew compileJava
 	_JAVA_OPTIONS="$(JAVA_PROXY)" RapidWright/bin/rapidwright Jython -c "FileTools.ensureDataFilesAreStaticInstallFriendly('xcvu3p')"
+else
+	# $@ target skipped
+endif
 
 .PHONY: install-python-deps
 install-python-deps:
+ifneq ($(APPTAINER_NETWORK),none)
 	pip install -q -r requirements.txt --pre --user
+else
+	# $@ target skipped
+endif
 
 # Download and unpack all benchmarks
 .PHONY: download-benchmarks
@@ -184,18 +192,18 @@ workdir:
 	rm -rf workdir && mkdir workdir
 
 .PHONY: setup-container
-setup-container: $(ROUTER)_container.sif workdir
+setup-container: $(ROUTER)_container.sif | workdir
 	apptainer exec $(APPTAINER_RUN_ARGS) $< make setup
 
 # Use the <ROUTER>_container.sif Apptainer image to run all benchmarks
 .PHONY: run-container
-run-container: $(ROUTER)_container.sif setup-container
-	apptainer exec --network none $(APPTAINER_RUN_ARGS) $< make ROUTER="$(ROUTER)" BENCHMARKS="$(BENCHMARKS)" VERBOSE="$(VERBOSE)"
+run-container: $(ROUTER)_container.sif | setup-container
+	apptainer exec --network none --env APPTAINER_NETWORK=none $(APPTAINER_RUN_ARGS) $< make ROUTER="$(ROUTER)" BENCHMARKS="$(BENCHMARKS)" VERBOSE="$(VERBOSE)"
 
 # Use the <ROUTER>_container.sif Apptainer image to run a single small benchmark for testing
 .PHONY: test-container
-test-container: $(ROUTER)_container.sif setup-container
-	apptainer exec --network none $(APPTAINER_RUN_ARGS) $< make ROUTER="$(ROUTER)" BENCHMARKS="boom_med_pb" VERBOSE="$(VERBOSE)"
+test-container: $(ROUTER)_container.sif | setup-container
+	apptainer exec --network none --env APPTAINER_NETWORK=none $(APPTAINER_RUN_ARGS) $< make ROUTER="$(ROUTER)" BENCHMARKS="boom_med_pb" VERBOSE="$(VERBOSE)"
 
 SUBMISSION_NAME = $(ROUTER)_submission_$(shell date +%Y%m%d%H%M%S)
 
@@ -215,8 +223,8 @@ opencl_example_container.sif: final_submission/opencl_example/opencl_example_con
 	apptainer build $@ $<
 
 .PHONY: run-opencl-example
-run-opencl-example: opencl_example_container.sif workdir
-	apptainer run --network none $(APPTAINER_RUN_ARGS) $<
+run-opencl-example: opencl_example_container.sif | workdir
+	apptainer run --network none --env APPTAINER_NETWORK=none $(APPTAINER_RUN_ARGS) $<
 
 #### END EXAMPLE RECIPES
 
