@@ -63,6 +63,9 @@ export RAPIDWRIGHT_PATH = $(abspath RapidWright)
 .PHONY: run-$(ROUTER)
 run-$(ROUTER): score-$(ROUTER)
 
+.PHONY: setup
+setup: compile-java setup-net_printer setup-wirelength_analyzer
+
 # Use Gradle to compile Java source code in this repository as well as the RapidWright repository.
 # Also download/generate all device files necessary for the xcvu3p device
 .PHONY: compile-java
@@ -180,14 +183,18 @@ workdir:
 	# Clear out the per-session workdir subdirectory
 	rm -rf workdir && mkdir workdir
 
+.PHONY: setup-container
+setup-container: $(ROUTER)_container.sif workdir
+	apptainer exec $(APPTAINER_RUN_ARGS) $< make setup
+
 # Use the <ROUTER>_container.sif Apptainer image to run all benchmarks
 .PHONY: run-container
-run-container: $(ROUTER)_container.sif workdir
-	apptainer exec $(APPTAINER_RUN_ARGS) $< make ROUTER="$(ROUTER)" BENCHMARKS="$(BENCHMARKS)" VERBOSE="$(VERBOSE)"
+run-container: $(ROUTER)_container.sif setup-container
+	apptainer exec --network none $(APPTAINER_RUN_ARGS) $< make ROUTER="$(ROUTER)" BENCHMARKS="$(BENCHMARKS)" VERBOSE="$(VERBOSE)"
 
 # Use the <ROUTER>_container.sif Apptainer image to run a single small benchmark for testing
 .PHONY: test-container
-test-container: $(ROUTER)_container.sif workdir
+test-container: $(ROUTER)_container.sif setup-container
 	apptainer exec $(APPTAINER_RUN_ARGS) $< make ROUTER="$(ROUTER)" BENCHMARKS="boom_med_pb" VERBOSE="$(VERBOSE)"
 
 SUBMISSION_NAME = $(ROUTER)_submission_$(shell date +%Y%m%d%H%M%S)
