@@ -195,6 +195,7 @@ workdir:
 	rm -rf workdir && mkdir workdir
 
 # Use the <ROUTER>_container.sif to perform all necessary setup that requires network access
+# (including all setup required for contest infrastructure)
 .PHONY: setup-container
 setup-container: $(ROUTER)_container.sif | workdir
 	apptainer exec $(APPTAINER_RUN_ARGS) $< make setup
