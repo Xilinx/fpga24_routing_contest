@@ -64,7 +64,10 @@ export RAPIDWRIGHT_PATH = $(abspath RapidWright)
 run-$(ROUTER): score-$(ROUTER)
 
 .PHONY: setup
-setup: compile-java setup-net_printer setup-wirelength_analyzer
+setup: compile-java setup-net_printer setup-wirelength_analyzer setup-benchmarks
+
+.PHONY: setup-benchmarks
+setup-benchmarks: $(addsuffix _unrouted.phys,$(BENCHMARKS)) $(addsuffix .netlist,$(BENCHMARKS))
 
 # Use Gradle to compile Java source code in this repository as well as the RapidWright repository.
 # Also download/generate all device files necessary for the xcvu3p device
