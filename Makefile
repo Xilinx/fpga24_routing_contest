@@ -145,7 +145,7 @@ distclean: clean
 	rm -f *.dcp *_load.tcl
 	rm -rf workdir .gradle .local .cache .wget-hsts
 	rm -rf .Xilinx
-	_JAVA_OPTIONS="$(JAVA_PROXY)" ./gradlew clean
+	./gradlew --offline clean
 
 
 #### BEGIN ROUTER RECIPES
