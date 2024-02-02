@@ -37,3 +37,8 @@ task run(type: JavaExec) {
     }
 }
 
+task runtimeClasspath {
+    doLast {
+        println configurations.runtimeClasspath.asPath
+    }
+}
