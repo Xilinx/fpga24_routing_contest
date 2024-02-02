@@ -85,7 +85,7 @@ install-python-deps:
 	pip install -q -r requirements.txt --pre --user
 else
 compile-java install-python-deps:
-	echo "$@ target skipped since network disabled inside apptainer"
+	@echo "$@ target skipped since network disabled inside apptainer"
 endif
 
 JAVA_CLASSPATH_TXT = java-classpath.txt
