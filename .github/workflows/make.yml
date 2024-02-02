@@ -55,10 +55,10 @@ jobs:
           - router: nxroute-poc
             lutroutethru: true
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: 'recursive'
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
@@ -113,7 +113,7 @@ jobs:
           grep "UserWarning: Found [0-9]\+ stubs" *.wirelength || true
           # Allow wirelength computation to fail since nxroute may not have routed anything or wirelength_analyzer was not run
           grep "^Wirelength: [1-9][0-9]*" *.wirelength || true
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: Logs
@@ -121,7 +121,7 @@ jobs:
            *.log
            *.check
            *.wirelength
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ matrix.router }}${{ matrix.router == 'rwroute' && matrix.lutpinswapping && '-lutpinswapping' || ''}}${{ matrix.router == 'rwroute' && matrix.lutroutethru && '-lutroutethru' || ''}}-${{ matrix.benchmark }}
