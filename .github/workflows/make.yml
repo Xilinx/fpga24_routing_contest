@@ -117,7 +117,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: Logs-${{ matrix.router }}${{ matrix.router == 'rwroute' && matrix.lutpinswapping && '-lutpinswapping' || ''}}${{ matrix.router == 'rwroute' && matrix.lutroutethru && '-lutroutethru' || ''}}-${{ matrix.benchmark }}
+          name: logs-${{ matrix.router }}${{ matrix.router == 'rwroute' && matrix.lutpinswapping && '-lutpinswapping' || ''}}${{ matrix.router == 'rwroute' && matrix.lutroutethru && '-lutroutethru' || ''}}-${{ matrix.benchmark }}
           path: |
            *.log
            *.check
@@ -137,9 +137,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: make
     steps:
-      - name: Merge Logs
-        uses: actions/upload-artifact/merge@v4
+      - uses: actions/upload-artifact/merge@v4
         with:
-          name: Logs
-          pattern: Logs-*
+          name: logs
+          pattern: logs-*
           delete-merged: true
