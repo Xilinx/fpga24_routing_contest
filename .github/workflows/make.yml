@@ -64,9 +64,10 @@ jobs:
           java-version: '17'
           cache: 'gradle'
       - if: matrix.router == 'nxroute-poc'
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+          check-latest: true
           cache: 'pip'
       - name: Download xcvu3p.device (nxroute-poc only)
         if: matrix.router == 'nxroute-poc'
