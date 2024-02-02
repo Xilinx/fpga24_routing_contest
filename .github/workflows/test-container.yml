@@ -5,12 +5,12 @@
 # SPDX-License-Identifier: MIT
 #
 
-name: test-container
+name: test-container-and-package
 on:
   push:
   pull_request:
 jobs:
-  test-container:
+  test-container-and-package:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -23,10 +23,19 @@ jobs:
           wget https://github.com/apptainer/apptainer/releases/download/v${APPTAINER_VERSION}/apptainer_${APPTAINER_VERSION}_amd64.deb
           sudo dpkg -i apptainer_${APPTAINER_VERSION}_amd64.deb || true
           sudo apt-get -f install
-      - run: |
+      - name: make test-container
+        run: |
           make test-container
+      - name: make distclean-and-package-submission
+        run: |
+          make distclean-and-package-submission
       - uses: actions/upload-artifact@v3
         with:
           name: rwroute_container.sif
           path: |
            *.sif
+      - uses: actions/upload-artifact@v3
+        with:
+          name: rwroute_submission.tar.gz
+          path: |
+           rwroute_submission*.tar.gz
