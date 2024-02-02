@@ -35,7 +35,7 @@ def runtime_result(physlogfile):
     """
     reWallClockSeconds = re.compile(r'Wall-clock time \(sec\): ([0-9.]+)')
     with open(physlogfile) as fp:
-        last = fp.readlines()[-1].rstrip()
+        last = fp.readlines()[-2].rstrip()
     m = reWallClockSeconds.match(last)
     if not m:
         return float('inf')

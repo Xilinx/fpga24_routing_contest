@@ -37,8 +37,11 @@ $(if $(HTTPSHOST),-Dhttps.proxyHost=$(HTTPSHOST) -Dhttps.proxyPort=$(HTTPSPORT),
 # (other supported values: nxroute-poc)
 ROUTER ?= rwroute
 
-# Make /usr/bin/time only print out wall-clock time in seconds
-export TIME=Wall-clock time (sec): %e
+# Make /usr/bin/time only print out wall-clock and user time in seconds
+TIME = Wall-clock time (sec): %e
+# Note that User-CPU time is for information purposes only (not used for scoring)
+TIME += \nUser-CPU time (sec): %U
+export TIME
 
 # Existence of the VERBOSE environment variable indicates whether router/
 # checker outputs will be displayed on screen
@@ -72,6 +75,7 @@ setup-benchmarks: $(addsuffix _unrouted.phys,$(BENCHMARKS)) $(addsuffix .netlist
 .PHONY: compile-java
 .PHONY: install-python-deps
 ifneq ($(APPTAINER_NETWORK),none)
+
 # Use Gradle to compile Java source code in this repository as well as the RapidWright repository.
 # Also download/generate all device files necessary for the xcvu3p device
 compile-java:
@@ -83,6 +87,11 @@ else
 compile-java install-python-deps:
 	echo "$@ target skipped since network disabled inside apptainer"
 endif
+
+JAVA_CLASSPATH_TXT = java-classpath.txt
+.INTERMEDIATE: $(JAVA_CLASSPATH_TXT)
+$(JAVA_CLASSPATH_TXT): compile-java
+	echo "$$(./gradlew -quiet --offline runtimeClasspath):build/classes/java/main" > $@
 
 # Download and unpack all benchmarks
 .PHONY: download-benchmarks
@@ -102,8 +111,8 @@ fpga-interchange-schema/interchange/capnp/java.capnp:
 # Gradle is used to invoke the CheckPhysNetlist class' main method with arguments
 # $^ (%.netlist and %_rwroute.phys), and display/redirect all output to $@.log (%_rwroute.check.log).
 # The exit code of Gradle determines if 'PASS' or 'FAIL' is written to $@ (%_rwroute.check)
-%_$(ROUTER).check: %.netlist %_$(ROUTER).phys %_unrouted.phys | compile-java
-	if ./gradlew --offline -DjvmArgs="$(JVM_HEAP)" -Dmain=com.xilinx.fpga24_routing_contest.CheckPhysNetlist :run --args='$^' $(call log_and_or_display,$@.log); then \
+%_$(ROUTER).check: %.netlist %_$(ROUTER).phys %_unrouted.phys | $(JAVA_CLASSPATH_TXT)
+	if java -cp $$(cat $(JAVA_CLASSPATH_TXT)) $(JVM_HEAP) com.xilinx.fpga24_routing_contest.CheckPhysNetlist $^ $(call log_and_or_display,$@.log); then \
             echo "PASS" > $@; \
         else \
             echo "FAIL" > $@; \
@@ -145,8 +154,9 @@ distclean: clean
 # /usr/bin/time is used to measure the wall clock time
 # Gradle is used to invoke the PartialRouterPhysNetlist class' main method with arguments
 # $< (%_unrouted.phys) and $@ (%_rwroute.phys), and display/redirect all output into %_rwroute.phys.log
-%_rwroute.phys: %_unrouted.phys | compile-java
-	(/usr/bin/time ./gradlew --offline -DjvmArgs="$(JVM_HEAP)" -Dmain=com.xilinx.fpga24_routing_contest.PartialRouterPhysNetlist :run --args='$< $@') $(call log_and_or_display,$@.log)
+%_rwroute.phys: %_unrouted.phys | $(JAVA_CLASSPATH_TXT)
+	(/usr/bin/time java -cp $$(cat $(JAVA_CLASSPATH_TXT)) $(JVM_HEAP) com.xilinx.fpga24_routing_contest.PartialRouterPhysNetlist $< $@) $(call log_and_or_display,$@.log)
+
 
 ## NXROUTE-POC
 %_nxroute-poc.phys: %_unrouted.phys xcvu3p.device | install-python-deps fpga-interchange-schema/interchange/capnp/java.capnp
