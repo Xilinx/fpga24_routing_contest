@@ -9,8 +9,6 @@ From: eclipse-temurin:17 # Base image with Java VM 17 on Ubuntu
 	# Install remaining system dependencies
 	apt-get -y update
 	apt-get -y install git python3 pip pkg-config libcapnp-dev time libtinfo5
-	# Create a mount point for Vivado
-	mkdir /tools
 
 %environment
 	# Add the host Vivado to the path
