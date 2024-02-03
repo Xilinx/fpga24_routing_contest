@@ -20,8 +20,11 @@ def route_result(checkfile):
     Returns:
         True if the checkfile has the result 'PASS' False otherwise
     """
-    with open(checkfile) as fp:
-        return fp.readline().rstrip() == 'PASS'
+    try:
+        with open(checkfile) as fp:
+            return fp.readline().rstrip() == 'PASS'
+    except FileNotFoundError:
+        return False
 
 def runtime_result(physlogfile):
     """
@@ -34,12 +37,15 @@ def runtime_result(physlogfile):
         Floating point infinity otherwise.
     """
     reWallClockSeconds = re.compile(r'Wall-clock time \(sec\): ([0-9.]+)')
-    with open(physlogfile) as fp:
-        last = fp.readlines()[-2].rstrip()
-    m = reWallClockSeconds.match(last)
-    if not m:
-        return float('inf')
-    return float(m.group(1))
+    try:
+        with open(physlogfile) as fp:
+            last = fp.readlines()[-2].rstrip()
+        m = reWallClockSeconds.match(last)
+        if m:
+            return float(m.group(1))
+    except FileNotFoundError:
+        pass
+    return float('inf')
 
 def wirelength_result(wirelengthfile):
     """
@@ -52,11 +58,14 @@ def wirelength_result(wirelengthfile):
         The Critical-Path Wirelength as a floating point number if available.
         Floating point infinity otherwise.
     """
-    with open(wirelengthfile) as fp:
-        lines = fp.readlines()
-        for l in lines:
-            if 'Wirelength: ' in l:
-                return float(l.split()[-1])
+    try:
+        with open(wirelengthfile) as fp:
+            lines = fp.readlines()
+            for l in lines:
+                if 'Wirelength: ' in l:
+                    return float(l.split()[-1])
+    except FileNotFoundError:
+        pass
     return float('inf')
 
 def print_results_table(results):
