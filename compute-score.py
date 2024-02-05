@@ -112,9 +112,6 @@ def main():
                         help="List of data file prefixes")
     args = parser.parse_args()
 
-    total_rt = 0
-    total_cpw = 0
-    total_score = 0
     rt_format = '{:.2f}'
     cpw_format = '{:.0f}'
     score_format = '{:.2f}'
@@ -126,9 +123,6 @@ def main():
         score = score_benchmark_results(check, runtime, cpw)
 
         results.append((benchmark,check,rt_format.format(runtime),cpw_format.format(cpw),score_format.format(score)))
-        total_rt += runtime
-        total_cpw += cpw
-        total_score += score
 
     print_results_table(results)
 
