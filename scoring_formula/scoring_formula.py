@@ -54,7 +54,7 @@ def rank_benchmark_scores(scores):
         ranking_for_b = sorted(scores_for_b)
         for rank, score in enumerate(ranking_for_b):
             for team in scores_for_b[score]:
-                rankings[team].append(rank)
+                rankings[team].append(rank + 1)
     return rankings
 
 def rank_teams(rankings):
