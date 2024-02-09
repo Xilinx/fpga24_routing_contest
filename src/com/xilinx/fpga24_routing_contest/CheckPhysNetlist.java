@@ -46,7 +46,7 @@ public class CheckPhysNetlist {
     public static void main(String[] args) throws IOException, InterruptedException {
         if (args.length != 3) {
             System.err.println("USAGE: <input.netlist> <routed.phys> <unrouted.phys>");
-            return;
+            System.exit(1);
         }
 
         // Disable verbose Physical Netlist checks

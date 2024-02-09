@@ -1,4 +1,4 @@
-# Copyright (C) 2024, Advanced Micro Devices, Inc.  All rights reserved.
+# Copyright (C) 2023-2024, Advanced Micro Devices, Inc.  All rights reserved.
 #
 # Author: Eddie Hung, AMD
 #
@@ -30,12 +30,13 @@ jobs:
           - boom_soc
           - ispd16_example2
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: 'recursive'
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+          check-latest: true
           cache: 'pip'
       - run:
           make setup-net_printer download-benchmarks
