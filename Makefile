@@ -213,7 +213,7 @@ setup-container: $(ROUTER)_container.sif | workdir
 # Use the <ROUTER>_container.sif Apptainer image to run all benchmarks without network access
 .PHONY: run-container
 run-container: $(ROUTER)_container.sif | setup-container
-	apptainer exec $(APPTAINER_RUN_ARGS_NO_NETWORK) $< make ROUTER="$(ROUTER)" BENCHMARKS="$(BENCHMARKS)" VERBOSE="$(VERBOSE)"
+	apptainer exec $(APPTAINER_RUN_ARGS_NO_NETWORK) $< make ROUTER="$(ROUTER)" BENCHMARKS="$(BENCHMARKS)" VERBOSE="$(VERBOSE)" -k
 
 # Use the <ROUTER>_container.sif Apptainer image to run a single small benchmark for testing
 .PHONY: test-container
