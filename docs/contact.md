@@ -13,7 +13,16 @@ For all enquiries, please contact [eddie.hung@amd.com](mailto:eddie.hung@amd.com
 
 The organizers are grateful to the following people for their help in the development of this contest:
 
-- Nicholas Fraser (AMD)
-- Jakoba Petri-Koenig (AMD)
-- Thomas Preusser (AMD)
-- Shashwat Shrivastava (EPFL)
+- ISFPGA Organizers (in particular Zhiru Zhang, Aman Arora)
+- HACC administrators at ETH Zurich, Paderborn University, National University of Singapore
+
+- Hugo Andrade
+- Ismail Bustany
+- Nicholas Fraser
+- Joshua Lu
+- Cathal McCabe
+- Jakoba Petri-Koenig
+- Thomas Preusser
+- Naveen Purushotham
+- Mario Ruiz Noguera
+- Shashwat Shrivastava
