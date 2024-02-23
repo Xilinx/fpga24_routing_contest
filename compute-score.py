@@ -20,26 +20,38 @@ def route_result(checkfile):
     Returns:
         True if the checkfile has the result 'PASS' False otherwise
     """
-    with open(checkfile) as fp:
-        return fp.readline().rstrip() == 'PASS'
+    try:
+        with open(checkfile) as fp:
+            return fp.readline().rstrip() == 'PASS'
+    except FileNotFoundError:
+        return False
 
-def runtime_result(physlogfile):
+def runtime_results(physlogfile):
     """
     Read the runtime of the router being scored.
 
     Args:
         physlogfile: the name of the Physical Netlist log file
     Returns:
-        the runtime in seconds as a floating point number if available.
+        the wall clock and user-cpu runtimes in seconds as floating
+        point numbers if available.
         Floating point infinity otherwise.
     """
     reWallClockSeconds = re.compile(r'Wall-clock time \(sec\): ([0-9.]+)')
-    with open(physlogfile) as fp:
-        last = fp.readlines()[-2].rstrip()
-    m = reWallClockSeconds.match(last)
-    if not m:
-        return float('inf')
-    return float(m.group(1))
+    reUserCpuSeconds = re.compile(r'User-CPU time \(sec\): ([0-9.]+)')
+    result = [float('inf')] * 2
+    try:
+        with open(physlogfile) as fp:
+            last2,last1 = fp.readlines()[-2:]
+        m2 = reWallClockSeconds.match(last2)
+        if m2:
+            result[0] = float(m2.group(1))
+            m1 = reUserCpuSeconds.match(last1)
+            if m1:
+                result[1] = float(m1.group(1))
+    except FileNotFoundError:
+        pass
+    return result
 
 def wirelength_result(wirelengthfile):
     """
@@ -52,11 +64,14 @@ def wirelength_result(wirelengthfile):
         The Critical-Path Wirelength as a floating point number if available.
         Floating point infinity otherwise.
     """
-    with open(wirelengthfile) as fp:
-        lines = fp.readlines()
-        for l in lines:
-            if 'Wirelength: ' in l:
-                return float(l.split()[-1])
+    try:
+        with open(wirelengthfile) as fp:
+            lines = fp.readlines()
+            for l in lines:
+                if 'Wirelength: ' in l:
+                    return float(l.split()[-1])
+    except FileNotFoundError:
+        pass
     return float('inf')
 
 def print_results_table(results):
@@ -115,14 +130,13 @@ def main():
     rt_format = '{:.2f}'
     cpw_format = '{:.0f}'
     score_format = '{:.2f}'
-    results = [('Benchmark', 'Pass', 'Wall Clock (sec)', 'Critical-Path Wirelength', 'Score')]
+    results = [('Benchmark', 'Pass', 'User CPU (sec)', 'Wall Clock (sec)', 'Critical-Path Wirelength', 'Score')]
     for benchmark in args.benchmarks:
         check = route_result(benchmark + '.check')
-        runtime = runtime_result(benchmark + '.phys.log')
+        (walltime,usertime) = runtime_results(benchmark + '.phys.log')
         cpw = wirelength_result(benchmark + '.wirelength')
-        score = score_benchmark_results(check, runtime, cpw)
-
-        results.append((benchmark,check,rt_format.format(runtime),cpw_format.format(cpw),score_format.format(score)))
+        score = score_benchmark_results(check, walltime, cpw)
+        results.append((benchmark,check,rt_format.format(usertime),rt_format.format(walltime),cpw_format.format(cpw),score_format.format(score)))
 
     print_results_table(results)
 

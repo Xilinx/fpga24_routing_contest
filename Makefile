@@ -85,7 +85,7 @@ install-python-deps:
 	pip install -q -r requirements.txt --pre --user
 else
 compile-java install-python-deps:
-	echo "$@ target skipped since network disabled inside apptainer"
+	@echo "$@ target skipped since network disabled inside apptainer"
 endif
 
 JAVA_CLASSPATH_TXT = java-classpath.txt
@@ -145,7 +145,6 @@ distclean: clean
 	rm -f *.dcp *_load.tcl
 	rm -rf workdir .gradle .local .cache .wget-hsts
 	rm -rf .Xilinx
-	_JAVA_OPTIONS="$(JAVA_PROXY)" ./gradlew clean
 
 
 #### BEGIN ROUTER RECIPES

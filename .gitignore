@@ -2,6 +2,7 @@
 *.check
 *.wirelength
 *.sif
+LICENSE-BENCHMARKS.txt
 
 *.device
 *.netlist*
@@ -14,6 +15,7 @@ workdir/
 .local/
 .cache/
 .wget-hsts
+java-classpath.txt
 
 *.log
 build/

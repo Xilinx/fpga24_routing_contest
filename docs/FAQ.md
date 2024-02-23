@@ -69,6 +69,11 @@ As noted in the [Contest Details](details.html#key-details) "Contestants can exp
 
 No. In this contest, we hope to push the limits of how fast FPGA routing can be achieved and adding serial equivalency would create an additional burden on that goal, so it is not a requirement.
 
+### We find that it takes a large amount of time to load the xcvu3p device into our routing resource map. We wonder that is it legal to dump the device information into an RRG and store it into another file so that our router can directly load the dumped RRG instead of building it from the device information?
+
+The device file is intended to be invariant (https://github.com/Xilinx/fpga24_routing_contest/releases/latest/download/xcvu3p.device, same as what should be generated locally) and to be used as a reference, rather than an efficient database for data-driven use. You are free to transform any information inside the device file relevant to your router into whatever format you wish -- for example, into something more optimized to your router implementation, and then submit your custom preprocessed device file as an asset alongside your router.
+
+
 ## Submission Questions
 
 ### How many submission variants will be permitted from each team?
