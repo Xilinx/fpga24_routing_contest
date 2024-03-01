@@ -17,7 +17,7 @@ In alphabetical order as follows:
 
 | Overview | Video |
 | - | - |
-| ![AceRoute-Slide](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/9d7dc7b6-e31d-44df-8e30-90a3f1f19daa) | <video src="https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/2f1e36da-80cd-4859-8ce8-2bfdaeb3075a" controls="controls" style="max-width: 662px;"/> |
+| ![AceRoute-Slide](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/9d7dc7b6-e31d-44df-8e30-90a3f1f19daa) | <video src="https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/2f1e36da-80cd-4859-8ce8-2bfdaeb3075a#t=0.5" controls="controls" style="max-width: 662px;"/> |
 
 ## Team Cuckoo (Peking University)
 
@@ -35,7 +35,7 @@ In alphabetical order as follows:
 
 | Overview | Video |
 | - | - |
-| ![CUFR-Slide](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/9242ce96-6517-44c1-829f-f5c8f2d28339) | <video src="https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/780a30df-b7cc-483d-9bfb-f2f354b4d5d1" controls="controls" style="max-width: 662px;"/> |
+| ![CUFR-Slide](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/9242ce96-6517-44c1-829f-f5c8f2d28339) | <video src="https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/780a30df-b7cc-483d-9bfb-f2f354b4d5d1#t=0.5" controls="controls" style="max-width: 662px;"/> |
 
 ## GRoute (University of Guelph)
 
@@ -44,7 +44,7 @@ In alphabetical order as follows:
 
 | Overview | Video |
 | - | - |
-| ![GRoute-Slide](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/5b279fc6-6c58-43f1-9b51-a0aef72dcf86) | <video src="https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/edbcbd5a-f86b-47fe-ae58-a10c05b15e8a" controls="controls" style="max-width: 662px;"/> |
+| ![GRoute-Slide](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/5b279fc6-6c58-43f1-9b51-a0aef72dcf86) | <video src="https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/edbcbd5a-f86b-47fe-ae58-a10c05b15e8a#t=0.5" controls="controls" style="max-width: 662px;"/> |
 
 ## Hao^3 (University of Science and Technology of China)
 
