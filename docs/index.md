@@ -6,7 +6,7 @@ Given a pre-placed design in the [FPGA Interchange Format](http://www.rapidwrigh
 and a multi-core machine with an AMD GPU, build a router that focuses on minimizing the wall-clock time required to return
 a legal, fully routed solution.
 
-| ℹ️ **NOTE:** | Winners will be announced on March 4 live at [FPGA 2024](https://www.isfpga.org/)!<br>Check back shortly after this date for more information. |
+| ℹ️ **NOTE:** | Winners will be announced on March 4 live at [FPGA 2024](https://www.isfpga.org/)!<br>[Link to details of our top 5 teams](results.html). |
 | - | - |
 
 ## Introduction
