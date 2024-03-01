@@ -17,7 +17,7 @@ In alphabetical order as follows:
 
 | Overview | Video |
 | - | - |
-| ![AceRoute-Slide](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/9d7dc7b6-e31d-44df-8e30-90a3f1f19daa) | <video src="https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/2f1e36da-80cd-4859-8ce8-2bfdaeb3075a#t=0.5" controls="controls" style="max-width: 662px;"/> |
+| [![AceRoute-Slide](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/9d7dc7b6-e31d-44df-8e30-90a3f1f19daa)](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/9d7dc7b6-e31d-44df-8e30-90a3f1f19daa) | <video src="https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/2f1e36da-80cd-4859-8ce8-2bfdaeb3075a#t=0.5" controls="controls" style="max-width: 662px;"/> |
 
 ## Team Cuckoo (Peking University)
 
@@ -26,7 +26,7 @@ In alphabetical order as follows:
 
 | Overview | Video |
 | - | - |
-| ![TeamCuckoo-Slide](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/6483ab18-be08-4be3-ad46-8b69a5d13a55) | <video src="https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/af84a46e-d73a-4b87-be18-9652621f6b5c" controls="controls" style="max-width: 662px;"/> |
+| [![TeamCuckoo-Slide](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/6483ab18-be08-4be3-ad46-8b69a5d13a55)](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/6483ab18-be08-4be3-ad46-8b69a5d13a55) | <video src="https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/af84a46e-d73a-4b87-be18-9652621f6b5c" controls="controls" style="max-width: 662px;"/> |
 
 ## CUFR (The Chinese University of Hong Kong)
 
@@ -35,7 +35,7 @@ In alphabetical order as follows:
 
 | Overview | Video |
 | - | - |
-| ![CUFR-Slide](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/9242ce96-6517-44c1-829f-f5c8f2d28339) | <video src="https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/780a30df-b7cc-483d-9bfb-f2f354b4d5d1#t=0.5" controls="controls" style="max-width: 662px;"/> |
+| [![CUFR-Slide](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/9242ce96-6517-44c1-829f-f5c8f2d28339)](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/9242ce96-6517-44c1-829f-f5c8f2d28339) | <video src="https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/780a30df-b7cc-483d-9bfb-f2f354b4d5d1#t=0.5" controls="controls" style="max-width: 662px;"/> |
 
 ## GRoute (University of Guelph)
 
@@ -44,7 +44,7 @@ In alphabetical order as follows:
 
 | Overview | Video |
 | - | - |
-| ![GRoute-Slide](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/5b279fc6-6c58-43f1-9b51-a0aef72dcf86) | <video src="https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/edbcbd5a-f86b-47fe-ae58-a10c05b15e8a#t=0.5" controls="controls" style="max-width: 662px;"/> |
+| [![GRoute-Slide](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/5b279fc6-6c58-43f1-9b51-a0aef72dcf86)](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/5b279fc6-6c58-43f1-9b51-a0aef72dcf86) | <video src="https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/edbcbd5a-f86b-47fe-ae58-a10c05b15e8a#t=0.5" controls="controls" style="max-width: 662px;"/> |
 
 ## Hao^3 (University of Science and Technology of China)
 
@@ -53,4 +53,4 @@ In alphabetical order as follows:
 
 | Overview | Video |
 | - | - |
-| ![Hao3-Slide](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/14b148e3-55a4-48e8-a0ee-88f19498b253) | <video src="https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/00418fb1-2bdc-4a8b-93d0-125f8726ec00" controls="controls" style="max-width: 662px;"/> |
+| [![Hao3-Slide](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/14b148e3-55a4-48e8-a0ee-88f19498b253)](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/14b148e3-55a4-48e8-a0ee-88f19498b253) | <video src="https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/00418fb1-2bdc-4a8b-93d0-125f8726ec00" controls="controls" style="max-width: 662px;"/> |
