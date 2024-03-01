@@ -48,7 +48,7 @@ In alphabetical order as follows:
 
 ## Hao^3 (University of Science and Technology of China)
 
-**Team members:** Wenbin Teng, Qianyu Cheng, Zhendong Zheng, Binze Jiang, Yixuan Zhu Zihan Wang<br>
+**Team members:** Wenbin Teng, Qianyu Cheng, Zhendong Zheng, Binze Jiang, Yixuan Zhu, Zihan Wang<br>
 **Advisors:** Chao Wang, Teng Wang
 
 | Overview | Video |
