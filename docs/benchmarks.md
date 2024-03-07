@@ -41,7 +41,7 @@ Available from [https://github.com/Xilinx/fpga24_routing_contest/releases/latest
 
 |Source Benchmark Suite|Benchmark Name|LUTs|FFs|DSPs|BRAMs|OOC [1]|
 |----------------------|--------------|----|---|----|-----|-------|
-| [RapidWright](https://github.com/Xilinx/RapidWright)                                                                    |`picoblaze_array`                                      |76k |77k  |0   |0  |Y   |
+| [RapidWright](https://github.com/Xilinx/RapidWright)                                                                    |`picoblaze_array` (660 PicoBlaze cores)                |76k |77k  |0   |0  |Y   |
 | [Corundum](https://github.com/corundum/corundum)                                                                        |`100g` (ADM_PCIE_9V3 25G)                              |76k |104k |0   |290|N   |
 | [Koios 2.0](https://docs.verilogtorouting.org/en/latest/vtr/benchmarks/#koios-2-0-benchmarks)                           |`clstm_like_large` (clstm_like.large)                  |89k |184k |1289|370|Y   |
 | [Titan23](https://docs.verilogtorouting.org/en/latest/vtr/benchmarks/#titan-benchmarks)                                 |`orig_gsm_x6` (Original gsm_switch replicated 6 times) |133k|160k |0   |432|Y   |
