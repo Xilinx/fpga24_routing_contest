@@ -1,13 +1,32 @@
 # Contest Results: Top 5 Teams
 
-In alphabetical order as follows:
-* [AceRoute (Peking University/DeePoly Technology)](#aceroute-peking-universitydeepoly-technology)
-* [Team Cuckoo (Peking University)](#team-cuckoo-peking-university)
-* [CUFR (The Chinese University of Hong Kong)](#cufr-the-chinese-university-of-hong-kong)
-* [GRoute (University of Guelph)](#groute-university-of-guelph)
-* [Hao^3 (University of Science and Technology of China)](#hao3-university-of-science-and-technology-of-china)
+Congratulations to the following teams:
+
+* 1st Place: [GRoute (University of Guelph)](#groute-university-of-guelph)
+* 2nd Place: [CUFR (The Chinese University of Hong Kong)](#cufr-the-chinese-university-of-hong-kong)
+* 3rd Place: [AceRoute (Peking University/DeePoly Technology)](#aceroute-peking-universitydeepoly-technology)
+* 4th Place: [Team Cuckoo (Peking University)](#team-cuckoo-peking-university)
+* 5th Place: [Hao^3 (University of Science and Technology of China)](#hao3-university-of-science-and-technology-of-china)
 
 *Slide and videos posted with permission from and attributed to the corresponding teams.*
+
+## GRoute (University of Guelph)
+
+**Team members:** Dani Maarouf, Timothy Martin, Charlotte Barnes<br>
+**Advisors:** Shawki Areibi, Gary Grewal
+
+| Overview | Video |
+| - | - |
+| [![GRoute-Slide](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/5b279fc6-6c58-43f1-9b51-a0aef72dcf86)](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/5b279fc6-6c58-43f1-9b51-a0aef72dcf86) | <video src="https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/edbcbd5a-f86b-47fe-ae58-a10c05b15e8a#t=0.5" controls="controls" style="max-width: 662px;"/> |
+
+## CUFR (The Chinese University of Hong Kong)
+
+**Team members:** Xinshi Zang, Wenhao Lin, Shiju Lin, Qin Luo<br>
+**Advisor:** Evangeline F.Y. Young
+
+| Overview | Video |
+| - | - |
+| [![CUFR-Slide](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/9242ce96-6517-44c1-829f-f5c8f2d28339)](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/9242ce96-6517-44c1-829f-f5c8f2d28339) | <video src="https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/780a30df-b7cc-483d-9bfb-f2f354b4d5d1#t=0.5" controls="controls" style="max-width: 662px;"/> |
 
 ## AceRoute (Peking University/DeePoly Technology)
 
@@ -27,24 +46,6 @@ In alphabetical order as follows:
 | Overview | Video |
 | - | - |
 | [![TeamCuckoo-Slide](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/6483ab18-be08-4be3-ad46-8b69a5d13a55)](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/6483ab18-be08-4be3-ad46-8b69a5d13a55) | <video src="https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/af84a46e-d73a-4b87-be18-9652621f6b5c" controls="controls" style="max-width: 662px;"/> |
-
-## CUFR (The Chinese University of Hong Kong)
-
-**Team members:** Xinshi Zang, Wenhao Lin, Shiju Lin, Qin Luo<br>
-**Advisor:** Evangeline F.Y. Young
-
-| Overview | Video |
-| - | - |
-| [![CUFR-Slide](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/9242ce96-6517-44c1-829f-f5c8f2d28339)](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/9242ce96-6517-44c1-829f-f5c8f2d28339) | <video src="https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/780a30df-b7cc-483d-9bfb-f2f354b4d5d1#t=0.5" controls="controls" style="max-width: 662px;"/> |
-
-## GRoute (University of Guelph)
-
-**Team members:** Dani Maarouf, Timothy Martin, Charlotte Barnes<br>
-**Advisors:** Shawki Areibi, Gary Grewal
-
-| Overview | Video |
-| - | - |
-| [![GRoute-Slide](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/5b279fc6-6c58-43f1-9b51-a0aef72dcf86)](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/5b279fc6-6c58-43f1-9b51-a0aef72dcf86) | <video src="https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/edbcbd5a-f86b-47fe-ae58-a10c05b15e8a#t=0.5" controls="controls" style="max-width: 662px;"/> |
 
 ## Hao^3 (University of Science and Technology of China)
 
