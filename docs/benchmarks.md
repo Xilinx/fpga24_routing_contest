@@ -7,6 +7,8 @@ tables:
 
 ## Benchmarks published during contest
 
+Available from [https://github.com/Xilinx/fpga24_routing_contest/releases/latest/download/benchmarks.tar.gz](https://github.com/Xilinx/fpga24_routing_contest/releases/latest/download/benchmarks.tar.gz)
+
 |Source Benchmark Suite|Benchmark Name|LUTs|FFs|DSPs|BRAMs|OOC [1]|
 |----------------------|--------------|----|---|----|-----|-------|
 | [LogicNets](https://github.com/Xilinx/logicnets)                                                                        |`jscl` (Jet Substructure Classification L)         |31k |2k  |0   |0  |Y   |
@@ -34,6 +36,8 @@ of context, since everything that was left undriven because of the deleted
 third became an out of context port.
 
 ## Benchmarks used for final evaluation
+
+Available from [https://github.com/Xilinx/fpga24_routing_contest/releases/latest/download/benchmarks-evaluation.tar.gz](https://github.com/Xilinx/fpga24_routing_contest/releases/latest/download/benchmarks-evaluation.tar.gz)
 
 |Source Benchmark Suite|Benchmark Name|LUTs|FFs|DSPs|BRAMs|OOC [1]|
 |----------------------|--------------|----|---|----|-----|-------|
