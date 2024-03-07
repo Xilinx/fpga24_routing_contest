@@ -1,6 +1,6 @@
 # Contest Results: Top 5 Teams
 
-Congratulations to the following teams:
+Congratulations to the following teams!
 
 * 1st Place: [GRoute (University of Guelph)](#groute-university-of-guelph)
 * 2nd Place: [CUFR (The Chinese University of Hong Kong)](#cufr-the-chinese-university-of-hong-kong)
@@ -8,7 +8,9 @@ Congratulations to the following teams:
 * 4th Place: [Team Cuckoo (Peking University)](#team-cuckoo-peking-university)
 * 5th Place: [Hao^3 (University of Science and Technology of China)](#hao3-university-of-science-and-technology-of-china)
 
-*Slide and videos posted with permission from and attributed to the corresponding teams.*
+For an overview of the reuslts, please see these [slides](fpga24-contest-slides.pdf) presented at the ISFPGA conference.
+
+*The following slides and videos posted with permission from and attributed to the corresponding teams.*
 
 ## GRoute (University of Guelph)
 
