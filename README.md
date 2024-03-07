@@ -2,6 +2,9 @@
 
 Please see website at https://xilinx.github.io/fpga24_routing_contest.
 
+| ℹ️ **NOTE:** | This contest has now concluded!<br>[Link to the results and details of our top 5 teams](results.html). |
+| - | - |
+
 Please report all issues using the GitHub [Issues](https://github.com/Xilinx/fpga24_routing_contest/issues) feature, and ask questions under [Discussions](https://github.com/Xilinx/fpga24_routing_contest/discussions).
 
 ---
