@@ -25,7 +25,8 @@ scenarios.
 
 Over time, we plan to release a number of additional public benchmarks on which
 all competing routers will be evaluated. Contestants will also be evaluated on
-a set of hidden benchmarks which will not be made public.
+a set of hidden benchmarks which will not be made public until after the contest
+has concluded.
 
 ## Critical-Path Wirelength
 
