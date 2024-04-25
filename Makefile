@@ -207,7 +207,7 @@ workdir:
 # (including all setup required for contest infrastructure)
 .PHONY: setup-container
 setup-container: $(ROUTER)_container.sif | workdir
-	apptainer exec $(APPTAINER_RUN_ARGS) $< make setup
+	apptainer exec $(APPTAINER_RUN_ARGS) $< make setup BENCHMARKS="$(BENCHMARKS)"
 
 # Use the <ROUTER>_container.sif Apptainer image to run all benchmarks without network access
 .PHONY: run-container
