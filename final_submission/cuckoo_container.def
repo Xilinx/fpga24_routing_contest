@@ -1,0 +1,36 @@
+BootStrap: docker
+From: eclipse-temurin:17 # Base image with Java VM 17 on Ubuntu
+
+%setup
+	mkdir $APPTAINER_ROOTFS/OpenPARF
+
+%files
+	## Example copy of /dir1 into /opt inside container
+	#/dir1 /opt
+
+%post
+	# Install remaining system dependencies
+	apt-get -y update
+	apt-get -y install git python3 pip pkg-config time libtinfo5
+
+	# Install capnp-0.10.2 since that's the exact version used to generate OpenPARF's parsing code
+	mkdir /capnp
+	cd /capnp
+	curl -O https://capnproto.org/capnproto-c++-0.10.2.tar.gz
+	tar zxf capnproto-c++-0.10.2.tar.gz
+	cd capnproto-c++-0.10.2
+	./configure
+	make install
+
+	apt-get -y install cmake libopenblas-dev libboost-filesystem-dev libboost-program-options-dev
+
+	cd /OpenPARF/fpga24contest
+	rm -rf build
+	mkdir build
+	cd build
+	cmake ../src -DCMAKE_BUILD_TYPE=Release
+	make
+
+%environment
+	# Add the host Vivado to the path
+	export PATH=$PATH:/tools/Xilinx/Vivado/2022.2/bin/
