@@ -1,6 +1,6 @@
 [submodule "RapidWright"]
 	path = RapidWright
-	url = https://github.com/Xilinx/RapidWright
+	url = https://github.com/Reconfigurable-Computing/RapidWright
 [submodule "fpga-interchange-schema"]
 	path = fpga-interchange-schema
 	url = https://github.com/chipsalliance/fpga-interchange-schema
