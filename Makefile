@@ -156,6 +156,7 @@ distclean: clean
 %_rwroute.phys: %_unrouted.phys | $(JAVA_CLASSPATH_TXT)
 	(/usr/bin/time java -cp $$(cat $(JAVA_CLASSPATH_TXT)) $(JVM_HEAP) com.xilinx.fpga24_routing_contest.PartialRouterPhysNetlist $< $@) $(call log_and_or_display,$@.log)
 
+## CUFR
 %_cufr.phys: %_unrouted.phys | $(JAVA_CLASSPATH_TXT)
 	(/usr/bin/time java -cp $$(cat $(JAVA_CLASSPATH_TXT)) $(JVM_HEAP) com.xilinx.fpga24_routing_contest.CUFR $< $@) $(call log_and_or_display,$@.log)
 
