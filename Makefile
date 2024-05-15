@@ -187,7 +187,7 @@ endif
 # --rocm --bind /etc/OpenCL: enables OpenCL access in the container
 APPTAINER_RUN_ARGS += --rocm
 ifneq ($(wildcard /etc/OpenCL),)
-    APPTAINER_RUN_ARGS += --bind /etc/OpenCL
+    APPTAINER_RUN_ARGS += --bind /etc/OpenCL --bind /opt/amdgpu/share
 endif
 
 # In addition, disable network access when running router
