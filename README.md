@@ -1,3 +1,8 @@
+> [!IMPORTANT]  
+> This is the branch integrating the open-source solution from [4th place Team Cuckoo](https://xilinx.github.io/fpga24_routing_contest/results.html#team-cuckoo-peking-university) published at https://github.com/PKU-IDEA/OpenPARF/tree/master/fpga24contest
+>
+> ℹ️ *NOTE:* GitHub Actions are currently failing since this router requires more than the 7GB of RAM available.
+
 # Runtime-First FPGA Interchange Routing Contest @ FPGA’24
 
 Please see website at https://xilinx.github.io/fpga24_routing_contest.
