@@ -1,3 +1,8 @@
+> [!IMPORTANT]  
+> This is the branch integrating the open-source solution from [2nd Place CUFR](https://xilinx.github.io/fpga24_routing_contest/results.html#cufr-the-chinese-university-of-hong-kong) published at https://github.com/xszang/parallel-routing
+>
+> Please follow the above link to view their paper!
+
 # Runtime-First FPGA Interchange Routing Contest @ FPGA’24
 
 Please see website at https://xilinx.github.io/fpga24_routing_contest.
