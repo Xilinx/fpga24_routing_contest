@@ -17,6 +17,7 @@ jobs:
         with:
           submodules: 'recursive'
       - run: |
+          wget -q  https://github.com/Xilinx/fpga24_routing_contest/releases/latest/download/xcvu3p.device
           make distclean-and-package-submission
       - uses: actions/upload-artifact@v4
         with:
@@ -44,7 +45,6 @@ jobs:
           mkdir cuckoo
           cd cuckoo
           tar xvzf ../cuckoo_submission*.tar.gz
-          wget -q  https://github.com/Xilinx/fpga24_routing_contest/releases/latest/download/xcvu3p.device
           make test-container
       - uses: actions/upload-artifact@v4
         with:
