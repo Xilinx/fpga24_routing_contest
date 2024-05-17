@@ -157,7 +157,7 @@ distclean: clean
 	(/usr/bin/time java -cp $$(cat $(JAVA_CLASSPATH_TXT)) $(JVM_HEAP) com.xilinx.fpga24_routing_contest.PartialRouterPhysNetlist $< $@) $(call log_and_or_display,$@.log)
 
 ## TEAM CUCKOO
-%_cuckoo.phys: %_unrouted.phys
+%_cuckoo.phys: %_unrouted.phys xcvu3p.device
 	(/usr/bin/time OpenPARF/fpga24contest/build/fpgarouter -device xcvu3p.device -phys $< -ifout $@) $(call log_and_or_display,$@.log)
 
 
