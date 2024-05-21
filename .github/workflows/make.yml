@@ -80,7 +80,7 @@ jobs:
           CHECK_PHYS_NETLIST_DIFF_MOCK_RESULT: ${{ matrix.benchmark == 'koios_dla_like_large' }}
           RWROUTE_FORCE_LUT_PINSWAPPING: ${{ (matrix.router == 'rwroute' || matrix.router == 'hao3') && matrix.lutpinswapping }}
           RWROUTE_FORCE_LUT_ROUTETHRU:   ${{ (matrix.router == 'rwroute' || matrix.router == 'hao3') && matrix.lutroutethru }}
-        timeout-minutes: 5
+        timeout-minutes: 10
         run: |
           make ROUTER="${{ matrix.router }}" BENCHMARKS="${{ matrix.benchmark }}" VERBOSE=1
       - name: Score summary
