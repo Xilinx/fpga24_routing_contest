@@ -4,3 +4,6 @@
 [submodule "fpga-interchange-schema"]
 	path = fpga-interchange-schema
 	url = https://github.com/chipsalliance/fpga-interchange-schema
+[submodule "OpenPARF"]
+	path = OpenPARF
+	url = https://github.com/PKU-IDEA/OpenPARF

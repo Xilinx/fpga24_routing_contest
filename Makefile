@@ -35,7 +35,7 @@ $(if $(HTTPSHOST),-Dhttps.proxyHost=$(HTTPSHOST) -Dhttps.proxyPort=$(HTTPSPORT),
 
 # Choice of router (default to rwroute)
 # (other supported values: nxroute-poc)
-ROUTER ?= rwroute
+ROUTER ?= cuckoo
 
 # Make /usr/bin/time only print out wall-clock and user time in seconds
 TIME = Wall-clock time (sec): %e
@@ -156,6 +156,10 @@ distclean: clean
 %_rwroute.phys: %_unrouted.phys | $(JAVA_CLASSPATH_TXT)
 	(/usr/bin/time java -cp $$(cat $(JAVA_CLASSPATH_TXT)) $(JVM_HEAP) com.xilinx.fpga24_routing_contest.PartialRouterPhysNetlist $< $@) $(call log_and_or_display,$@.log)
 
+## TEAM CUCKOO
+%_cuckoo.phys: %_unrouted.phys xcvu3p.device
+	(/usr/bin/time OpenPARF/fpga24contest/build/fpgarouter -device xcvu3p.device -phys $< -ifout $@) $(call log_and_or_display,$@.log)
+
 
 ## NXROUTE-POC
 %_nxroute-poc.phys: %_unrouted.phys xcvu3p.device | install-python-deps fpga-interchange-schema/interchange/capnp/java.capnp
@@ -197,6 +201,9 @@ APPTAINER_RUN_ARGS_NO_NETWORK += --network none --env APPTAINER_NETWORK=none
 # Build an Apptainer image from a definition file in the final_submission directory
 %_container.sif: final_submission/%_container.def
 	apptainer build $@ $<
+
+cuckoo_container.sif: final_submission/cuckoo_container.def
+	apptainer build --bind $(abspath OpenPARF):/OpenPARF $@ $<
 
 .PHONY: workdir
 workdir:

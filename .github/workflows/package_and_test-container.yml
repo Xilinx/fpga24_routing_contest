@@ -17,13 +17,14 @@ jobs:
         with:
           submodules: 'recursive'
       - run: |
+          wget -q  https://github.com/Xilinx/fpga24_routing_contest/releases/latest/download/xcvu3p.device
           make distclean-and-package-submission
       - uses: actions/upload-artifact@v4
         with:
-          name: rwroute_submission.tar.gz
+          name: cuckoo_submission.tar.gz
           compression-level: 0
           path: |
-           rwroute_submission*.tar.gz
+           cuckoo_submission*.tar.gz
 
   test-container:
     runs-on: ubuntu-latest
@@ -38,17 +39,17 @@ jobs:
           sudo apt-get -f install
       - uses: actions/download-artifact@v4
         with:
-          name: rwroute_submission.tar.gz
+          name: cuckoo_submission.tar.gz
       - name: make test-container
         run: |
-          mkdir rwroute
-          cd rwroute
-          tar xvzf ../rwroute_submission*.tar.gz
+          mkdir cuckoo
+          cd cuckoo
+          tar xvzf ../cuckoo_submission*.tar.gz
           make test-container
       - uses: actions/upload-artifact@v4
         with:
-          name: rwroute_container.sif
+          name: cuckoo_container.sif
           compression-level: 0
           path: |
-           rwroute/*.sif
+           cuckoo/*.sif
 
