@@ -16,8 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         router:
-          - rwroute
-          - nxroute-poc
+          - cufr
         lutpinswapping:
           - false
           - true
@@ -40,13 +39,13 @@ jobs:
           - ispd16_example2
         exclude:
           # Insufficient memory on GitHub Actions
-          - router: rwroute
+          - router: cufr
             benchmark: mlcad_d181_lefttwo3rds
-          - router: rwroute
+          - router: cufr
             benchmark: koios_dla_like_large
-          - router: rwroute
+          - router: cufr
             benchmark: boom_soc
-          - router: rwroute
+          - router: cufr
             benchmark: ispd16_example2
           # NXRoute does not support LUT pin swapping
           - router: nxroute-poc
@@ -79,8 +78,8 @@ jobs:
           # For certain benchmarks, wirelength_analyzer/CheckPhysNetlist requires more memory than that available in GitHub Actions
           WIRELENGTH_ANALYZER_MOCK_RESULT: ${{ matrix.benchmark == 'koios_dla_like_large' }}
           CHECK_PHYS_NETLIST_DIFF_MOCK_RESULT: ${{ matrix.benchmark == 'koios_dla_like_large' }}
-          RWROUTE_FORCE_LUT_PINSWAPPING: ${{ matrix.router == 'rwroute' && matrix.lutpinswapping }}
-          RWROUTE_FORCE_LUT_ROUTETHRU:   ${{ matrix.router == 'rwroute' && matrix.lutroutethru }}
+          RWROUTE_FORCE_LUT_PINSWAPPING: ${{ (matrix.router == 'rwroute' || matrix.router == 'cufr') && matrix.lutpinswapping }}
+          RWROUTE_FORCE_LUT_ROUTETHRU:   ${{ (matrix.router == 'rwroute' || matrix.router == 'cufr') && matrix.lutroutethru }}
         run: |
           make ROUTER="${{ matrix.router }}" BENCHMARKS="${{ matrix.benchmark }}" VERBOSE=1
       - name: Score summary
@@ -117,7 +116,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: logs-${{ matrix.router }}${{ matrix.router == 'rwroute' && matrix.lutpinswapping && '-lutpinswapping' || ''}}${{ matrix.router == 'rwroute' && matrix.lutroutethru && '-lutroutethru' || ''}}-${{ matrix.benchmark }}
+          name: logs-${{ matrix.router }}${{ (matrix.router == 'rwroute' || matrix.router == 'cufr') && matrix.lutpinswapping && '-lutpinswapping' || ''}}${{ (matrix.router == 'rwroute' || matrix.router == 'cufr') && matrix.lutroutethru && '-lutroutethru' || ''}}-${{ matrix.benchmark }}
           path: |
            *.log
            *.check
@@ -125,7 +124,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: ${{ matrix.router }}${{ matrix.router == 'rwroute' && matrix.lutpinswapping && '-lutpinswapping' || ''}}${{ matrix.router == 'rwroute' && matrix.lutroutethru && '-lutroutethru' || ''}}-${{ matrix.benchmark }}
+          name: ${{ matrix.router }}${{ (matrix.router == 'rwroute' || matrix.router == 'cufr') && matrix.lutpinswapping && '-lutpinswapping' || ''}}${{ (matrix.router == 'rwroute' || matrix.router == 'cufr') && matrix.lutroutethru && '-lutroutethru' || ''}}-${{ matrix.benchmark }}
           compression-level: 0
           path: |
            *.dcp

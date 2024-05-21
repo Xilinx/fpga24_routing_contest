@@ -35,7 +35,7 @@ $(if $(HTTPSHOST),-Dhttps.proxyHost=$(HTTPSHOST) -Dhttps.proxyPort=$(HTTPSPORT),
 
 # Choice of router (default to rwroute)
 # (other supported values: nxroute-poc)
-ROUTER ?= rwroute
+ROUTER ?= cufr
 
 # Make /usr/bin/time only print out wall-clock and user time in seconds
 TIME = Wall-clock time (sec): %e
@@ -156,6 +156,10 @@ distclean: clean
 %_rwroute.phys: %_unrouted.phys | $(JAVA_CLASSPATH_TXT)
 	(/usr/bin/time java -cp $$(cat $(JAVA_CLASSPATH_TXT)) $(JVM_HEAP) com.xilinx.fpga24_routing_contest.PartialRouterPhysNetlist $< $@) $(call log_and_or_display,$@.log)
 
+## CUFR
+%_cufr.phys: %_unrouted.phys | $(JAVA_CLASSPATH_TXT)
+	(/usr/bin/time java -cp $$(cat $(JAVA_CLASSPATH_TXT)) $(JVM_HEAP) com.xilinx.fpga24_routing_contest.CUFR $< $@) $(call log_and_or_display,$@.log)
+
 
 ## NXROUTE-POC
 %_nxroute-poc.phys: %_unrouted.phys xcvu3p.device | install-python-deps fpga-interchange-schema/interchange/capnp/java.capnp
@@ -177,6 +181,8 @@ distclean: clean
 # --workdir: working directory for /tmp, etc. inside container
 # --home: map present working directory as /home inside container
 APPTAINER_RUN_ARGS = --pid --containall --env GITHUB_ACTIONS=$(GITHUB_ACTIONS) --workdir `pwd`/workdir --home `pwd`:/home
+# Trim the trailing '/' for these environment variables necessary for CUFR's fork
+APPTAINER_RUN_ARGS += --env http_proxy=$(http_proxy:/=) --env https_proxy=$(https_proxy:/=)
 ifneq ($(wildcard /tools),)
     # Mount the host system's `/tools` directory to the container's `/tools` directory,
     # which allows the container to access the host Vivado installation
