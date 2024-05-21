@@ -40,6 +40,7 @@ jobs:
         with:
           name: hao3_submission.tar.gz
       - name: make test-container
+        timeout-minutes: 10
         run: |
           mkdir hao3
           cd hao3
