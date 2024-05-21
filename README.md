@@ -1,3 +1,8 @@
+> [!IMPORTANT]  
+> This is the branch integrating the open-source solution from [5th place Hao^3](https://xilinx.github.io/fpga24_routing_contest/results.html#hao3-university-of-science-and-technology-of-china) published at https://github.com/Reconfigurable-Computing/RapidWright
+>
+> ℹ️ *NOTE:* GitHub Actions are failing intermittently due to this router being non-deterministic.
+
 # Runtime-First FPGA Interchange Routing Contest @ FPGA’24
 
 Please see website at https://xilinx.github.io/fpga24_routing_contest.

@@ -20,10 +20,10 @@ jobs:
           make distclean-and-package-submission
       - uses: actions/upload-artifact@v4
         with:
-          name: rwroute_submission.tar.gz
+          name: hao3_submission.tar.gz
           compression-level: 0
           path: |
-           rwroute_submission*.tar.gz
+           hao3_submission*.tar.gz
 
   test-container:
     runs-on: ubuntu-latest
@@ -38,17 +38,19 @@ jobs:
           sudo apt-get -f install
       - uses: actions/download-artifact@v4
         with:
-          name: rwroute_submission.tar.gz
+          name: hao3_submission.tar.gz
       - name: make test-container
+        timeout-minutes: 10
         run: |
-          mkdir rwroute
-          cd rwroute
-          tar xvzf ../rwroute_submission*.tar.gz
+          mkdir hao3
+          cd hao3
+          tar xvzf ../hao3_submission*.tar.gz
+          wget -q  https://github.com/Xilinx/fpga24_routing_contest/releases/latest/download/xcvu3p.device
           make test-container
       - uses: actions/upload-artifact@v4
         with:
-          name: rwroute_container.sif
+          name: hao3_container.sif
           compression-level: 0
           path: |
-           rwroute/*.sif
+           hao3/*.sif
 
