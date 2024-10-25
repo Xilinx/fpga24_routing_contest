@@ -38,15 +38,6 @@ jobs:
           - boom_soc
           - ispd16_example2
         exclude:
-          # Insufficient memory on GitHub Actions
-          - router: cufr
-            benchmark: mlcad_d181_lefttwo3rds
-          - router: cufr
-            benchmark: koios_dla_like_large
-          - router: cufr
-            benchmark: boom_soc
-          - router: cufr
-            benchmark: ispd16_example2
           # NXRoute does not support LUT pin swapping
           - router: nxroute-poc
             lutpinswapping: true
@@ -75,9 +66,6 @@ jobs:
       - env:
           REPORT_ROUTE_STATUS_URL:      ${{ secrets.REPORT_ROUTE_STATUS_URL }}
           REPORT_ROUTE_STATUS_AUTH:     ${{ secrets.REPORT_ROUTE_STATUS_AUTH }}
-          # For certain benchmarks, wirelength_analyzer/CheckPhysNetlist requires more memory than that available in GitHub Actions
-          WIRELENGTH_ANALYZER_MOCK_RESULT: ${{ matrix.benchmark == 'koios_dla_like_large' }}
-          CHECK_PHYS_NETLIST_DIFF_MOCK_RESULT: ${{ matrix.benchmark == 'koios_dla_like_large' }}
           RWROUTE_FORCE_LUT_PINSWAPPING: ${{ (matrix.router == 'rwroute' || matrix.router == 'cufr') && matrix.lutpinswapping }}
           RWROUTE_FORCE_LUT_ROUTETHRU:   ${{ (matrix.router == 'rwroute' || matrix.router == 'cufr') && matrix.lutroutethru }}
         run: |
