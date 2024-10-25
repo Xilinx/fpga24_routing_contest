@@ -1,5 +1,5 @@
 BootStrap: docker
-From: eclipse-temurin:17 # Base image with Java VM 17 on Ubuntu
+From: eclipse-temurin:17-jdk-jammy # Base image with Java VM 17 on Ubuntu 22.04
 
 %files
 	## Example copy of /dir1 into /opt inside container
