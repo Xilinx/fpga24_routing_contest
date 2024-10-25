@@ -39,15 +39,15 @@ jobs:
           - boom_soc
           - ispd16_example2
         exclude:
-          # Insufficient memory on GitHub Actions
-          - router: rwroute
-            benchmark: mlcad_d181_lefttwo3rds
-          - router: rwroute
-            benchmark: koios_dla_like_large
-          - router: rwroute
-            benchmark: boom_soc
-          - router: rwroute
-            benchmark: ispd16_example2
+          ## Insufficient memory on GitHub Actions
+          #- router: rwroute
+          #  benchmark: mlcad_d181_lefttwo3rds
+          #- router: rwroute
+          #  benchmark: koios_dla_like_large
+          #- router: rwroute
+          #  benchmark: boom_soc
+          #- router: rwroute
+          #  benchmark: ispd16_example2
           # NXRoute does not support LUT pin swapping
           - router: nxroute-poc
             lutpinswapping: true
