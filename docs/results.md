@@ -18,7 +18,7 @@ For an overview of the reuslts, please see these [slides](fpga24-contest-slides.
 **Advisors:** Shawki Areibi, Gary Grewal
 
 Publication:
-- [High-Definition Routing Congestion Prediction for Large-Scale FPGAs](https://ieeexplore.ieee.org/document/9045178)
+- [A High-Performance Routing Engine for Large-Scale FPGAs](https://doi.ieeecomputersociety.org/10.1109/FPL64840.2024.00017)
 
 | Overview | Video |
 | - | - |
