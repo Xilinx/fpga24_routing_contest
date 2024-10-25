@@ -17,6 +17,9 @@ For an overview of the reuslts, please see these [slides](fpga24-contest-slides.
 **Team members:** Dani Maarouf, Timothy Martin, Charlotte Barnes<br>
 **Advisors:** Shawki Areibi, Gary Grewal
 
+Publication:
+- [A High-Performance Routing Engine for Large-Scale FPGAs](https://doi.ieeecomputersociety.org/10.1109/FPL64840.2024.00017)
+
 | Overview | Video |
 | - | - |
 | [![GRoute-Slide](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/5b279fc6-6c58-43f1-9b51-a0aef72dcf86)](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/5b279fc6-6c58-43f1-9b51-a0aef72dcf86) | <video src="https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/edbcbd5a-f86b-47fe-ae58-a10c05b15e8a#t=0.5" controls="controls" style="max-width: 662px;"/> |
@@ -25,6 +28,12 @@ For an overview of the reuslts, please see these [slides](fpga24-contest-slides.
 
 **Team members:** Xinshi Zang, Wenhao Lin, Shiju Lin, Qin Luo<br>
 **Advisor:** Evangeline F.Y. Young
+
+Open-source: https://github.com/xszang/parallel-routing ([integrated upstream](https://github.com/Xilinx/fpga24_routing_contest/tree/2nd-cufr))
+
+Publications:
+- [An Open-Source Fast Parallel Routing Approach for Commercial FPGAs](https://github.com/xszang/parallel-routing/blob/main/doc/glsvlsi24-camera-ready.pdf)
+- Potter: A Parallel Overlap-Tolerant Router for UltraScale FPGAs *(to appear)*
 
 | Overview | Video |
 | - | - |
@@ -36,6 +45,9 @@ For an overview of the reuslts, please see these [slides](fpga24-contest-slides.
 **Advisor:** Guojie Luo<sup>*</sup><br>
 *<sup>\*</sup>Peking University, <sup>+</sup>DeePoly Technology Inc.*
 
+Publication:
+- [AceRoute: Adaptive Compute-Efficient FPGA Routing with Pluggable Intra-Connection Bidirectional Exploration](https://xmwei.com/assets/pdf/wei2024aceroute.pdf)
+
 | Overview | Video |
 | - | - |
 | [![AceRoute-Slide](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/9d7dc7b6-e31d-44df-8e30-90a3f1f19daa)](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/9d7dc7b6-e31d-44df-8e30-90a3f1f19daa) | <video src="https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/2f1e36da-80cd-4859-8ce8-2bfdaeb3075a#t=0.5" controls="controls" style="max-width: 662px;"/> |
@@ -45,6 +57,8 @@ For an overview of the reuslts, please see these [slides](fpga24-contest-slides.
 **Team members:** Jiarui Wang, Xun Jiang, Chunyuan Zhao<br>
 **Advisor:** Yibo Lin
 
+Open-source: https://github.com/PKU-IDEA/OpenPARF/tree/master/fpga24contest ([integrated upstream](https://github.com/Xilinx/fpga24_routing_contest/tree/4th-cuckoo))
+
 | Overview | Video |
 | - | - |
 | [![TeamCuckoo-Slide](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/6483ab18-be08-4be3-ad46-8b69a5d13a55)](https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/6483ab18-be08-4be3-ad46-8b69a5d13a55) | <video src="https://github.com/Xilinx/fpga24_routing_contest/assets/90657806/af84a46e-d73a-4b87-be18-9652621f6b5c" controls="controls" style="max-width: 662px;"/> |
@@ -53,6 +67,8 @@ For an overview of the reuslts, please see these [slides](fpga24-contest-slides.
 
 **Team members:** Wenbin Teng, Qianyu Cheng, Zhendong Zheng, Binze Jiang, Yixuan Zhu, Zihan Wang<br>
 **Advisors:** Chao Wang, Teng Wang
+
+Open-source: https://github.com/Reconfigurable-Computing/RapidWright ([integrated upstream](https://github.com/Xilinx/fpga24_routing_contest/tree/5th-hao3))
 
 | Overview | Video |
 | - | - |
