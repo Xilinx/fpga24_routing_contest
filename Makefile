@@ -53,8 +53,8 @@ else
 endif
 
 ifdef GITHUB_ACTIONS
-    # Limit Java heap size inside GitHub Actions to 6G
-    JVM_HEAP = -Xms6g -Xmx6g
+    # Limit Java heap size inside GitHub Actions to 14G
+    JVM_HEAP = -Xms14g -Xmx14g
 else
     # If not specified, limit Java heap size ~32G
     JVM_HEAP ?= -Xms32736m -Xmx32736m
