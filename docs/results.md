@@ -33,7 +33,7 @@ Open-source: https://github.com/xszang/parallel-routing ([integrated upstream](h
 
 Publications:
 - [An Open-Source Fast Parallel Routing Approach for Commercial FPGAs](https://github.com/xszang/parallel-routing/blob/main/doc/glsvlsi24-camera-ready.pdf)
-- Potter: A Parallel Overlap-Tolerant Router for UltraScale FPGAs *(to appear)*
+- [Potter: A Parallel Overlap-Tolerant Router for UltraScale FPGAs](https://diri-lin.top/attaches/potter.pdf)
 
 | Overview | Video |
 | - | - |
