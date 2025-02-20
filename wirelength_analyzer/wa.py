@@ -1,4 +1,4 @@
-# Copyright (C) 2023, Advanced Micro Devices, Inc.  All rights reserved.
+# Copyright (C) 2023-2025, Advanced Micro Devices, Inc.  All rights reserved.
 #
 # Author: Zak Nafziger, AMD
 #
@@ -304,12 +304,19 @@ class WirelengthAnalyzer:
                 sink = next(self.nodeid)
                 self.G.add_node(sink, segment=seg)
                 self.G.add_edge(source, sink, wirelength=wirelength)
-                if seg.which() == 'sitePin':
-                    pass
-                elif seg.which() != 'belPin':
-                    raise ValueError("Leaf segment: "+self.format_segment(seg)+" on net: "+self.find_net_name_from_edge((source, sink))+" not a belPin or sitePin")
-                else:
+                if seg.which() == 'belPin':
                     self.leaves.append(sink)
+                    continue
+                if seg.which() == 'sitePin':
+                    continue
+                if seg.which() == 'sitePIP':
+                    sl = self.phys.strList
+                    # Ignore routes that appear to terminate at a SLICE's OUTMUX[A-H].D6 -- Vivado
+                    # may pre-emptively set up the SitePIP in case it later chooses to use
+                    # the [A-H]MUX site pin for routing
+                    if sl[seg.sitePIP.pin] == 'D6' and sl[seg.sitePIP.bel].startswith('OUTMUX') and sl[seg.sitePIP.site].startswith('SLICE_'):
+                        continue
+                raise ValueError("Leaf segment: "+self.format_segment(seg)+" on net: "+self.find_net_name_from_edge((source, sink))+" not a belPin or sitePin")
             else:
                 for b in route_branch.branches:
                     stack.append((b, wirelength))
