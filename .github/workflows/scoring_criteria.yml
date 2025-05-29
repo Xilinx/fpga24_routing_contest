@@ -22,7 +22,7 @@ jobs:
         with:
           python-version: '3.12'
           check-latest: true
-          #cache: 'pip'
+          cache: 'pip'
       - run: |
           cd scoring_formula
           python3 -m unittest test_scoring_formula.py -v
