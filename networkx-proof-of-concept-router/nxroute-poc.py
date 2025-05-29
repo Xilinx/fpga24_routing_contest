@@ -60,11 +60,11 @@ class NxRoutingGraph(nx.DiGraph):
         to graph node and edge to PIP lookups.
         """
 
-        # Clock Region X2Y1 (requires ~5GB RAM)
+        # Clock Region X2Y1:X3Y3 (requires ~??GB RAM)
         MIN_X = 36
-        MAX_X = 56
+        MAX_X = 71
         MIN_Y = 60
-        MAX_Y = 119
+        MAX_Y = 239
 
         # Entire device (requires ~50GB RAM)
         # MIN_X = 0
