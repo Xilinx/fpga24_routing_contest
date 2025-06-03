@@ -57,7 +57,7 @@ jobs:
       - if: matrix.router == 'nxroute-poc'
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: 'pypy3.11'
           check-latest: true
           cache: 'pip'
       - name: Download xcvu3p.device (nxroute-poc only)

@@ -82,7 +82,7 @@ compile-java:
 	_JAVA_OPTIONS="$(JAVA_PROXY)" ./gradlew compileJava
 	_JAVA_OPTIONS="$(JAVA_PROXY)" RapidWright/bin/rapidwright Jython -c "FileTools.ensureDataFilesAreStaticInstallFriendly('xcvu3p')"
 install-python-deps:
-	python3 -m pip install -q -r requirements.txt --pre --user
+	python3 -m pip install -q -r requirements.txt --user
 else
 compile-java install-python-deps:
 	@echo "$@ target skipped since network disabled inside apptainer"
