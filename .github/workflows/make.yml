@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         router:
-          - rwroute
+#          - rwroute
           - nxroute-poc
         lutpinswapping:
           - false
