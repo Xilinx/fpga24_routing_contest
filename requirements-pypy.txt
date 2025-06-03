@@ -1,0 +1,2 @@
+networkx
+git+https://github.com/eddieh-xlnx/pycapnp.git@no_cimport_array
