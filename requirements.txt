@@ -1,2 +1,2 @@
 networkx
-git+https://github.com/capnproto/pycapnp.git@59a639fa977e4a2e19c6cc60b44cbc9926418710
+git+https://github.com/capnproto/pycapnp.git
